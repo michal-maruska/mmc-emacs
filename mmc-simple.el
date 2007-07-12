@@ -1,5 +1,5 @@
-
-;;; Simpler functions, of general interest, let's create some conflict!
+;;; (c) M. Maruska
+;;; Simple functions, of general interest
 
 (defun relax (&rest rest)
   "do nothing")
