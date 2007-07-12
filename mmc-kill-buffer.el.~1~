@@ -1,0 +1,152 @@
+
+
+
+
+
+;;; Old crap:
+(defvar last-killed-buffer
+  nil
+  "filename of the last killed buffer")
+
+
+(defun my-kill-buffer ()
+  ""
+  (interactive)
+  (let  ((filename (buffer-file-name)))
+    (if (one-window-p)
+	(kill-buffer (current-buffer))
+      (kill-buffer-and-window))
+    (setq last-killed-buffer filename)))
+
+(defun restore-killed-buffer ()
+  (interactive)
+  (find-file  last-killed-buffer))
+
+
+
+
+
+
+
+;;; http://www.emacswiki.org/cgi-bin/wiki.pl?KillKey
+;;; IRC -> wiki
+(defun context-kill (arg)
+   "Kill buffer, taking gnuclient into account."
+   (interactive "p")
+   (when (and (buffer-modified-p)
+              (not (string-match "\\*.*\\*" (buffer-name)))
+	      (not (eq major-mode 'dired-mode))
+              (= 1 arg))
+     (if (y-or-n-p (format "<%s> is modified, save " (buffer-name)))
+         (save-buffer)))
+   (if (and (boundp 'gnuserv-minor-mode)
+            gnuserv-minor-mode)
+       (gnuserv-edit)
+     (let ((buffer-modified-p nil))
+       (kill-buffer (current-buffer)))))
+
+
+;; return nil iff 0 dirrerences! 
+(defun diff-buffer-with-associated-file ()
+  "View the differences between BUFFER and its associated file.
+ This requires the external program \"diff\" to be in your `exec-path'."
+  (interactive)
+  (let ((buf-filename buffer-file-name)
+        (buffer (current-buffer)))
+    (unless buf-filename
+      (error "Buffer %s has no associated file" buffer))
+    (let ((diff-buf (get-buffer-create
+                     (concat "*Assoc file diff: "
+                             (buffer-name)
+                             "*"))))
+      (with-current-buffer diff-buf
+              (setq buffer-read-only nil)
+              (erase-buffer))
+
+      (let ((tempfile (make-temp-file "buffer-to-file-diff-")))
+        (unwind-protect
+            (progn
+              (with-current-buffer buffer
+                (write-region (point-min) (point-max) tempfile nil 'nomessage))
+              (if (zerop
+                   (apply #'call-process "diff" nil diff-buf nil
+                          (append
+                           (if (and (boundp 'ediff-custom-diff-options)
+                                    (stringp ediff-custom-diff-options))
+                               (list ediff-custom-diff-options)
+                             (list "--ignore-space-change"))
+                           (list buf-filename tempfile))))
+                  (progn
+                    (message "No differences found")
+                    nil)
+                (progn
+                  (with-current-buffer diff-buf
+                    (goto-char (point-min))
+                    (if (fboundp 'diff-mode)
+                        (diff-mode)
+                      (fundamental-mode)))
+                  (display-buffer diff-buf)
+                  't)))
+          (when (file-exists-p tempfile)
+            (delete-file tempfile)))))))
+
+;; tidy up diffs when closing the file
+(defun kill-associated-diff-buf ()
+  (let ((buf (get-buffer (concat "*Assoc file diff: "
+				 (buffer-name)
+				 "*"))))
+    (when (bufferp buf)
+      (kill-buffer buf))))
+
+(add-hook 'kill-buffer-hook 'kill-associated-diff-buf)
+;(global-set-key (kbd "C-c d") 'diff-buffer-with-associated-file)
+
+;; fixme: Should return 't  if killed!
+(defun de-context-kill (buffer arg)
+   "Kill buffer, taking gnuclient into account."
+   (interactive (list (current-buffer)
+                      (prefix-numeric-value
+                       current-prefix-arg)))
+   (when (and (buffer-modified-p buffer)
+              buffer-file-name
+              (not (string-match "\\*.*\\*" (buffer-name buffer)))
+              ;; erc buffers will be automatically saved
+              
+              (not (eq (with-current-buffer buffer
+                         major-mode) 'erc-mode)) ;fixme!
+              (= 1 arg))
+     (let ((differences 't))
+       (when (file-exists-p buffer-file-name)
+         (setq differences (with-current-buffer buffer
+                             (diff-buffer-with-associated-file)))) ;fixme!
+       (let ((debug-on-error nil))
+         (error (if differences
+                    (if (file-exists-p buffer-file-name)
+                        "Buffer has unsaved changes"
+                      "The file of the buffer was removed!")
+                  "Buffer has unsaved changes, but no differences wrt the file")))))
+   (if (and (boundp 'gnuserv-minor-mode)
+            (with-current-buffer buffer
+              gnuserv-minor-mode))
+       ;; fixme?
+       (gnuserv-edit)
+     (with-current-buffer buffer
+         (set-buffer-modified-p nil))
+     (kill-buffer buffer)))
+
+
+
+;; Should replace ?
+(global-set-key [(control ?x) ?k] 'de-context-kill)
+(global-set-key [(control ?x) (meta ?k)] 'restore-killed-buffer)
+
+
+
+(require 'cl)
+'(filter
+  (lambda (b)
+    (string-match "xterm<[:digit:]*>" (buffer-name b)))
+  (buffer-list))
+
+(provide 'mmc-kill-buffer)
+

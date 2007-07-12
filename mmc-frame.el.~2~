@@ -1,0 +1,225 @@
+(require 'assoc)
+
+;; sawfish:
+;; (multiple-frames "%b" ("" invocation-name "@" system-name))
+;; ("emacs: linux3.maruska.tin.it %S: %j " (buffer-file-name "%f" (dired-directory dired-directory "%b")))
+
+;; fixme:  my-gnuserv requires this one: so we don't !
+;; (require 'my-gnuserv)
+
+
+
+
+(require 'sawfish)
+(defun wid-assign (keysequence)
+  "assign a sawfish wid to the current frame"
+  (let ((id (string-to-number (frame-parameter (selected-frame) 'outer-window-id))))
+    (sawfish-eval-read
+     `(bind-wid-to-window ,keysequence (get-window-by-id ,id)))))
+
+;(sawfish-eval
+; '(display-window (get-window-by-id 79771417)))
+
+
+;; my default frame:
+(require 'mmc-simple)
+
+
+(defun recalc-default-frame-alist ()
+  "in the current! DISPLAY."
+  (let* ((fontsize 20)
+         (width (- (/ (x-display-pixel-width) (/ (* 2 fontsize) 3)) 2))	;125
+         (height (- (/ (x-display-pixel-height) (1+ fontsize))
+                    (if running-xemacs 8 8))) ;48
+         (font ;"-*-lucidatypewriter-medium-r-normal-*-18-*-*-*-*-*-fontset-7"
+               "-*-lucidatypewriter-medium-r-normal-*-20-*-*-*-*-*-fontset-1"
+               )) ;;"fontset-1"
+                                        ;(message "the default font is %s" font)
+    `((font . ,font)
+      (width . ,width)
+      (height . ,height)
+      (top . 25)
+      ;;
+      (scroll-bar-width . 22)           ;12
+                                        ;(scroll-bar-background . "blue")
+                                        ;(scroll-bar-foreground . "red")
+      (scroll-bar-background . "red")
+                                        ;(scroll-bar-foreground . "green")
+      
+      (left . 80)
+      (foreground-color . "Pink")       ;Red
+      (background-color . "Black")  ;   `'gray3
+      (color-mode . "dark"))))
+
+; for #emacs:
+(unless running-xemacs
+  (aput 'default-frame-alist 'font "-*-lucidatypewriter-medium-r-normal-*-20-*-*-*-*-*-fontset-1"))
+;default-frame-alist
+;(set-face-font 'default "-*-lucidatypewriter-medium-r-*-*-24-*-*-*-*-*-iso8859-*")
+
+
+(defun display-update-frame-alist ()
+  ""
+  (interactive)
+  ;; xemacs: default-frame-plist
+  (if running-xemacs
+      1
+    (setq default-frame-alist
+          (overwrite-alist 'default-frame-alist (recalc-default-frame-alist)))))
+
+
+; initial-frame-alist
+(if (under-x)
+    (display-update-frame-alist))
+(define-key ctl-x-5-map "u" 'display-update-frame-alist)
+
+;; (unsplittable 't) (modeline . 'nil)
+;;(cons 'width  (- (/ (x-display-pixel-width) 12) 3))
+;;'(height . 34)))
+;;(cons 'height  (- (/ (x-display-pixel-height) 20) 5))
+
+
+(if running-xemacs
+    (setq default-frame-plist '(width 121 height 49)))
+
+
+;; fixme:  current display !!  just :0
+(defun kill-frames-on-display (display)
+  ""
+  (interactive
+   (let ((displays (unique
+		    (sort (mapcar
+			   (lambda (item)
+			     (frame-parameter item 'display))
+			   (frame-list)) 'string<)))
+	 def (prompt "kill frames on: "))
+     (list (read-display prompt def displays))))
+  (let* ((regexp (regexp-quote display))
+	 (frames
+	  ;; frames on the DISPLAY:
+	  (mapcar-nonil
+	   (lambda (item)
+	     (let ((display (frame-parameter item 'display)))
+	       (if (string-match regexp display)
+		   item nil)))
+	   (frame-list))))
+    (mapcar
+     (lambda (item)
+       (delete-frame item))
+     frames)))
+
+(define-key ctl-x-5-map "k" 'kill-frames-on-display)
+
+
+(defun list-frames ()
+  ""
+  (interactive)
+  (with-output-to-temp-buffer "*frames*"
+    (mapcar
+     (lambda (item)
+       (princ (frame-parameter item 'outer-window-id))
+       (princ "\t")
+       (princ (frame-parameter item 'display))
+       (princ "\t")
+       (princ (frame-parameter item 'name))
+       (terpri))
+     (frame-list))))
+
+
+
+(defun how-many-displays()
+  "return the number of X displays, on which we have frames"
+  (let ((displays '())
+        )
+    (mapcar
+     (lambda (item)
+       (let ((display (frame-parameter item 'display))
+             )
+         (unless (member display displays)
+           (setq  displays (cons display displays)))))
+     (frame-list))
+    (length displays)))
+;; todo:  put in modeline
+; (how-many-displays)
+
+
+
+
+
+(require 'sf-menu)
+(defun switch-to-emacs-frame (id)
+  ""
+  (interactive (list
+                (save-excursion
+                  (beginning-of-line)
+                  ;(read)
+                  (string-to-int (thing-at-point 'integer)))))
+  (sf-switch-to-window id))
+
+;; todo:  make a special major mode there ...
+; ;[(control ?m)]
+(define-key ctl-x-5-map "g" 'switch-to-emacs-frame)
+
+
+(define-key ctl-x-5-map "l"  'list-frames)
+(define-key ctl-x-5-map "n"  'make-frame-on-display)
+
+
+'(set-frame-width (selected-frame) (+ 1 (frame-parameter (selected-frame) 'width)))
+
+;;;  resizing/reducing frame:
+(defun reduce-frame-to-max-text-width ()
+  "reduce the current frame to the width of longest line of the current buffer"
+  (interactive)
+  (let ((max-width 10))			; this is the minimum, we don't try less
+    (map-lines (point-min)
+	       (point-max)
+	       (lambda (end-line)
+		 (let ((l (- end-line (point))))
+		   (if (> l max-width)
+		       (setq max-width l)))))
+    (set-frame-width (selected-frame) (1+ max-width))))
+
+
+;(modify-frame-parameters (selected-frame) '((scroll-bar-width . 8)))
+
+(defun frame-add-line (frame &optional how-much)
+  ""
+  (interactive (list (selected-frame)
+                     (prefix-numeric-value current-prefix-arg)))
+  (set-frame-width frame
+                   (+ how-much (frame-parameter frame 'width))))
+
+(define-key ctl-x-5-map "w" 'reduce-frame-to-max-text-width)
+(define-key global-map [(control ?W)]  'reduce-frame-to-max-text-width)
+
+
+
+
+;;; Tracking   Frame resizing !!!
+(defvar frame-width-alist '() "")
+
+(setq frame-width-alist '())
+
+(mapc
+ (lambda (frame)
+   (aput 'frame-width-alist
+         frame (screen-width frame)))
+ (frames-on-display-list))
+
+;; (setq window-configuration-change-hook (cdr window-configuration-change-hook))
+(add-hook
+ 'window-configuration-change-hook
+ (lambda ()
+   (let* ((frame (selected-frame))
+          (previous-width (aget frame-width-alist frame))
+          )
+     (unless (eq previous-width (screen-width frame))
+       (message "window-configuration-change-hook: frame resized")
+       (aput 'frame-width-alist frame (screen-width frame))
+       ))))
+
+
+(provide 'mmc-frame)
+
+

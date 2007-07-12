@@ -1,0 +1,178 @@
+;; http://maruska.dyndns.org/comp/activity/emacs/my-info.el
+
+;; from sawfish.el !!
+
+(defun search-info-files (index-function symbol info-files)
+  "Look for SYMBOL in all the sawfish info files.
+
+INDEX-FUNCTION is used to decide which index name will be searched. The
+function is used to access the lists in `sawfish-info-files'."
+  (loop for info-file in info-files
+        if (sawfish-find-info-entry (car info-file) (funcall index-function info-file) symbol) return t
+        finally (error "No info documentation found for %s" symbol)))
+
+
+
+(defun gtk-doc (function)
+  ""
+  (interactive (list (thing-at-point 'symbol))) ;((function "gtk_box_pack_start"))
+  (search-info-files #'sawfish-info-function-index
+                     function
+                     '(("gtk" "Function Index" "Variable Index")
+                       ("gdk" "Function Index" "Variable Index")))
+  (sawfish-jump-to-info-documentation function))
+
+
+
+;;; Info path
+(mapcar
+ (lambda (item)
+   (add-to-list 'Info-default-directory-list item))
+ (list "/x/internet/scheme/info"))
+
+
+;(setq Info-dir-contents-directory "/usr/info")
+(setq Info-directory-list
+      (mapcar-nonil (lambda (file)
+		  (if (file-exists-p file)
+		      file nil))
+		 (list
+		  "/usr/share/info/" 
+		  "/usr/info/Emacs/" 
+		  "/usr/info/xemacs/" 
+		  "/usr/info/TeX"
+		  "/usr/info/"
+		  "/usr/info/GCC"
+					; "/usr/info/Howto"
+					;	    (concat xemacs-root "info")
+		  ;; "/internet/commercial/beopen/infodock/id-info/"
+		  )))
+
+
+
+;;; some handy keys:
+(eval-after-load 
+    "info"
+  '(progn
+     (if running-xemacs
+         (define-key Info-mode-map [backspace] 'Info-scroll-prev)
+       (define-key Info-mode-map [backspace] 'Info-scroll-down))
+     (define-key Info-mode-map [(control ?i)] 'Info-next-reference)
+     ;; (define-key Info-mode-map [(meta control ?i)] 'Info-prev-reference)
+     (define-key Info-mode-map [(meta ?i)] 'Info-prev-reference)
+     (define-key Info-mode-map [(control ?I)] 'Info-prev-reference)
+     ))
+
+
+;;; switching TO info buffers:
+                                        ;(buffers-in-mode 'Info-mode)
+(defun switch-to-info-buffer (buffer)
+  "switch to one of those buffers which are in the Info mode."
+  (interactive 
+   (let ((buffers (buffers-in-mode 'Info-mode 'names-please))
+	 info-list name); note name is declared here but used in the inner lambda-function, dynamic scope!
+     (list (my-completing-read "Info buffer: " buffers nil 't "*info"))))
+  (switch-to-buffer buffer))
+
+(define-key  my-global-keymap [(control ?i)] 'switch-to-info-buffer)
+
+(defun Info-locate-book (book)
+  ""
+  ;; i would love to make it in scheme: fix the path in the function!!
+  (let ((path Info-default-directory-list))
+    (or (locate-file book path)		;must be a reg. file & file(1) ??
+	(locate-file (concat book ".info") path)
+	(locate-file (concat book ".info.gz") path)
+	(locate-file (concat book ".info-1") path)
+	(locate-file (concat book ".info-1.gz") path))))
+
+;(Info-locate-book "elisp")
+
+(defconst major-mode-info-mapping
+  '(
+    (gud-mode . "gdb")
+    (sh-mode . "zsh")
+    (emacs-lisp-mode . "elisp")
+    (scheme-mode . "gauche-refe")       ;scheme
+    (sawfish-mode . "sawfish")
+    (makefile-mode . "make")
+    (gnus-group-mode . "gnus")
+    (gnus-article-mode . "gnus")
+    (gnus-summary-mode . "gnus")	;buffer
+
+    (autoconf-mode . "autoconf")
+
+    (sgml-mode . "psgml")	;buffer
+    )
+  "mapping Major mode -> info file"
+  )
+
+
+(defun file= (file-1 file-2)
+  ""
+  (string= file-1 file-2))
+
+
+
+;;; context (major-mode) sensitive  Info 
+(defun my-info (prefix)
+  "this is a context sensitive `info'. Through the PREFIX you can request:
+C-u --> standard info, C-u C-u --> select 1 of the *info buffers, otherwise mode-specific!"
+  (interactive "P")
+  (cond ((= (prefix-numeric-value prefix) 4)
+	 (call-interactively 'info))
+	(prefix
+	 (switch-to-buffer (my-get-buffer-find-file "info buffer"  nil nil 't "*info-")))
+	('t
+	 (let ((info-book (aget major-mode-info-mapping major-mode 't))
+	       )
+	   (if info-book
+	       (let* ((info-file (Info-locate-book info-book))
+		      (info-buffers (buffers-in-major-mode 'Info-mode))
+		      ;(info-book-name (string-match "-?[0-9]*\\.info" info-book))
+		      (info-buffer (list-search-positive
+				    (lambda (item)
+				      (if (file=
+                           ;; fixme: ;(file-name-nondirectory 
+                           (variable-in-buffer item 'Info-current-file)
+                                        ;)
+					   info-file)
+					  item))
+				    info-buffers)))
+		 (if info-buffer
+		     (switch-to-buffer info-buffer)
+		   (info info-file)
+           (rename-buffer (concat "*info-" info-book) 'unique)))
+	     (info))))))
+
+;; keys: (overload:)
+;; batch does not like it:
+;(unless (batch-
+;(substitute-key-definition 'info 'my-info help-map);global-map) 
+(define-key help-map [?i] 'my-info)
+
+
+;; i don't use F keys anymore
+;; (global-set-key [(control f1) ?i] 'switch-to-info-buffer)
+;; (global-set-key [f1 ?a] 'apropos)
+
+
+
+
+
+
+(defun my-current-info-node-name (&optional insert)
+  ;; 
+  (interactive "*P")
+  (let ((node ""))
+    (with-current-buffer (get-buffer "*info*")
+      (setq node (concat "("
+                         (file-name-nondirectory Info-current-file)
+                         ")"
+                         Info-current-node)))
+    (if insert
+        (insert node)
+      (message node))))
+
+
+(provide 'mmc-info)

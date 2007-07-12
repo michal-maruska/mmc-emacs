@@ -1,0 +1,21 @@
+
+
+;; processing   command line arguments, options:
+
+(defun relax (&rest rest)
+  "do nothing")
+
+
+;; add the switch to known ones:
+(setq command-switch-alist
+      ;; relax --- function fired
+      (append
+       (list
+	(cons "-nodesktop" 'relax)
+	(cons "-gnus" 'relax))
+       command-switch-alist))
+
+(defvar nodesktop (member "-nodesktop" command-line-args) "")
+
+
+(provide 'mmc-cli-options)

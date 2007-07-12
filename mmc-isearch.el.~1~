@@ -1,0 +1,190 @@
+;; isearch.el
+
+;(setq-default case-fold-search 't)
+
+
+;; todo:
+;  C-M-p/n  to browse the buffer-local history !!
+
+
+(defun my-isearch (point)
+  "search from bob"
+  (interactive "d")
+  (push-mark point)
+  (goto-char (point-min))
+  (unwind-protect
+      (isearch-forward)			;call-interactively
+					; we should remove a mark !!!
+    (pop-mark)
+    (pop-mark)
+    (print mark-ring)))
+
+; (kbd "C-S")  (kbd "C-s")
+(global-set-key
+					;not in Xemacs: (kbd "C-S-s")
+    [(control ?S)]
+					;(kbd "C-Sh-s")
+					;[(control ?S)]
+  'isearch-outline)
+
+(global-set-key [(meta ?R)] 'isearch-outline-backward)
+
+;(global-set-key 'isearch-forward)
+
+;; Why not just use LET ?
+(defmacro with-variable-overloaded (variable value &rest body)
+  "set VARIABLE to VALUE and eval BODY. After that (even on local exit), restore the original value."
+  `(let ((original-value ,variable))
+      (unwind-protect
+          (progn
+            (setq ,variable ,value)
+            ,@body)
+        (setq ,variable original-value))))
+
+(put 'with-variable-overloaded 'lisp-indent-function 2)
+
+(defun isearch-outline ()
+  "i.e. don't open overlays....?"
+  (interactive)
+  (let ((search-invisible nil)) ; `with-variable-overloaded'
+    (isearch-forward)
+    (message "returning search-invisible")))
+
+
+(global-set-key "\C-z" 'isearch-current-word)
+; isearch-current-word
+(global-set-key [(meta ?y)] 'yank-pop)
+;(not no-recursive-edit)
+
+(defun isearch-current-word ()
+  ""
+  (interactive)
+  (isearch-mode t nil nil nil)
+  (isearch-yank-sexp))
+
+
+'(defun isearch-outline ()
+  ""
+  (interactive)
+  (let ((original-search-invisible search-invisible))
+    (unwind-protect
+	(progn
+	  (setq search-invisible nil)
+	  (isearch-forward))
+      (message "returning search-invisible")
+      (setq search-invisible original-search-invisible))))
+
+
+
+(defun isearch-outline-backward ()
+  ""
+  (interactive)
+  (let ((search-invisible nil))         ; with-variable-overloaded
+    (isearch-backward)
+    (message "returning search-invisible")))
+
+
+'(let ((original-search-invisible search-invisible))
+    (unwind-protect
+	(progn
+	  (setq search-invisible nil)
+	  (isearch-backward))
+      (setq search-invisible original-search-invisible)))
+
+
+;  (setq search-invisible 'open)
+;;; isearch
+;; see  my-std.el
+(unless running-xemacs
+  (defun isearch-yank-sexp ()
+    "Pull next word from buffer into search string."
+    (interactive)
+    (isearch-yank-string
+     (save-excursion
+       (and (not isearch-forward) isearch-other-end
+	    (goto-char isearch-other-end))
+       (buffer-substring (point) (progn (forward-sexp 1) (point))))))
+
+  ;(lookup-key isearch-mode-map (kbd "\C-s"))
+  (define-key isearch-mode-map [(control ?z)] 'isearch-yank-sexp)
+  (define-key isearch-mode-map [backspace] 'isearch-delete-char)
+  
+  (define-key isearch-mode-map [(control ?i)] 'isearch-complete)
+  (define-key isearch-mode-map [(control ?-)] 'isearch-delete-char)
+
+  ;;(define-key isearch-mode-map [(control ?-)] 'isearch-ring-retreat)
+  ;; isearch-ring-retreat
+  )
+
+
+(add-hook 'text-mode-hook
+	  (lambda ()
+	    (setq isearch-case-fold-search 't
+		  case-fold-search 't)))
+	    
+(setq isearch-case-fold-search 't
+      case-fold-search 't
+      ;isearch-toggle-case-fold
+      ; toggle-case-fold-search  in the keymap ??
+      ;dabbrev-case-fold-search
+      );
+
+;; hm, so the correct way to remove binding from isearch-mode-map is
+(define-key isearch-mode-map "\M-\C-y" 'isearch-other-control-char)
+
+;; (length isearch-mode-hook)
+;; (setq isearch-mode-hook (cdr isearch-mode-hook))
+
+;; (length isearch-mode-end-hook)
+;; (setq isearch-mode-end-hook  (cdr isearch-mode-end-hook))
+
+;; bug: isearch-level is not returned to 0.  Why?
+(defun isearch-reset()
+  (interactive)
+  (setq isearch-level 0)
+  (set-face-background 'cursor "green"))
+
+
+;;; sometimes i  C-w (believing i'm in isearch, and lose the region, b/c i' *not*).
+;;  So i make the cursor color change, and indicate  isearch-mode.
+(unless running-xemacs
+  (defvar isearch-mode-hook-cursor-background nil "")
+  (defvar isearch-level 0 "")           ;(setq isearch-level 0)
+  (add-hook 'isearch-mode-hook
+    (lambda ()
+
+      (if (zerop isearch-level)
+          ;; Save: 
+          (setq isearch-mode-hook-cursor-background
+                (face-background 'cursor)))
+
+      (setq isearch-level (1+ isearch-level))
+      (set-face-background 'cursor "red")))
+
+  ;; (set-face-background 'cursor "green")
+  ;; (setq isearch-mode-hook-cursor-background "green")
+                                        ;isearch-mode-hook
+                                        ;isearch-mode-end-hook
+  (add-hook 'isearch-mode-end-hook
+    ;; What if C-g ? is this run only once ?
+    (lambda ()
+      (setq isearch-level (1- isearch-level))
+      (if (zerop isearch-level)
+          (set-face-background 'cursor isearch-mode-hook-cursor-background)))))
+
+
+
+(provide 'my-isearch)
+
+
+;; grossjohann
+(defun isearch-occur ()
+  "Run `occur' with current isearch string."
+  (interactive)
+  (let ((case-fold-search isearch-case-fold-search)
+        (search-string (if isearch-regexp
+                           isearch-string
+                         (regexp-quote isearch-string))))
+    (occur search-string)))
+
+(define-key isearch-mode-map [(control o)] 'isearch-occur)

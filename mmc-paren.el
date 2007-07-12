@@ -1,0 +1,17 @@
+
+;; fixme: colors should coordinate!
+
+(when (or (string-match "XEmacs\\|Lucid" emacs-version)
+          window-system)
+  (require 'mic-paren)
+  (paren-activate)
+  
+  (setq paren-display-message 'never)
+  (set-face-background 'cursor "green")
+					; (copy-face 'bold 'paren-face-match)
+  (set-face-background 'paren-face-match "firebrick")
+                                        ;"forest green")
+  (setq paren-match-face 'paren-face-match))
+
+
+(provide 'mmc-paren)

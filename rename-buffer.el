@@ -1,0 +1,91 @@
+;; (C) Michal Maruska ???
+
+
+(require 'advice)
+
+;; fixme:
+(defun rename-buffer-to (old new)
+  "renam buffer OLD to NEW"
+  (save-excursion
+    (set-buffer old)
+    (rename-buffer new)))
+
+
+
+;;;  renaming `interactively' buffer. Some improvements:
+
+(defvar rename-buffer-keymap (make-sparse-keymap) "used for prompt for a new buffer name (of an existing buffer)")
+(let ((map rename-buffer-keymap))
+  (set-keymap-parent map minibuffer-local-completion-map)
+  ;; i don't need the word-expansion ...
+  (define-key map " " 'self-insert-command))
+
+(defadvice rename-buffer (before interactive-edit-buffer-name activate)
+  "Prompt for buffer name supplying CURRENT buffer name for editing."
+  (interactive
+   (with-keymaps-switched minibuffer-local-completion-map rename-buffer-keymap
+     (let ((default (if (string-lessp "19" emacs-version)
+                        (cons (buffer-name) 0)
+                      (buffer-name))))
+       (if (eq major-mode 'info-mode)
+           (setq default Info-current-subfile))
+       (list (completing-read "Rename current buffer to: "
+                              (mapcar
+                               (lambda (buffer)
+                                 (list (buffer-name buffer)))
+                               (buffer-list))
+                              nil nil default)
+             current-prefix-arg)))))
+
+
+
+
+;;;  a work-around for the limit of comint, which works for 1 fixed buffer name.
+(defun buffer-rename (buffer name)
+  (with-current-buffer buffer
+    (rename-buffer name)))
+
+;; a hack for make-comint
+;;   work w/ renamed buffer for the duration of BODY
+(defmacro with-buffer-renamed (buffer new-name &rest body)
+  "run BODY w/ BUFFER temporarily renamed to NEW-NAME"
+  `(let* ((old-buffer (get-buffer ,new-name))
+          (old-name (buffer-name ,buffer))
+          (temp-buffer-name (if old-buffer
+                                (generate-new-buffer-name "with-buffer-renamed")
+                              nil)))
+
+     ;; this complicates a bit:
+     (if (eq old-buffer ,buffer)
+         (setq old-buffer nil))
+
+     (unwind-protect
+         (progn
+           (if old-buffer
+               (buffer-rename old-buffer temp-buffer-name))
+           (buffer-rename ,buffer ,new-name)
+           ,@body
+           )
+       ;; restore:
+       (buffer-rename ,buffer old-name)
+       (if old-buffer (buffer-rename old-buffer ,new-name)))))
+
+
+
+
+;;; 2 demos:
+
+(when nil
+
+  (with-buffer-renamed (current-buffer) "ahoj"
+                       (buffer-name (current-buffer)))
+  
+  (let ((ahoj (get-buffer-create "ahoj")))
+    (with-buffer-renamed (current-buffer) "ahoj"
+                         (buffer-name ahoj)))
+      
+  )
+
+
+
+(provide 'rename-buffer)

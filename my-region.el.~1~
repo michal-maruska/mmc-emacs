@@ -1,0 +1,40 @@
+
+;; c-x r  \  indent
+;;()
+
+
+(defconst ctl-x-r-map (lookup-key global-map (kbd "C-x r"))
+  "i really expected this pretty standard, why not?")
+
+(unless (keymapp ctl-x-r-map)
+  (setq ctl-x-r-map (make-sparse-keymap)))
+
+(let ((map  ctl-x-r-map))
+  (define-key map [(control ?w)] 'write-region)
+  (if running-xemacs
+      (progn
+        (define-key map [?D] 'decode-coding-region)
+        (define-key map [?E] 'encode-coding-region))
+    (progn
+      (define-key map [(shift ?d)] 'decode-coding-region)
+      (define-key map [(shift ?e)] 'encode-coding-region)
+      (define-key map [(control ?i)] 'indent-region)
+      (define-key map "#" 'comment-region)
+
+      (define-key map "q" 'fill-region)
+      (define-key map [(meta ?l)] 'downcase-region)
+      (define-key map [(meta ?u)] 'upcase-region)
+      (define-key map [(meta ?c)] 'capitalize-region)
+      
+      (define-key map ";" 'comment-region)
+
+      (define-key map (kbd "C-w") 'delete-region))))
+
+;(ctl-x-r-map
+
+
+(provide 'my-region)
+
+; (global-set-key  [(control ?\( )] 'comment-region)
+
+; (global-set-key  [(control ?\( )] 'up-list)

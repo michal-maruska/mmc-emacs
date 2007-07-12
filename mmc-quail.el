@@ -1,0 +1,53 @@
+;; My simple (i would say macros)
+
+;; relative files:
+;; /usr/share/emacs/quail/cyrillic-m.el
+
+(unless running-xemacs
+  (load "mmc-cyrillic.el"))
+
+
+(defun toggle-input-method-real (method)
+  ""
+  (if (string= current-input-method method)
+      (toggle-input-method)
+    (progn
+     (setq help-char 8)
+     (activate-input-method method))))
+
+
+(defun russo ()
+  "Make all, so that I can write in russian"
+  (interactive)
+  (setq help-char 8)
+  ;activate-input-method
+  ;;cyrillic-jcuken ;(set-language-environment "Cyrillic-ISO")
+  (toggle-input-method-real "cyrillic-yawerty"))
+
+(defun cesky ()
+  (interactive)
+  (set-language-environment "Czech")
+  (set-input-method "latin-2-postfix"))
+
+;(defvar quail-toggle)
+;(setq quail-toggle 'nil)
+
+;(defun quail-toggle ()
+;  (interactive)
+;  (toggle-input-method)
+;  (if  'quail-toggle
+;      (progn
+;       (quail-toggle-mode-temporarily)
+;       (quail-inactivate)
+;       (setq quail-toggle 'nil)
+;       )
+;    (progn
+;     (quail-start-translation -1)
+;     (setq quail-toggle 't)
+;    )
+;  )
+
+
+(provide 'mmc-quail)
+
+

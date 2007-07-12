@@ -1,0 +1,199 @@
+;;; My `patches' to standard packages:
+;;; Mainly keymap changes.
+
+
+(eval-after-load 
+    "rmailsum"
+  '(progn
+     (define-key rmail-summary-mode-map [backspace]   'rmail-summary-scroll-msg-down)
+     (define-key rmail-summary-mode-map [delete] 'rmail-summary-scroll-msg-down) ) )
+(eval-after-load 
+    "rmail"
+  '(progn
+     (define-key rmail-mode-map [ delete ]   'scroll-down)
+     (define-key rmail-mode-map [ backspace ] 'scroll-down) ) )
+
+(eval-after-load "cus-edit"             ;custom
+  '(define-key custom-mode-map [(control ?x) (control ?s)] 'Custom-save))
+
+(eval-after-load 
+    "isearch"
+  '(progn
+     ;; THIS IS ALREADY IN ... so it does not get called !!
+     (require 'mmc-isearch)
+     (message "ok")))
+
+
+(eval-after-load 
+    "font-lock"
+  '(progn
+     (if running-xemacs
+	 (set-face-foreground 'font-lock-comment-face "red3"))))
+(eval-after-load 
+    "w3"
+  '(progn
+					; (define-key w3-mode-map [?q] nil)
+     (define-key w3-mode-map [(meta delete)] 'w3-prev-document)
+     (define-key w3-mode-map [(meta backspace)] 'w3-prev-document)))
+
+(eval-after-load
+    "apropos"
+  '(progn
+     ;(set-face-foreground 'hyper-apropos-hyperlink "green")
+     ))
+(eval-after-load
+    "make-mode"
+  '(progn
+     (add-hook 'makefile-mode-hook 'my-makefile-hook)))
+
+(defun my-makefile-hook ()
+  ;;(lambda ()
+  ""
+  (make-local-variable 'outline-regexp)
+  (setq outline-regexp "^[a-zA-Z_]*:")
+  (font-lock-mode))
+
+
+(eval-after-load
+    "perl-mode"
+  '(progn
+     (add-hook 'perl-mode-hook 
+	       (lambda ()
+		 (make-local-variable 'outline-regexp)
+		 (setq outline-regexp "\\(sub\\|package\\|##+\\) ")
+		 (font-lock-mode)))))
+
+(eval-after-load
+    "cperl-mode"
+  '(progn
+     (define-key cperl-mode-map [(control c) ?:] 'sh-set-shell)
+     (add-hook 'cperl-mode-hook ;; cperl-mode-hook
+	       (lambda ()
+		 (set (make-local-variable 'outline-regexp)
+		      "\\(sub\\|package\\|##+\\|\\[\\$ sub\\) ")
+		 (font-lock-mode)))
+     (define-skeleton perl-interpreter-header
+       "Skeleton to insert the perl signature"
+       nil
+       "#! /usr/bin/perl")
+     (define-key cperl-mode-map [(control ?c) ?:] 
+       (lambda ()
+	 (interactive)
+	 (save-excursion
+	   (goto-char (point-min))
+	   (perl-interpreter-header))))
+     (switch-keys cperl-mode-map "
+" [(control ?j)])))
+
+
+(eval-after-load
+    "sawfish"
+  '(progn
+     (require 'mmc-sawfish)
+     (define-key sawfish-mode-map [(control x) (meta e)]             #'sawfish-eval-buffer)))
+
+(eval-after-load 
+    "eldoc"
+  '(progn
+     (setq eldoc-idle-delay 0.50)))
+
+;; (eval-after-load 
+;;     "vm"
+;;   '(progn
+;;      (load "my-vm")))
+
+(eval-after-load 
+    "psgml-html"
+  '(progn
+     (define-key  html-mode-map [(control ?z) (control ?z)] nil)))
+
+;;; see my-dired
+
+(eval-after-load "dircolors"
+  '(progn
+     (add-to-list 'dircolors-extension '(("ss") dircolors-face-lang))))
+;  dircolors-extension
+
+
+(eval-after-load
+    "pcl-cvs"
+  '(progn
+     (define-key cvs-mode-map "U" 'cvs-mode-unmark-all-files)))
+
+(eval-after-load 
+    "psgml-html"
+  '(progn
+     (define-key  html-mode-map [(control ?z) (control ?z)] nil)))
+
+(eval-after-load 
+    "python"
+  '(progn
+     (load "mmc-python")))
+
+
+;; (eval-after-load 
+;;     "dabbrev"
+;;   '(progn
+;;      (load "mmc-dabbrev")))
+
+
+
+;;
+(eval-after-load 
+    "dframe"
+  '(progn
+     (defun dframe-handle-make-frame-visible (e)
+  "Handle a `make-frame-visible' event.
+Should enables auto-updating if the last state was also enabled.
+Argument E is the event making the frame visible."
+  (interactive "e")
+  ;(message "%S" e)
+  (let ((f last-event-frame))
+    (if (and (dframe-attached-frame f)
+	     dframe-make-frame-visible-function)
+	(funcall dframe-make-frame-visible-function e)
+      )))
+
+     (defun dframe-handle-iconify-frame (e)
+  "Handle a `iconify-frame' event.
+Should disables auto-updating if the last state was also enabled.
+Argument E is the event iconifying the frame."
+  (interactive "e")
+  ;(message "%S" e)
+  (let ((f last-event-frame))
+    (if (and (dframe-attached-frame f)
+	     dframe-iconify-frame-function e)
+	(funcall dframe-iconify-frame-function)
+      )))
+
+(defun dframe-handle-delete-frame (e)
+  "Handle `delete-frame' event.
+Argument E is the event deleting the frame."
+  (interactive "e")
+  ;(message "%S" e)
+  (let ((fl (frame-list))
+	(sf (selected-frame)))
+    ;; Loop over all frames.  If dframe-delete-frame-function is
+    ;; non-nil, call it.
+    (while fl
+      (select-frame (car fl))
+      (if dframe-delete-frame-function
+	  (funcall dframe-delete-frame-function e))
+      (setq fl (cdr fl)))
+    (if (frame-live-p sf)
+	(select-frame sf))
+    (handle-delete-frame e)))
+))
+
+
+(eval-after-load
+    "wid-edit"
+  '(progn
+     (define-key widget-keymap (kbd "C-i") 'widget-forward)))
+
+
+(eval-after-load "diff-mode"
+  '(require 'mmc-diff))
+
+
+(provide 'mmc-std)
