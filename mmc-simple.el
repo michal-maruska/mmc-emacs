@@ -1,4 +1,6 @@
 
+;;; Simple functions, of general interest
+
 (defun relax (&rest rest)
   "do nothing")
 
