@@ -1,9 +1,6 @@
 ;; I define some new faces
 
-
 ;   '(("\\(di\\|sub\\)graph \\(\\sw+\\)" (2 font-lock-function-name-face))))
-
-
 
 ;;; installing a *GLOBAL* fontified keyword
 
