@@ -1,4 +1,6 @@
 
+;;; Simpler functions, of general interest, let's create some conflict!
+
 (defun relax (&rest rest)
   "do nothing")
 
