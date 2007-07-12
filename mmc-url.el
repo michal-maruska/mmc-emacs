@@ -3,6 +3,12 @@
 ;;  the file on local FS, and URL is then created by rewriting.
 
 
+;; todo:
+;; have a `root' + read-root
+;; then we look at the filename, substract `root' from it
+;; and rewrite it to hostname+path.
+;; 
+
 
 ;; todo: Customize
 (defconst www-server-config
@@ -44,10 +50,6 @@
 (global-set-key [(alt ?u)] 'insert-local-url)
 
 
-
-
-
-
 ;;; Is this copied from somewhere? 
 
 ;; (w3-download-url "http://linux1/embperl/tex/indirizzi/proposte.tex?uomo=12394&tipo=1200" "hello")
@@ -78,9 +80,7 @@
   (let ((url
 	 (url-generic-parse-url "http://linux1/embperl/tex/indirizzi/proposte.tex?uomo=12394&tipo=1200"))
 	(url-http-asynchronous-p nil))
-    (url-http  url 'insert-the-http-download (list (point-marker))))
-
-  )
+    (url-http  url 'insert-the-http-download (list (point-marker)))))
 
 (defun insert-the-http-download (marker &rest args)
   ""
