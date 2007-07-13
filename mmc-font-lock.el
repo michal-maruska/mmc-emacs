@@ -21,7 +21,7 @@
     (if nil
         (progn
           ;; Old approch
-          (add-to-list 'font-lock-keywords '("\\b\\([[:digit:]]+\\)\\b" (1 font-lock-number-face prepend))) ; keep 't keep prepend append
+          (add-to-list 'font-lock-keywords '("\\b\\([[:digit:]]+\\)\\b" (1 font-lock-number-face nil prepend))) ; keep 't keep prepend append
                                         ;(add-to-list 'font-lock-keywords '("\\([[:digit:]]+\\)" (1 font-lock-number-face)) 't)
           (add-to-list 'font-lock-keywords '("`\\(\\(\\s_\\|\\sw\\)+\\)'" (1 font-lock-important prepend))) ; t
           (add-to-list 'font-lock-keywords '("*\\(\\(\\s_\\|\\sw\\)+\\)*" (1 font-lock-warning-face prepend)))
