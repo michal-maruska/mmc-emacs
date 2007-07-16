@@ -21,7 +21,8 @@
     (if nil
         (progn
           ;; Old approch
-          (add-to-list 'font-lock-keywords '("\\b\\([[:digit:]]+\\)\\b" (1 font-lock-number-face nil prepend))) ; keep 't keep prepend append
+	  ;; fixme: 
+          (add-to-list 'font-lock-keywords '("\\b\\([[:digit:]]+\\)\\b" (1 font-lock-number-face prepend))) ; keep 't keep prepend append
                                         ;(add-to-list 'font-lock-keywords '("\\([[:digit:]]+\\)" (1 font-lock-number-face)) 't)
           (add-to-list 'font-lock-keywords '("`\\(\\(\\s_\\|\\sw\\)+\\)'" (1 font-lock-important prepend))) ; t
           (add-to-list 'font-lock-keywords '("*\\(\\(\\s_\\|\\sw\\)+\\)*" (1 font-lock-warning-face prepend)))
@@ -30,22 +31,24 @@
           (add-to-list 'font-lock-keywords '("\\b\\(fixme\\|XXX\\|mmc\\|todo\\|bug\\|obsolete\\|note\\|new\\)[:!?]"
                                              (1 font-lock-warning-face prepend)))) ; t
 
-      ;; In CVS: 
+      ;; In CVS:
+      ;(when nil
       (progn
-        (font-lock-add-keywords nil
-          '(
-            ;; Numbers
-            ("\\b\\([[:digit:]]+\\)\\b" 1 font-lock-number-face t) ;; 't) ; keep prepend append
-            ;; keep ... exclusive !
-            ;; append
-            ;; prepend
-            ;; `keywords'
-            ("`\\(\\(\\s_\\|\\sw\\)+\\)'" 1 font-lock-important prepend) ;) 't)
+	(font-lock-add-keywords nil	; nil -> current buffer major mode
+	  '(				;; Numbers
+	    ("\\b\\([[:digit:]]+\\)\\b" 1 font-lock-number-face keep) ;; 't) ; keep prepend append
+	    ;; keep ... exclusive !
+	    ;; append
+	    ;; prepend
+	    ;; `keywords'
+	    ("`\\(\\(\\s_\\|\\sw\\)+\\)'" 1 font-lock-important prepend) ;) 't)
 
-            ;; ("\\*\\(\\(\\s_\\|\\sw\\)+\\)\\*" 1 font-lock-warning-face prepend)
-            ;; fixed words:
-            ("\\b\\(fixme\\|XXX\\|mmc\\|todo\\|bug\\|obsolete\\|note\\|new\\)[:!?]" 1 font-lock-warning-face prepend); 't)
-        ))))))
+	    ;; ("\\*\\(\\(\\s_\\|\\sw\\)+\\)\\*" 1 font-lock-warning-face prepend)
+	    ;; fixed words:
+	    ("\\b\\(fixme\\|XXX\\|mmc\\|todo\\|bug\\|obsolete\\|note\\|new\\)[:!?]" 1 font-lock-warning-face prepend) ; 't)
+	    )
+	  'end
+	  )))))
     
 
     
