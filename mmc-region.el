@@ -2,7 +2,7 @@
 ;; c-x r  \  indent
 ;;()
 
-; (require 'mmc-simple)
+(require 'mmc-simple)
 (defconst ctl-x-r-map (lookup-key global-map (kbd "C-x r"))
   "i really expected this pretty standard, why not?")
 

@@ -1,5 +1,5 @@
 (require 'assoc)
-
+(require 'mmc-simple)
 ;; sawfish:
 ;; (multiple-frames "%b" ("" invocation-name "@" system-name))
 ;; ("emacs: linux3.maruska.tin.it %S: %j " (buffer-file-name "%f" (dired-directory dired-directory "%b")))
@@ -36,6 +36,25 @@
 ;;       "-*-lucidatypewriter-medium-r-normal-*-14-*-*-*-*-*-fontset-1"
 ;;       ))
 
+(overwrite-alist 'default-frame-alist
+  '((top . 25)
+    ;;
+    (scroll-bar-width . 22)		;12
+                                        ;(scroll-bar-background . "blue")
+                                        ;(scroll-bar-foreground . "red")
+    (scroll-bar-background . "red")
+                                        ;(scroll-bar-foreground . "green")
+      
+    (left . 80)
+    (foreground-color . "Pink")		;Red
+    (background-color . "Black")	;   `'gray3
+
+    ;;
+    (scroll-bar-background . "red")
+    ;;"blue"
+    (scroll-bar-foreground . "white")
+      
+    (color-mode . "dark")))
 
 (defun recalc-default-frame-alist ()
   "in the current! DISPLAY."
@@ -55,28 +74,23 @@
     `((font . ,font)
       (width . ,width)
       (height . ,height)
-      (top . 25)
-      ;;
-      (scroll-bar-width . 22)           ;12
-                                        ;(scroll-bar-background . "blue")
-                                        ;(scroll-bar-foreground . "red")
-      (scroll-bar-background . "red")
-                                        ;(scroll-bar-foreground . "green")
-      
-      (left . 80)
-      (foreground-color . "Pink")       ;Red
-      (background-color . "Black")  ;   `'gray3
-
-      ;;
-      (scroll-bar-background . "red")
-      ;;"blue"
-      (scroll-bar-foreground . "white")
-      
-      (color-mode . "dark"))))
+      )))
 
 ; for #emacs:
-(unless running-xemacs
-  (aput 'default-frame-alist 'font "-*-lucidatypewriter-medium-r-normal-*-20-*-*-*-*-*-fontset-1"))
+
+;(unless running-xemacs
+;  (aput 'default-frame-alist 'font "-*-lucidatypewriter-medium-r-normal-*-20-*-*-*-*-*-fontset-1"))
+
+;(fontset-name-p "fontset-1")
+;; ignore error:
+(condition-case nil
+    (set-frame-font "fontset-1")
+  (error
+   (create-fontset-from-fontset-spec
+    "-*-lucidatypewriter-medium-r-normal-*-18-*-*-*-*-*-fontset-1,
+ cyrillic-iso8859-5:-*-*-*-r-normal-*-25-*-*-*-*-*-*-r")
+   ))
+
 ;default-frame-alist
 ;(set-face-font 'default "-*-lucidatypewriter-medium-r-*-*-24-*-*-*-*-*-iso8859-*")
 
@@ -93,7 +107,8 @@
 
 ; initial-frame-alist
 (if (under-x)
-    (display-update-frame-alist))
+    (run-wo-fail
+     (display-update-frame-alist)))
 (define-key ctl-x-5-map "u" 'display-update-frame-alist)
 
 ;; (unsplittable 't) (modeline . 'nil)
@@ -102,6 +117,7 @@
 ;;(cons 'height  (- (/ (x-display-pixel-height) 20) 5))
 
 
+;; fixme!
 (if running-xemacs
     (setq default-frame-plist '(width 121 height 49)))
 
