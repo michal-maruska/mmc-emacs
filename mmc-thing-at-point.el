@@ -1,4 +1,4 @@
-;; http://maruska.dyndns.org/comp/emacs/local/my-thingatpt.el
+;; http://ruska.dyndns.org/comp/emacs/local/my-thingatpt.el
 
 ;;; Commentary:
 ;; put it in a dir in your load-path and

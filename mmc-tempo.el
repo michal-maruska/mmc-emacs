@@ -1,5 +1,8 @@
 (require 'tempo)
 
+
+(defconst elisp-tempo-tags ())		;disappeared?
+
 (defun elisp-tempo ()
   "Set up emacs-lisp mode to use tempo.el"
   ;; (local-set-key [M-C-tab] 'tempo-complete-tag)

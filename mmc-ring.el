@@ -59,7 +59,9 @@
 (unless emacs-21
   (defun delete-minibuffer-contents()
     ""
-    (erase-buffer)))
+    ;(erase-buffer)
+    (delete-region (mo(point-min)
+		   (point-max)))))
 
 
 (defun minibuffer-previous-ring ()

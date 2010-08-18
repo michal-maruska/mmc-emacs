@@ -12,23 +12,25 @@
   "")
 
 
+(defconst maruska-sed-dir "/usr/share/maruska/sed/")
+
 (defun latin->cyrillic (start end)
   ""
   (interactive "r")
-  (sed-on-region start end 't "/usr/local/activity/sed/russo.sed" 'cyrillic-iso-8bit))
+  (sed-on-region start end 't (compose-path maruska-sed-dir "russo.sed")  'cyrillic-iso-8bit))
 
 
 
 (defun cyrillic->latin (start end)
   ""
   (interactive "r")
-  (sed-on-region start end 't "/usr/local/activity/sed/de_russo.sed" 'cyrillic-iso-8bit))
+  (sed-on-region start end 't (compose-path maruska-sed-dir "de_russo.sed") 'cyrillic-iso-8bit))
 
 
 (defun utf-cyrillic->latin (start end)
   ""
   (interactive "r")
-  (sed-on-region start end 't "/usr/local/activity/sed/de-russo-utf8.sed"
+  (sed-on-region start end 't (compose-path maruska-sed-dir "de-russo-utf8.sed")
                  ;'utf-8
                  'no-conversion
                  ;'raw-text

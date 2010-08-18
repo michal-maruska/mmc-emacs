@@ -1,0 +1,11 @@
+Source: mmc-emacs
+Section: editors
+Priority: extra
+Maintainer: Michal Maruska <michal@ruska.it>
+Build-Depends: cdbs, debhelper, emacs22 | emacsen
+Standards-Version: 3.7.2
+
+Package: mmc-emacs
+Architecture: all
+Depends: emacsen, elib, gnuserv
+Description: Michal Maruska handy elisp function (general utility)

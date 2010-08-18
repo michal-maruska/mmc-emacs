@@ -1,5 +1,3 @@
-
-
 ;; mmc:
 (require 'mmc-cli-options)
 ;; attention: this requires  url from w3. Gentoo declared it dead, and masks it!
@@ -30,6 +28,7 @@
 (require 'mmc-ediff)
 (require 'mmc-std)
 
+;; (eval-after-load "dired")
 (require 'mmc-dired)
 
 (require 'mmc-keys)
@@ -87,3 +86,21 @@
 ;; 
 (require 'uniquify)
 (setq uniquify-buffer-name-style 'forward)
+
+(if (condition-case nil
+	(find-library "gnuserv")
+      (error nil))
+
+    (require 'mmc-gnuserv)
+  (eval-after-load
+      "gnuserv"
+    '(require 'mmc-gnuserv)
+    ))
+
+
+(eval-after-load
+    "iswitchb"
+  '(load "mmc-patches"))
+
+(iswitchb-mode 1)
+

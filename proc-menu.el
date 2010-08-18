@@ -484,6 +484,8 @@ The buffer is named `*Process List*'."
 		 (contact (process-contact process))
 		 (ch nil)
 		 name-beg name-end)
+	    (if (equal contact t)
+		(setq contact (list "" "" )))
 	    (cond
 	     ((eq status 'run) (setq ch 'r))
 	     ((eq status 'stop) (setq ch 'z))
@@ -495,7 +497,7 @@ The buffer is named `*Process List*'."
 		(setq ch 'o))
 	      (setq buffer nil)
 	      (setq command (list 
-			     (concat "@" (car contact) ":"
+			     (concat "@" (prin1-to-string (car contact)) ":"
 				     (if (numberp (cadr contact))
 					 (int-to-string (cadr contact))
 				       (cadr contact))))))

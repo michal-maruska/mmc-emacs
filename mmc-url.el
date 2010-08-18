@@ -13,7 +13,7 @@
 ;; todo: Customize
 (defconst www-server-config
   (list "/linux/2/var/www/maruska/htdocs"
-        "maruska.dyndns.org"
+        "ruska.dyndns.org"
         ))
 
 (defun insert-local-url-michal ()
@@ -21,7 +21,7 @@
   (interactive)
   (let ((www-server-config
 	 (list "/linux/2/var/www/maruska/michal"
-	       "michal.maruska.dyndns.org")))
+	       "michal.ruska.dyndns.org")))
     (call-interactively 'insert-local-url)))
 
 
@@ -74,7 +74,7 @@
       (apply 'find-file-noselect path args))))
 
 
-(require 'url)
+(require 'url nil 'NOERROR) ; fixme!
 
 (when nil
   (let ((url

@@ -27,10 +27,11 @@
 
 (set-face-foreground 'scroll-bar
                      ;"blue1"
-                     ;"dark blue"
+                     "dark blue"
                                         ;"olive drab"
                      ;"green1"
-                     "white")
+                     ;"white"
+		     )
 
 ;(set-face-background 'scroll-bar "white")
 ;(set-face-inverse-video-p 'scroll-bar 't)

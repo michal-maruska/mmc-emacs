@@ -1,7 +1,7 @@
 ;;; my-outline.el --- key-bindings
 
 
-;; http://maruska.dyndns.org/comp/emacs/local/my-outline.el
+;; http://ruska.dyndns.org/comp/emacs/local/my-outline.el
 ;; allout.el
 (when nil
    (require 'allout)
@@ -359,12 +359,14 @@ Show the heading too, if it is currently invisible."
   "Hides or shows lines from FROM to TO, according to FLAG.
 If FLAG is nil then text is shown, while if FLAG is t the text is hidden."
 
-  (if emacs-22
+  (if (or emacs-22
+	  emacs-24)
       (remove-overlays from to 'invisible 'outline))
   (save-excursion
     (goto-char from)
     (end-of-line)
-    (unless emacs-22
+    (unless (or emacs-22
+		emacs-24)
       (outline-discard-overlays (point) to 'outline))
     (if flag
         ;;

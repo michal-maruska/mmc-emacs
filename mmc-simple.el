@@ -8,11 +8,12 @@
 
 (defvar running-xemacs (string-match "XEmacs\\|Lucid" emacs-version))
 (defconst emacs-21
-  (string-match "^2[12]\.*" emacs-version))
+  (string-match "^2[124]\.*" emacs-version))
 
 (defconst emacs-22
   (string-match "^22\.*" emacs-version))
 
+(defconst emacs-24 (= emacs-major-version 24))
 
 (if running-xemacs
     (defvar xemacs-version (construct-emacs-version-name) "") ;"21.2.b37" ;emacs-version
@@ -503,7 +504,7 @@ dots(...) get processed:
 
 
 ;; toggle-truncate-lines
-(when (or running-xemacs emacs-21)
+(when (or running-xemacs emacs-21 emacs-24)
   (defun hscroll-mode (&optional arg)
     (interactive)
     (setq truncate-lines

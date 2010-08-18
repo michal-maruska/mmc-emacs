@@ -1,4 +1,4 @@
-;; http://maruska.dyndns.org/comp/activity/emacs/my-info.el
+;; http://ruska.dyndns.org/comp/activity/emacs/my-info.el
 
 ;; from sawfish.el !!
 

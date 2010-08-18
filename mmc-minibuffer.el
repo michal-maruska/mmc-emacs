@@ -5,13 +5,13 @@
 ;; space complete (not word)
 
 
-;; http://maruska.dyndns.org/comp/emacs/local/my-minibuffer.el
+;; http://ruska.dyndns.org/comp/emacs/local/my-minibuffer.el
 
 ;;; emacs 21 introduced new behaviour in minibuffer:
 
 (setq enable-recursive-minibuffers 't)
 
-; http://maruska.dyndns.org/comp/emacs/local/mdb
+; http://ruska.dyndns.org/comp/emacs/local/mdb
 
 
 
@@ -258,6 +258,8 @@ I would need  these `fluid' variables: `guess' `dir' `initial'   see: `' "
    (list
     minibuffer-local-must-match-map
     minibuffer-local-completion-map
+    ;; 2010-05-15
+    minibuffer-local-filename-completion-map
     )))
  
 

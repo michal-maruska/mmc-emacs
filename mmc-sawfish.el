@@ -11,7 +11,7 @@
 ;;; movements
 
 ;; There seems to be a bug in emacs-21.1 lisp.el
-;; patch here: http://maruska.dyndns.org/comp/patches/diffs/emacs/lisp.el
+;; patch here: http://ruska.dyndns.org/comp/patches/diffs/emacs/lisp.el
 (defun sawfish-beginning-of-defun (&optional arg)
   "Just a stupid hack, i should go to define-structure and descend (forward-list) ?"
   (interactive "p")
@@ -79,6 +79,8 @@
 
 ;;; fixme: !!!
 (require 'string)			; <-- string-replace-match
+;; we need source
+(load "/usr/share/emacs/site-lisp/elib/string.el")
 
 
 ;; i use it in my-perl too

@@ -46,7 +46,7 @@
 					;(global-set-key [kp-0] (lambda () (interactive) (insert ?0)))
 					;(global-set-key [kp-1] (lambda () (interactive) (insert ?1)))
 					;(global-set-key [kp-2] (lambda () (interactive) (insert ?2)))
-(global-set-key [(hyper m)] 'insert-date) 
+; (global-set-key [(hyper m)] 'insert-date) 
 					;(global-set-key [(mod2 m)] 'insert-date)
 (global-set-key [(meta shift delete)] 'kill-line-save)
 (global-set-key [(meta  ?K)] 'kill-line-save)
@@ -264,7 +264,7 @@
   (insert-string "\\"))
 
 
-(global-set-key [(hyper ? )] 'insert-backslash)
+;(global-set-key [(hyper ? )] 'insert-backslash)
 (global-set-key [(meta space)] 'insert-slash)
 (global-set-key [(meta ? )] 'insert-slash)
 (global-set-key [(meta menu)] 'just-one-space)
@@ -361,7 +361,7 @@
 (global-set-key [(control ?x) ?5 ?l] 'make-frame-on-display)
 ; (global-set-key [(control ?x) ?b] 'my-switch-to-buffer-find-file)
 (global-set-key [(control ?x) ?a ?c] 'add-change-log-entry)
-(global-set-key [(hyper ?j)] 'join-line)
+;(global-set-key [(hyper ?j)] 'join-line)
 
 
 

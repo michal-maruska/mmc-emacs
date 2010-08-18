@@ -94,10 +94,16 @@
 
 
 ;;; Global (setting)
-(unless running-xemacs
-  (global-font-lock-mode +1 t))
+(cond
+ (running-xemacs
+  t)
+ (emacs-24
+  (global-font-lock-mode t))
+ (t
+  (global-font-lock-mode +1 t)))
 
-(unless emacs-22
+;; emacs-23 as well!
+(unless (or t emacs-22)
   (setq font-lock-support-mode (if 't 'lazy-lock-mode
                                  'fast-lock-mode )
         lazy-lock-stealth-time 10

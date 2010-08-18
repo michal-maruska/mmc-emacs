@@ -1,3 +1,5 @@
+(require 'ispell)
+
 (setq ispell-dictionary-alist
       (append ispell-dictionary-alist
 	      '(("czech"				; czech.aff

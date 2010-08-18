@@ -33,7 +33,7 @@ very old/simple/ don't use it"
     (setq end (nth 1 (current-time)))
     (message "time: %d" (- end start))))
 
-(time '(cons 1 2))
+;(time '(cons 1 2))
 
 ; (time
 ;  (w3-parse-buffer  "page1.html")
