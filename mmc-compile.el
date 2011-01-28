@@ -1,26 +1,20 @@
-
 ;;; use the patch from ~/diffs/emacs/files.el
 
 
-
-;;(setq grep-command "grep  --directories=recurse --exclude='*~' -n -e")
-;(setq grep-program  "grep --directories=recurse --exclude='*~' ")
-
 (require 'compile)                      ;grep
-(setq grep-command "grep --directories=recurse --exclude='*~' -i -n -e ")
+;; fixme: how to test if the GREP supports this...?
+(setq grep-command "grep --directories=recurse --no-recurse-symlinks --exclude='*~' -i -n -e ")
 (setq grep-program  (if emacs-22
                         "grep"
-                        "grep --directories=recurse --exclude='*~' --exclude=semantic.cache -i "))
+		      "grep --directories=recurse --exclude='*~' --exclude=semantic.cache -i "))
 
 (require 'mmc-simple)
 (setenv "GREP_OPTIONS"
 	(delete-substring (or (getenv "GREP_OPTIONS") "")
 			  "--color"))
 
-
-
+;;; M-m to signal that we want to specify some directory.
 (defvar my-minibuffer-ask-for-directory (make-sparse-keymap) "")
-
 (let ((map my-minibuffer-ask-for-directory))
   (set-keymap-parent map
                      minibuffer-local-map)
@@ -29,7 +23,7 @@
       (interactive)
       (setq ask-for-directory 't)
       (call-interactively 'exit-minibuffer)
-                                        ;(exit-reading-buffer 'get-filename-of-buffer nil)
+      ;;(exit-reading-buffer 'get-filename-of-buffer nil)
       )))
 
 
@@ -47,11 +41,13 @@ either local exit from BODY, or the successful termination."
 
 
 (defun my-grep (command-args directory)
-  ""
+  "With prefix,  the symbol under point is the default string to grep for.
+When editing the Grep command line, \M-m invokes selection of directory where to run."
   (interactive
    (let ((ask-for-directory nil))
      
-     (let (grep-default (arg current-prefix-arg))
+     (let (grep-default
+	   (arg current-prefix-arg))
        (unless grep-command
          (grep-compute-defaults))
        (when arg
@@ -67,7 +63,8 @@ either local exit from BODY, or the successful termination."
                              'find-tag-default))))
            (setq grep-default (or (car grep-history) grep-command))
            ;; Replace the thing matching for with that around cursor
-           (when (string-match "[^ ]+\\s +\\(-[^ ]+\\s +\\)*\\(\"[^\"]+\"\\|[^ ]+\\)\\(\\s-+\\S-+\\)?" grep-default)
+           (when (string-match "[^ ]+\\s +\\(-[^ ]+\\s +\\)*\\(\"[^\"]+\"\\|[^ ]+\\)\\(\\s-+\\S-+\\)?"
+			       grep-default)
              (unless (or (match-beginning 3) (not (stringp buffer-file-name)))
                (setq grep-default (concat grep-default "*."
                                           (file-name-extension buffer-file-name))))
