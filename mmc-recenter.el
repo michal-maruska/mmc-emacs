@@ -32,6 +32,7 @@ number    curline ... nth window line"
    (t
     (recenter prefix))))
 
-(substitute-key-definition 'recenter 'my-recenter  global-map)
+(substitute-key-definition 'recenter 'my-recenter global-map)
+(substitute-key-definition 'recenter-top-bottom 'my-recenter global-map)
 
 (provide 'mmc-recenter)

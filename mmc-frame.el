@@ -233,7 +233,8 @@
 (define-key global-map [(control ?W)]  'reduce-frame-to-max-text-width)
 
 
-
+(defun screen-width (frame)
+  (frame-width frame))
 
 ;;; Tracking   Frame resizing !!!
 (defvar frame-width-alist '() "")

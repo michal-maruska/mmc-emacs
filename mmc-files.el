@@ -1,23 +1,11 @@
-
+(require 'mmc-string)
 
 ;(setq temp (nth 5 (file-attributes "~/")))
-(require 'string)
-
-
-;; (require 'dircolors)
-;; `gives':
-;; generic functions not included in emacs
-(defun join-string (xs &optional sep)
-  (cond ((null xs) "")
-	((null (cdr xs)) (car xs))
-	(t (concat (car xs) (or sep " ") (join-string (cdr xs) sep)))))
-
-
 
 ;; use native:  build-path
 (defun compose-path (&rest segments)
   ""
-  (join-string
+  (string-join
    segments "/"))
 
 ;(compose-path "a" "b")

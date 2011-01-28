@@ -51,7 +51,8 @@
 	  (call-interactively 'mode-header-skeleton)
 	  (setq done 't))
       (unless done
-	(undo))))))
+	(undo)))))
+  (normal-mode))
 
 
 (let ((map my-global-keymap));; insert-keymap

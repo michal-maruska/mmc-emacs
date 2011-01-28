@@ -17,7 +17,11 @@
 (defun latin->cyrillic (start end)
   ""
   (interactive "r")
-  (sed-on-region start end 't (compose-path maruska-sed-dir "russo.sed")  'cyrillic-iso-8bit))
+  (sed-on-region start end 't		;
+		 (compose-path maruska-sed-dir ;"/tmp"
+			       "russo.sed")
+		 'utf-8 ;;cyrillic-iso-8bit
+		 'iso-8859-1))
 
 
 
@@ -50,7 +54,8 @@
 
 
 
-(defun sed-on-region (start end &optional prefix sed-file coding-system ouput-coding-system)
+(defun sed-on-region (start end &optional prefix sed-file coding-system
+			    ouput-coding-system)
   "Process the region through SED(1) and replace with the result. 
 Coding system and the 'sed -f' file are read from minibuffer."
   (interactive                          ;"rp"

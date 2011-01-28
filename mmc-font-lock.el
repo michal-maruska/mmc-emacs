@@ -93,6 +93,17 @@
   )
 
 
+;; fixme!  repeated!
+(defconst emacs-24
+  (or
+   (= emacs-major-version 24)
+   ;; old git
+  (and
+   (= emacs-major-version 23)
+   (= emacs-minor-version 1)
+   )))
+
+
 ;;; Global (setting)
 (cond
  (running-xemacs

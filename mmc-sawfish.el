@@ -76,22 +76,7 @@
       filename
     (concat filename suffix)))
 
-
-;;; fixme: !!!
-(require 'string)			; <-- string-replace-match
-;; we need source
-(load "/usr/share/emacs/site-lisp/elib/string.el")
-
-
-;; i use it in my-perl too
-(defun translate-module-to-filename (module separator)
-  ""
-  ;; if the module does contain "/" then it is already a filename !!!
-  (if (string-match "/" module)
-      module
-    ;; (regexp-quote separator)
-    (or (string-replace-match "\\." module "/" 't 't)
-	module)))
+(require 'mmc-string)
 
 
 ;; fixme: we should ask the sawfish-client! (locate-file )

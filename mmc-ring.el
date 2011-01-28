@@ -59,9 +59,14 @@
 (unless emacs-21
   (defun delete-minibuffer-contents()
     ""
-    ;(erase-buffer)
-    (delete-region (mo(point-min)
-		   (point-max)))))
+					;(erase-buffer)
+    (delete-region
+     (progn
+       ;; fixme: emacs 24:
+       (move-beginning-of-line nil)
+       (point))
+     (point-max))
+    ))
 
 
 (defun minibuffer-previous-ring ()

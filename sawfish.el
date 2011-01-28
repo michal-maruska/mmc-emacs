@@ -1054,7 +1054,12 @@ returned."
 (defun sawfish-region-active-p ()
   "Is there an active region?"
   (if (and (boundp 'running-xemacs) (symbol-value 'running-xemacs))
-      (funcall (symbol-function 'region-exists-p))
+      (funcall
+       (symbol-function
+	(if (fboundp 'region-active-p)
+	    'region-active-p
+	  'region-exists-p)))
+       ;'region-exists-p))
     (symbol-value 'mark-active)))
   
 (easy-menu-define sawfish-mode-menu sawfish-mode-map "sawfish commands"

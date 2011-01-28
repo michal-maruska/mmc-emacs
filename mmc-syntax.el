@@ -155,9 +155,9 @@
 
 (defun make-space-space (&optional table)
   (modify-syntax-entry ?   " " table))
-  
+
 (add-hook 'css-mode-hook 'make-space-space)
-	  
+
 
 (eval-after-load "cperl"
   '(modify-syntax-entry ?   " " ;fundamental-mode
@@ -194,7 +194,7 @@
       ;; this is suspect:
       (minibuffer-preferred-syntax-table
        (setq minibuffer-preferred-syntax-table
-             (if emacs-22
+             (if (or emacs-22 emacs-24)	;fixme!
                  (make-syntax-table)
                nil))
        ;; minibuffer-preferred-syntax-table
@@ -202,7 +202,8 @@
 
       ((eq minibuffer-history-variable 'grep-history)
        (require 'sh-script)
-       (if emacs-22
+       (if (and (boundp 'sh-mode-default-syntax-table)
+		sh-mode-default-syntax-table)
            sh-mode-default-syntax-table
          sh-mode-syntax-table))
 
@@ -213,17 +214,19 @@
 
 (add-hook 'minibuffer-setup-hook 'my-minibuffer-setup-hook)
 
+;(remove-hook 'minibuffer-setup-hook 'my-minibuffer-setup-hook)
+;; minibuffer-setup-hook
 
 ; normal-top-level-add-subdirs-to-load-path
 
-;; fixme: all 
+;; fixme: all
 
 ;(modify-syntax-entry ?  " " psql-mode-syntax-table)
 ;(modify-syntax-entry ?_  "_" sql-mode-syntax-table)
 
 ;;minibuffer-setup-hook
 
-; (remove-hook 
+; (remove-hook
 ;  'minibuffer-setup-hook
 ;  (lambda ()
 ;    (message "syntax")

@@ -183,7 +183,7 @@ move to with the same argument."
 (global-set-key [(control ?O)] 'other-window)
 
 
-
+;; todo: C-u prefix -> whole buffer
 (defun delete-tail-from-region (start end)
   (interactive "r")
   (save-excursion
