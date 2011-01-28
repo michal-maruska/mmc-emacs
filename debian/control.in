@@ -2,7 +2,7 @@ Source: mmc-emacs
 Section: editors
 Priority: extra
 Maintainer: Michal Maruska <mmaruska@gmail.com>
-Build-Depends: cdbs, debhelper, emacs22 | emacsen
+Build-Depends: @cdbs@, emacs22 | emacsen
 Standards-Version: 3.7.2
 
 Package: mmc-emacs
