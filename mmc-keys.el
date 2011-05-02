@@ -382,6 +382,21 @@
 (global-set-key [(control meta ?8)] 'repeat-complex-command)
 ;; (global-set-key [(control meta ?9)] 'repeat-complex-command)
 
+;; Overriding implementation from simple.el? fixme!
+;; I need to remove additional space AFTER this one:
+(defun fixup-whitespace ()
+  "Fixup white space between objects around point.
+Leave one space or none, according to the context."
+  (interactive "*")
+  (save-excursion
+    (delete-horizontal-space)
+    (if (or (looking-at "^\\|\\s)")
+	    (looking-at "\n")	    ;; mmc: ADDING this:
+	    (save-excursion (forward-char -1)
+			    (looking-at "$\\|\\s(\\|\\s'")))
+	nil
+      (insert ?\s))))
+
 (global-set-key [(control ?>)] 'fixup-whitespace)
 
 ;; (lookup-key global-map [f1] )
