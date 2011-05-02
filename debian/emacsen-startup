@@ -2,7 +2,9 @@
 ;;; mmc's useful emacs bits  ...   site-lisp configuration
 
 ;; necessary for FSF GNU Emacs only
-(setq load-path (cons (concat "/usr/share/emacs/site-lisp/mmc-emacs") load-path))
+;; not compiled!
+(add-to-list 'load-path
+    (cons (concat "/usr/share/emacs/site-lisp/mmc-emacs") load-path))
 
 ;; mmc:
 (load "mmc-emacs-init.el")
