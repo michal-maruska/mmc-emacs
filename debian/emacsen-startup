@@ -4,7 +4,7 @@
 ;; necessary for FSF GNU Emacs only
 ;; not compiled!
 (add-to-list 'load-path
-    (cons (concat "/usr/share/emacs/site-lisp/mmc-emacs") load-path))
+    	      "/usr/share/emacs/site-lisp/mmc-emacs")
 
 ;; mmc:
 (load "mmc-emacs-init.el")
