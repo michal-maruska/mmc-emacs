@@ -96,6 +96,7 @@ function is used to access the lists in `sawfish-info-files'."
     (scheme-mode . "gauche-refe")       ;scheme
     (sawfish-mode . "sawfish")
     (makefile-mode . "make")
+    (makefile-gmake-mode . "make")
     (gnus-group-mode . "gnus")
     (gnus-article-mode . "gnus")
     (gnus-summary-mode . "gnus")	;buffer
@@ -114,7 +115,7 @@ function is used to access the lists in `sawfish-info-files'."
 
 
 
-;;; context (major-mode) sensitive  Info 
+;;; context (major-mode) sensitive  Info
 (defun my-info (prefix)
   "this is a context sensitive `info'. Through the PREFIX you can request:
 C-u --> standard info, C-u C-u --> select 1 of the *info buffers, otherwise mode-specific!"
