@@ -1,3 +1,9 @@
+mmc-emacs (1.3.8) maverick; urgency=low
+
+  * comint   git & debian clean
+
+ -- Michal Maruska <mmaruska@gmail.com>  Sun, 15 May 2011 12:04:30 +0200
+
 mmc-emacs (1.3.7) maverick; urgency=low
 
   * outline etc
