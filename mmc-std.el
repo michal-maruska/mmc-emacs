@@ -196,4 +196,15 @@ Argument E is the event deleting the frame."
   '(require 'mmc-diff))
 
 
+(eval-after-load "comint"
+  '(defun comint-delete-input ()
+     "Delete all input between accumulation or process mark and point."
+     (delete-region
+      ;; Can't use kill-region as it sets this-command
+      (or  (marker-position comint-accum-marker)
+	   (process-mark (get-buffer-process (current-buffer))))
+      ;; -max
+      (point))))
+
+
 (provide 'mmc-std)
