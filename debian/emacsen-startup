@@ -1,10 +1,23 @@
+;; -*-emacs-lisp-*-
+;;
+;; Emacs startup file, e.g.  /etc/emacs/site-start.d/50mmc-emacs.el
+;; for the Debian mmc-emacs package
+;;
+;; Originally contributed by Nils Naumann <naumann@unileoben.ac.at>
+;; Modified by Dirk Eddelbuettel <edd@debian.org>
+;; Adapted for dh-make by Jim Van Zandt <jrv@debian.org>
 
-;;; mmc's useful emacs bits  ...   site-lisp configuration
-
-;; necessary for FSF GNU Emacs only
-;; not compiled!
-(add-to-list 'load-path
-    	      "/usr/share/emacs/site-lisp/mmc-emacs")
-
-;; mmc:
-(load "mmc-emacs-init.el")
+;; The mmc-emacs package follows the Debian/GNU Linux 'emacsen' policy and
+;; byte-compiles its elisp files for each 'emacs flavor' (emacs19,
+;; xemacs19, emacs20, xemacs20...).  The compiled code is then
+;; installed in a subdirectory of the respective site-lisp directory.
+;; We have to add this to the load-path:
+(let ((package-dir (concat "/usr/share/"
+                           "emacs"; (symbol-name flavor)
+                           "/site-lisp/mmc-emacs")))
+;; If package-dir does not exist, the mmc-emacs package must have
+;; removed but not purged, and we should skip the setup.
+  (when (file-directory-p package-dir)
+    (add-to-list 'load-path package-dir)
+    (add-to-list 'load-path "/usr/share/emacs/site-lisp/mmc-emacs")
+    (load "mmc-emacs-init.el")))
