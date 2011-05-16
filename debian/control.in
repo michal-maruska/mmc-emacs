@@ -7,5 +7,6 @@ Standards-Version: 3.7.2
 
 Package: mmc-emacs
 Architecture: all
-Depends: emacsen, gnuserv
+Enhances: gnuserv
+Depends: emacsen
 Description: Michal Maruska handy elisp function (general utility)
