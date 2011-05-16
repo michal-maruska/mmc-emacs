@@ -267,6 +267,9 @@ See the command `outline-mode' for more information on this mode."
 
 (unless running-xemacs
   (set-default 'selective-display t)
+
+  ;; (eval-after-load
+  (require 'disp-table)
   (set-display-table-slot
    standard-display-table
    'selective-display 
@@ -409,7 +412,7 @@ If FLAG is nil then text is shown, while if FLAG is t the text is hidden."
 (defun detect-outline ()
   ""
   (save-excursion
-    (beginning-of-buffer)
+    (goto-char (point-min))
     (search-forward-regexp "^\\*\\([^/]|*+\\)" 1000 t)))
 
 
