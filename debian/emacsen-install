@@ -9,18 +9,19 @@ FLAVOR=$1
 PACKAGE=mmc-emacs
 
 # mmc:  sorry!
-exit 0
+# exit 0
 
 if [ ${FLAVOR} = emacs ]; then exit 0; fi
 
+
 echo install/${PACKAGE}: Handling install for emacsen flavor ${FLAVOR}
 
-#FLAVORTEST=`echo $FLAVOR | cut -c-6`
-#if [ ${FLAVORTEST} = xemacs ] ; then
-#    SITEFLAG="-no-site-file"
-#else
-#    SITEFLAG="--no-site-file"
-#fi
+FLAVORTEST=`echo $FLAVOR | cut -c-6`
+if [ ${FLAVORTEST} = xemacs ] ; then
+    SITEFLAG="-no-site-file"
+else
+    SITEFLAG="--no-site-file"
+fi
 FLAGS="${SITEFLAG} -q -batch -l path.el -f batch-byte-compile"
 
 ELDIR=/usr/share/emacs/site-lisp/${PACKAGE}
@@ -30,7 +31,8 @@ ELCDIR=/usr/share/${FLAVOR}/site-lisp/${PACKAGE}
 # Maybe somebody will write it.
 if test -x /usr/sbin/install-info-altdir; then
     echo install/${PACKAGE}: install Info links for ${FLAVOR}
-    install-info-altdir --quiet --section "" "" --dirname=${FLAVOR} /usr/share/info/${PACKAGE}.info.gz
+    install-info-altdir --quiet --section "" "" --dirname=${FLAVOR} \
+	/usr/share/info/${PACKAGE}.info.gz
 fi
 
 install -m 755 -d ${ELCDIR}
@@ -40,7 +42,9 @@ cp ${FILES} ${ELCDIR}
 cd ${ELCDIR}
 
 cat << EOF > path.el
-(setq load-path (cons "." load-path) byte-compile-warnings nil)
+(add-to-list 'load-path ".")
+(add-to-list 'load-path "/usr/share/emacs/site-lisp/mmc-emacs")
+(setq byte-compile-warnings nil)
 EOF
 ${FLAVOR} ${FLAGS} ${FILES}
 rm -f *.el path.el
