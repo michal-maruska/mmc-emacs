@@ -56,11 +56,13 @@ either local exit from BODY, or the successful termination."
 
 
 ;;; functions which get called from inside the minibuffer, while reading filename:
-(defun exit-and-get-filename-of-buffer ()
-  "Called form mb, while reading filename"
-  (interactive)
-  (exit-reading-buffer 'get-filename-of-buffer nil))
-
+(when nil
+  (defun exit-and-get-filename-of-buffer ()
+    "Called form mb, while reading filename"
+    (interactive)
+    ;; fixme:  exit-reading-buffer is gone since 23 ?
+    (exit-reading-buffer 'get-filename-of-buffer nil))
+  )
 
 ;; extension to `buffer-file-name'
 ;; see `directory-of-buffer'(my-dired)
@@ -72,6 +74,13 @@ either local exit from BODY, or the successful termination."
       buffer-file-name)))
 
 
+(defvar guess)
+(defvar path)
+(defvar path)
+(defvar dir)
+(defvar initial)
+(defvar post-command)
+(defvar def)
 (defun get-filename-of-buffer ()
   "Called form mb, while reading filename.  We read a _buffer-name_ and substitute in minibuffer its filename
 I would need  these `fluid' variables: `guess' `dir' `initial'   see: `' "
