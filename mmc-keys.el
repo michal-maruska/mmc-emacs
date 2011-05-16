@@ -295,7 +295,9 @@
   )
   
 
-(defvar my-global-keymap (make-sparse-keymap) "")
+(eval-and-compile
+  (defconst my-global-keymap (make-sparse-keymap) ""))
+
 ;;(defvar my-distinct-input-methods-map (make-sparse-keymap) "")
 (let ((map my-global-keymap))
   (define-key map [?b] my-global-buffer-keymap)
@@ -327,8 +329,10 @@
 
   (define-key map [(meta ? )] 'set-default-directory)
   ;; Finally:
-  (define-key ctl-x-map [?x ] map)
   (global-set-key [(control ?X) ] map)
+
+
+  (define-key ctl-x-map [?x ] map)
   )
 
 
@@ -493,7 +497,8 @@ Leave one space or none, according to the context."
                                         ; lisp-mode-shared-map
   )
 ;; upon each change !!
-(set-keymap-parent emacs-lisp-mode-map lisp-mode-shared-map)
+(eval-after-load "list-mode"
+  '(set-keymap-parent emacs-lisp-mode-map lisp-mode-shared-map))
 ;)
 
 
@@ -502,18 +507,20 @@ Leave one space or none, according to the context."
 (global-set-key [(control ?@)]  'mark-defun)
 
 
-(define-key my-global-keymap "p"  (lambda () (interactive) (switch-to-buffer-other-window "*psql*")))
 
-(define-key ctl-x-map "f" 'set-fill-column)
+(when nil
+  ;; fixme:  cannot byte-compile
+  (let ((map my-global-keymap))
+    (define-key map "p"
+      (lambda ()
+	(interactive)
+	(switch-to-buffer-other-window "*psql*"))))
+  )
+
+;; fixme: (define-key ctl-x-map "f" 'set-fill-column)
 
 ;;; fighting bad keyboards:
 (global-set-key [(control meta ?y)] 'beginning-of-defun)
-
-
-
-
-
-
 
 (global-set-key [(control ?x) (meta ?b)] 'switch-to-buffer-other-window)
 
