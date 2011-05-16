@@ -1,4 +1,14 @@
 
+* byte compilation
+;; -*-no-byte-compile: t; -*-
+
+** all variables have to be "require"-d.
+** still keymaps don't work.
+
+
+
+
+
 * dired  end-of-buffer  ... on the last file LINE  (not below)
 
 
