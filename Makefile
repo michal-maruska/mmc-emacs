@@ -10,7 +10,7 @@ all:
 
 install:
 	$(install) -d   $(pkgdir)
-	$(install) *.el $(pkgdir)
+	$(install) --mode=444 *.el $(pkgdir)
 
 
 clean:
