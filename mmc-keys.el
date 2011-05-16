@@ -413,7 +413,7 @@ Leave one space or none, according to the context."
   (erase-buffer)
   (call-interactively 'exit-minibuffer))
 
-(mapcar
+(mapc
  (lambda (map)
    (define-key map [(shift space)]
      (if running-xemacs
