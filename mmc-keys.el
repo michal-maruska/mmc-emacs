@@ -261,7 +261,7 @@
 (defun insert-backslash ()
   ""
   (interactive)
-  (insert-string "\\"))
+  (insert "\\"))
 
 
 ;(global-set-key [(hyper ? )] 'insert-backslash)
@@ -523,7 +523,7 @@ Leave one space or none, according to the context."
 (defun run-command-other-frame (command)
   "Run COMMAND in a new frame."
   (interactive "CC-x 5 M-x ")
-  (select-frame (new-frame))
+  (select-frame (make-frame))
   (call-interactively command))
 
 (global-set-key "\C-x5\M-x" 'run-command-other-frame)
