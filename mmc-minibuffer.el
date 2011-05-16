@@ -250,17 +250,17 @@ I would need  these `fluid' variables: `guess' `dir' `initial'   see: `' "
 
 
 ;; <SPC> is really an important key:
-(unless (string-equal user-login-name "beta")	; but beta does not like it (she prefers `insert-backslash')
-  (mapc
-   (lambda (item)
-     (define-key item [(meta ? )] 'minibuffer-complete-word)
-     (define-key item [(?\ )] 'minibuffer-complete))
-   (list
-    minibuffer-local-must-match-map
-    minibuffer-local-completion-map
-    ;; 2010-05-15
-    minibuffer-local-filename-completion-map
-    )))
+;; fixme: (unless (string-equal user-login-name "beta")	; but beta does not like it (she prefers `insert-backslash')
+(mapc
+ (lambda (item)
+   (define-key item [(meta ? )] 'minibuffer-complete-word)
+   (define-key item [(?\ )] 'minibuffer-complete))
+ (list
+  minibuffer-local-must-match-map
+  minibuffer-local-completion-map
+  ;; 2010-05-15
+  minibuffer-local-filename-completion-map
+  ))
  
 
 
