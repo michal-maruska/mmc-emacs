@@ -199,7 +199,7 @@
   )
 
 
-
+(defvar recent-buffer-ring (make-ring 100))
 
 ;;; the ring: 
 (if nil

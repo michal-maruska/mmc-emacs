@@ -286,9 +286,11 @@ Type q immediately to make the process menu go away."
 		(command (process-command proc))
 		(contact (process-contact proc))
 		(coding (process-coding-system proc))
-		(kill (process-kill-without-query proc))
+		(kill (process-query-on-exit-flag proc)) ;process-kill-without-query
 		(standard-output standard-output))
-	    (process-kill-without-query proc kill)
+	    ;; (process-query-on-exit-flag proc)
+	    (set-process-query-on-exit-flag proc kill)
+	    ;;(process-kill-without-query proc kill)
 	    (setq standard-output (current-buffer))
 	    (princ "Name: ")
 	    (justify-current-line 'right)

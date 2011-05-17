@@ -4,7 +4,7 @@
 
 
 ;; I wonder why this function is not standard in ..
-(defun insert-date (arg)
+(defun insert-date1 (arg)
   "insert the today's date at the point. To avoid the default format, use C-u/4 prefix,
 and edit the function name. To enclose use prefix"
   (interactive "P")

@@ -39,7 +39,7 @@
 ;;    "dired"
 (unless running-xemacs
   (require 'dired-x))
-(setq dired-omit-files-p t)
+(dired-omit-mode t)
 
 ;;; Browsing between:
 (defun dired-substitute ()
@@ -235,10 +235,11 @@
   ""
   (shell-command (concat "rm -r " dir)))
 
+
 (defun dired-eldoc ()
   ""
-  (make-local-variable 'eldoc-function)
-  (setq eldoc-function 'dired-show-description)
+  (make-local-variable 'eldoc-documentation-function)
+  (setq eldoc-documentation-function 'dired-show-description)
   (eldoc-mode))
 
 ;;(add-hook 'post-command-idle-hook 'dired-show-description)
@@ -550,7 +551,8 @@ as the final argument."
     ;; ``wildcard'' line. 
     (insert "  " command-args "\n")
     ;; Start the find process.
-    (let ((proc (start-process-shell-command find-dired-find-program (current-buffer) command-args)))
+    (let ((proc (start-process-shell-command
+		 find-dired-find-program (current-buffer) command-args)))
       (set-process-filter proc (function find-dired-filter))
       (set-process-sentinel proc (function find-dired-sentinel))
       ;; Initialize the process marker; it is used by the filter.

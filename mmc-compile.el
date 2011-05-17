@@ -13,6 +13,7 @@
 	(delete-substring (or (getenv "GREP_OPTIONS") "")
 			  "--color"))
 
+(defvar ask-for-directory)
 ;;; M-m to signal that we want to specify some directory.
 (defvar my-minibuffer-ask-for-directory (make-sparse-keymap) "")
 (let ((map my-minibuffer-ask-for-directory))

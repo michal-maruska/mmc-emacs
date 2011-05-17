@@ -117,11 +117,11 @@
 (defconst color-minimum-distance 75000 "")
 
 ;;;  constructing a grid in the space
-(defconst color-grid-distance (root (/ (expt 256 3) (length color-name-rgb-alist)) 3)
+(defvar color-grid-distance (root (/ (expt 256 3) (length color-name-rgb-alist)) 3)
   "lenght of edge of the cubic `neighbourhood'. minimum distance between 2 colors is half of that.")
-(defconst color-grid-size (1+ (/ 256 color-grid-distance)) "in 1 dimension")
+(defvar color-grid-size (1+ (/ 256 color-grid-distance)) "in 1 dimension")
 ;(* 8 29)
-(defconst color-grid-volume (expt color-grid-size 3) "how many nodes in the grid")
+(defvar color-grid-volume (expt color-grid-size 3) "how many nodes in the grid")
 
 (defvar color-grid-vector 'f "how to keep a 3d grid ? vector")
 
@@ -267,6 +267,9 @@ which is a lower approximation"
 ;;(new-string->face "rw`")
 ;;; hi level
 
+(defvar new-color-grid-distance)
+(defvar new-color-grid-size)
+(defvar new-color-grid-volume)
 (defun new-color-init ()
   ""
   (setq new-color-grid-distance (root color-minimum-distance 3)

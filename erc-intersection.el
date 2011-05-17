@@ -1,4 +1,4 @@
-
+(require 'erc)
 ;; eval this  and    M-x erc-display-intersection   in an ERC channel buffer
 
 (defun erc-nicks-of (channel)
@@ -80,7 +80,7 @@ v1 ---> ((key1 1) (key2 2) ..)
 
 MATRIX is a symbol
 Transposed matrix"
-  (mapcar 
+  (mapc 
    ;; for each (key val1  .... valN)
    (lambda (item)
      (let ((key (car item)))

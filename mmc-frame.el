@@ -170,7 +170,7 @@
   "return the number of X displays, on which we have frames"
   (let ((displays '())
         )
-    (mapcar
+    (mapc
      (lambda (item)
        (let ((display (frame-parameter item 'display))
              )
@@ -192,7 +192,7 @@
                 (save-excursion
                   (beginning-of-line)
                   ;(read)
-                  (string-to-int (thing-at-point 'integer)))))
+                  (string-to-number (thing-at-point 'integer)))))
   (sf-switch-to-window id))
 
 ;; todo:  make a special major mode there ...
@@ -233,9 +233,6 @@
 (define-key global-map [(control ?W)]  'reduce-frame-to-max-text-width)
 
 
-(defun screen-width (frame)
-  (frame-width frame))
-
 ;;; Tracking   Frame resizing !!!
 (defvar frame-width-alist '() "")
 
@@ -244,7 +241,7 @@
 (mapc
  (lambda (frame)
    (aput 'frame-width-alist
-         frame (screen-width frame)))
+         frame (frame-width frame)))
  (frames-on-display-list))
 
 ;; (setq window-configuration-change-hook (cdr window-configuration-change-hook))
@@ -254,9 +251,9 @@
    (let* ((frame (selected-frame))
           (previous-width (aget frame-width-alist frame))
           )
-     (unless (eq previous-width (screen-width frame))
+     (unless (eq previous-width (frame-width frame))
        (message "window-configuration-change-hook: frame resized")
-       (aput 'frame-width-alist frame (screen-width frame))
+       (aput 'frame-width-alist frame (frame-width frame))
        ))))
 
 

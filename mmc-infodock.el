@@ -7,7 +7,8 @@
   (interactive "p")
   (if (one-window-p) (error "(resize-window): Cannot resize sole window."))
   (let* ((last-window (car (reverse (window-list (selected-frame) nil (frame-first-window )))))
-         (flexible-lower-edge-p (eq (selected-window) last-window)))
+         (flexible-lower-edge-p (eq (selected-window) last-window))
+	 c)
     (or arg (setq arg 1))
     (catch 'done
       (while t

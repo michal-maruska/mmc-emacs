@@ -1,5 +1,6 @@
 ;; http://ruska.dyndns.org/comp/activity/emacs/my-info.el
 
+(require 'mmc-simple)
 ;; from sawfish.el !!
 
 (defun search-info-files (index-function symbol info-files)
@@ -25,7 +26,7 @@ function is used to access the lists in `sawfish-info-files'."
 
 
 ;;; Info path
-(mapcar
+(mapc
  (lambda (item)
    (add-to-list 'Info-default-directory-list item))
  (list "/x/internet/scheme/info"))
@@ -122,8 +123,9 @@ C-u --> standard info, C-u C-u --> select 1 of the *info buffers, otherwise mode
   (interactive "P")
   (cond ((= (prefix-numeric-value prefix) 4)
 	 (call-interactively 'info))
-	(prefix
-	 (switch-to-buffer (my-get-buffer-find-file "info buffer"  nil nil 't "*info-")))
+	;; fixme: 2011-05-17   where is `my-get-buffer-find-file' ?
+	;(prefix
+	; (switch-to-buffer (my-get-buffer-find-file "info buffer"  nil nil 't "*info-")))
 	('t
 	 (let ((info-book (aget major-mode-info-mapping major-mode 't))
 	       )

@@ -109,7 +109,7 @@
 (defun sf-limit-to-workspace (&optional arg)
   ""
   (interactive "P")
-  (unless arg (setq arg (string-to-int (sf-workspace-on-the-line))))
+  (unless arg (setq arg (string-to-number (sf-workspace-on-the-line))))
   (sf-list-windows arg))
 
 
@@ -121,7 +121,7 @@
 (defun sf-add-window-to-space (w space)
   (interactive  
    (list (sf-window-on-the-line)
-         (string-to-int (read-string "space: ")))) ; fixme
+         (string-to-number (read-string "space: ")))) ; fixme
   (sawfish-eval `(ws-add-window-to-space (get-window-by-id ,w) ,space)))
 
 
@@ -134,7 +134,7 @@
   (define-key map "\C-o" 'sf-switch-to-window)
   
   (define-key map "i" 'sf-info-on-window)
-  (mapcar
+  (mapc
    (lambda (item)
      (define-key map (int-to-string item) 'digit-argument))
    '(1 2 3 4 5 6 7 8 9 0))

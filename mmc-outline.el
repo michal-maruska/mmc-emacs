@@ -224,8 +224,8 @@ See the command `outline-mode' for more information on this mode."
     (catch 'done
       (while t
 	(message
-	 "n,p,f,b,u   aLL, /t body, s/d subtree, /q sublevels, /oTHER, /lEAVES, k/ branches, i/ chIldren, e/c NTRY"
-	 arg)
+	 ;; arg
+	 "n,p,f,b,u   aLL, /t body, s/d subtree, /q sublevels, /oTHER, /lEAVES, k/ branches, i/ chIldren, e/c NTRY")
 	(setq c (read-char))
 	(condition-case ()
 	    (cond

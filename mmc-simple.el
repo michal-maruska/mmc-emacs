@@ -290,7 +290,7 @@ move to with the same argument."
   ;; ??? we have to
   (if (and (fboundp 'history-clos-p) (history-clos-p hist))
       (setq ring (oref hist ring)
-	    hist (oref hist e-history)))
+	    hist (oref hist e-history))) ;fixme: what is that?
   (let* ((my-table (cond ((vectorp table) table)
 			 ((alistp table) table)
 			 ((listp table)
@@ -351,12 +351,12 @@ move to with the same argument."
 (defun decode-last-key ()
   "get the ascii-code of the last key (throw away modifiers )"
   (interactive)
-  (let ((a last-command-char))
+  (let ((a last-command-event))		;last-command-char
     (cond ((symbolp a)
 	   a)
 	  ((char-or-string-p a)
 	   ;;(insert (logand  255))
-	   (logand last-command-char 255)))))
+	   (logand last-command-event 255))))) ;char
 
 
 ;;; misc
@@ -788,7 +788,7 @@ dots(...) get processed:
   ""
   (interactive (list (read-mode)))
   (let (buffers)
-    (mapcar
+    (mapc
      (lambda (buffer)
        (if (variable-in-buffer buffer mode)
 	   (setq buffers (cons buffer buffers))))
@@ -1066,7 +1066,7 @@ If the current buffer now contains an empty file that you just visited
 
 
 
-(defun my-kill-line (arg)
+(defun my-kill-line-old (arg)
   "Move to beginning of the line, and then kill the whole line"
   (interactive "p")
   (undo-group-boundary)

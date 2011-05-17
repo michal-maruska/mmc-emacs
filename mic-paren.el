@@ -248,7 +248,7 @@
     (defmacro defgroup (&rest args)
       nil)
     (defmacro defcustom (var value doc &rest args) 
-      (` (defvar (, var) (, value) (, doc))))))
+      `((defvar ,var  ,value ,doc)))))
 
 (defgroup mic-paren-matching nil
   "Showing advanced (un)matching of parens and expressions."

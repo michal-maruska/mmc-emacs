@@ -29,7 +29,8 @@
 (when nil
   (setq file-list '())
   (add-existing-file "my-tempo.el" 'file-list)
-  (add-existing-file "" 'file-list) (file-exists-p "") 
+  (add-existing-file "" 'file-list)
+  (file-exists-p "") 
   (add-existing-file "my-tempo.e" 'file-list))
 
 

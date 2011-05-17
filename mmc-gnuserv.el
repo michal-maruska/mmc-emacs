@@ -15,7 +15,7 @@
 
 (defvar gnuserv-authority-file "~/.gnuserv.trust" "")
 
-(defconst gnuserv-port
+(defvar gnuserv-port
   (+ 21490 (user-uid)
      (if running-xemacs 1000 0)
      1
