@@ -16,8 +16,9 @@
 (defconst emacs-24 (= emacs-major-version 24))
 
 (if running-xemacs
-    (defvar xemacs-version (construct-emacs-version-name) "") ;"21.2.b37" ;emacs-version
-  )
+    ;;"21.2.b37" ;emacs-version
+    (defvar xemacs-version (construct-emacs-version-name) ""))
+  
 
 
 ;; fixme:  more standard name?
@@ -64,11 +65,7 @@
   "like point-max"
   (save-excursion
     (beginning-of-line) (point)))
-;;;
-(defun sbke ()
-  "convenient abbrev"
-  (interactive)
-  (call-interactively 'save-buffers-kill-emacs))
+
 ;; better:
 (defalias 'sbke 'save-buffers-kill-emacs)
 
@@ -506,12 +503,13 @@ dots(...) get processed:
 
 
 ;; toggle-truncate-lines
-(when (or running-xemacs emacs-21 emacs-24)
+(if (or running-xemacs emacs-21 emacs-24)
   (defun hscroll-mode (&optional arg)
     (interactive)
     (setq truncate-lines
 	  (or arg
-	      (not truncate-lines)))))
+	      (not truncate-lines))))
+  (defalias 'hscroll-mode 'toggle-truncate-lines))
 
 (global-set-key [(control ?x) ?x ?|] 'hscroll-mode)
 
@@ -775,7 +773,7 @@ dots(...) get processed:
 
 
 (defun variable-in-buffer (buffer variable)
-  ""
+  "get the (buffer-local) value of VARIABLE"
   (save-current-buffer
     (set-buffer buffer)
     ;;(assoc 'scan-mode minor-mode-alist)
