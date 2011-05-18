@@ -78,16 +78,19 @@ function is used to access the lists in `sawfish-info-files'."
 (define-key  my-global-keymap [(control ?i)] 'switch-to-info-buffer)
 
 (defun Info-locate-book (book)
-  ""
+  "find the File containing info document on BOOK"
   ;; i would love to make it in scheme: fix the path in the function!!
-  (let ((path Info-default-directory-list))
-    (or (locate-file book path)		;must be a reg. file & file(1) ??
-	(locate-file (concat book ".info") path)
-	(locate-file (concat book ".info.gz") path)
-	(locate-file (concat book ".info-1") path)
-	(locate-file (concat book ".info-1.gz") path))))
+  (let* ((path Info-default-directory-list)
+	 (found (or (locate-file book path) ;must be a reg. file & file(1) ??
+		    (locate-file (concat book ".gz") path)
+		    (locate-file (concat book ".info") path)
+		    (locate-file (concat book ".info.gz") path)
+		    (locate-file (concat book ".info-1") path)
+		    (locate-file (concat book ".info-1.gz") path))))
+    ;; (message "Info-locate-book in %s -> %s" path found)
+    found))
 
-;(Info-locate-book "elisp")
+;(equal "elisp" (Info-locate-book "elisp"))
 
 (defconst major-mode-info-mapping
   '(
