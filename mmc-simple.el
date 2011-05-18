@@ -43,13 +43,15 @@
 
 
 (defun list-search-positive (function list)
-  "get the 1st non-nil result of function applied on element of LIST" ;;  ...see the `scheme' info-manual
-  (let (element found)
+  "get the 1st non-nil result of function applied on element of LIST"
+  ;;  ...see the `scheme' info-manual
+  (let (found)
     ;; fixme:  catch/throw !!
     (while (and (not found)
-		(setq element (car list)))
-      (setq list (cdr list)
-	    found (funcall function element)))
+		(consp list))
+      (setq found (funcall function (car list))
+	    ;; serial?
+	    list (cdr list)))
     found))
 
 ;;; 23 Jun 01:  how many times have i used this?
