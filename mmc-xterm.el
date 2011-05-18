@@ -1,12 +1,16 @@
+(require 'mmc-simple)
+
 ;;;### Autoload
 (defun xterm (&optional arg command title)
   "open an xterm on the DISPLAY where FRAME is. With prefix, ask for the DISPLAY."
   (interactive "P")
-  (let (; (buffer (generate-new-buffer "xterm"))
-        (display
+  ;; without this message I get segfault! when byte-compiled, of course.
+  (message "xterm 0")
+  (let ((display
          (if running-xemacs
              (frame-property (selected-frame) 'display "0:0")
            (frame-parameter (selected-frame) 'display)))
+	;;(buffer (generate-new-buffer "xterm"))
         (inside-emacs (getenv "INSIDE-EMACS")))
     (if arg
         (setq display (read-display "On display: " display)))
@@ -20,7 +24,6 @@
 	       'start-process
 	       "xterm"
 	       nil
-
 	       "rxvt"
 					;(concat
 					;(mapconcat
@@ -28,7 +31,7 @@
 
 					;(list
 	       ;;"rxvt"
-	       "-geometry" "100x60"
+	       "-geometry" "90x40"	;40 rows...
 	       ;; no scrollbar!
 	       "+sb"
 	       ;; "-sl" "500"
@@ -39,9 +42,7 @@
 	       "-fn"
 	       ;; fixme: duplicated from ~/.Xdefaults
 	       "-*-lucidatypewriter-medium-r-normal-*-18-*-*-*-*-*-*"
-					;"-title" "emacs"
-                  
-
+	       ;;"-title" "emacs"
 	       ;; Old:
 					;"xterm"; "/usr/local/bin/xterm" ;X11R6
 					;"+sb -sl 5000"
