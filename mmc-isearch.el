@@ -198,14 +198,15 @@
 
 
 ;; grossjohann
-(defun isearch-occur ()
-  "Run `occur' with current isearch string."
-  (interactive)
-  (let ((case-fold-search isearch-case-fold-search)
-        (search-string (if isearch-regexp
-                           isearch-string
-                         (regexp-quote isearch-string))))
-    (occur search-string)))
+;; (defun isearch-occur ()
+;;   "Run `occur' with current isearch string."
+;;   (interactive)
+;;   (let ((case-fold-search isearch-case-fold-search)
+;;         (search-string (if isearch-regexp
+;;                            isearch-string
+;;                          (regexp-quote isearch-string))))
+;;     (occur search-string)))
+
 
 (define-key isearch-mode-map [(control o)] 'isearch-occur)
 (provide 'mmc-isearch)
