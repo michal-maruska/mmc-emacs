@@ -138,6 +138,8 @@
 ;; (length isearch-mode-end-hook)
 ;; (setq isearch-mode-end-hook  (cdr isearch-mode-end-hook))
 
+(require 'faces)
+
 ;; bug: isearch-level is not returned to 0.  Why?
 (defun isearch-reset()
   (interactive)
@@ -173,8 +175,13 @@
 
 (defun mmc-isearch-exit ()
   (setq isearch-level (1- isearch-level))
-  (if (zerop isearch-level)
-      (set-face-background 'cursor isearch-mode-hook-cursor-background)))
+  ;(message "1 %d" isearch-level)
+  (when (zerop isearch-level)
+    ;(message "2 %s" (functionp 'set-face-background))
+    (if (functionp 'set-face-background)
+	(set-face-background 'cursor
+			     isearch-mode-hook-cursor-background)
+      (message "set-face-background not a function!"))))
 
 
 
