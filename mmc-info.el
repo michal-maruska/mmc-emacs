@@ -115,6 +115,17 @@ function is used to access the lists in `sawfish-info-files'."
   (string= file-1 file-2))
 
 
+(defun my-aget (alist key)
+  (let ((result nil)
+	(a alist))
+    (while (consp a)
+      (if (equal key (caar a))
+	  (setq result (cdar a)
+		a ())
+	(setq a (cdr a))))
+    result))
+
+;; (my-aget major-mode-info-mapping 'emacs-lisp-mode)
 
 ;;; context (major-mode) sensitive  Info
 (defun my-info (prefix)
