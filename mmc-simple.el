@@ -1131,3 +1131,10 @@ If the current buffer now contains an empty file that you just visited
 
 ;;; end
 (provide 'mmc-simple)
+
+(defun byte-compile-this-file ()
+  ""
+  (interactive)
+  (let ((file (buffer-file-name (current-buffer))))
+    (byte-compile-file file)
+    (load-file (concat file "c"))))
