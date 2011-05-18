@@ -1,3 +1,9 @@
+mmc-emacs (1.4.1) maverick; urgency=low
+
+  * fixes for byte-compiling
+
+ -- Michal Maruska <mmaruska@gmail.com>  Wed, 18 May 2011 23:14:34 +0200
+
 mmc-emacs (1.4) maverick; urgency=low
 
   * start using byte-compilation
