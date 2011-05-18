@@ -1134,5 +1134,4 @@ If the current buffer now contains an empty file that you just visited
   ""
   (interactive)
   (let ((file (buffer-file-name (current-buffer))))
-    (byte-compile-file file)
-    (load-file (concat file "c"))))
+    (byte-compile-file file 't)))
