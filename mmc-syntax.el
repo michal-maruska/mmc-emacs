@@ -119,8 +119,8 @@
      ))
 
 (eval-after-load "sh-script"
-  '(if (boundp 'shell-mode-syntax-table)
-       (modify-syntax-entry ? " " sh-mode-syntax-table)));fundamental-mode
+  '(if (boundp 'sh-mode-syntax-table)
+       (modify-syntax-entry ? " " sh-mode-syntax-table)))
 
 '(eval-after-load "css-mode"
   '(modify-syntax-entry ?   " " ;fundamental-mode
@@ -194,10 +194,8 @@
       ;; this is suspect:
       (minibuffer-preferred-syntax-table
        (setq minibuffer-preferred-syntax-table
-             (if (or emacs-22 emacs-24)	;fixme!
-                 (make-syntax-table)
-               nil))
-       ;; minibuffer-preferred-syntax-table
+	     (if (functionp 'make-syntax-table)
+                 (make-syntax-table)))
        minibuffer-preferred-syntax-table)
 
       ((eq minibuffer-history-variable 'grep-history)
