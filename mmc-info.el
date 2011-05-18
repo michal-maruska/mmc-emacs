@@ -133,31 +133,64 @@ function is used to access the lists in `sawfish-info-files'."
 C-u --> standard info, C-u C-u --> select 1 of the *info buffers, otherwise mode-specific!"
   (interactive "P")
   (cond ((= (prefix-numeric-value prefix) 4)
+	 (message "prefix -> plain info")
 	 (call-interactively 'info))
 	;; fixme: 2011-05-17   where is `my-get-buffer-find-file' ?
 	;(prefix
 	; (switch-to-buffer (my-get-buffer-find-file "info buffer"  nil nil 't "*info-")))
-	('t
-	 (let ((info-book (aget major-mode-info-mapping major-mode 't))
-	       )
+	(t
+	 (let ((info-book (my-aget major-mode-info-mapping major-mode))) ;return nil (not key)
+	   (message "%s -> %s" major-mode info-book)
 	   (if info-book
-	       (let* ((info-file (Info-locate-book info-book))
-		      (info-buffers (buffers-in-major-mode 'Info-mode))
-		      ;(info-book-name (string-match "-?[0-9]*\\.info" info-book))
-		      (info-buffer (list-search-positive
-				    (lambda (item)
-				      (if (file=
-                           ;; fixme: ;(file-name-nondirectory 
-                           (variable-in-buffer item 'Info-current-file)
-                                        ;)
-					   info-file)
-					  item))
-				    info-buffers)))
-		 (if info-buffer
-		     (switch-to-buffer info-buffer)
-		   (info info-file)
-           (rename-buffer (concat "*info-" info-book) 'unique)))
+	       (visit-info-at info-book)
 	     (info))))))
+
+;; I divided into 2 function, otherwise byte-compiling damaged the semantics..
+(defun visit-info-at (info-book)
+  ""
+  ;;  JUST BUGGY!
+  (let ((info-file (Info-locate-book info-book))
+	;;(i2        (Info-locate-book info-book))
+	(info-buffers (buffers-in-mode 'Info-mode)))
+    (if info-file
+	(progn
+	  ;; (if (string= info-file i2)
+	  ;;     (message "ok %s = %s" info-file)
+	  ;;   (progn
+	  ;;    (message "Bug: %s != %s" info-file i2)
+	  ;;    (error "bug")))
+
+	  (message "looking at %s info buffers. For %s (%s)"
+		   info-buffers		;(buffers-in-mode 'Info-mode) ;;
+		   ;; bug: why info-file does not work?
+		   info-file ;; (Info-locate-book info-book)
+		   info-book)
+					;(length info-buffers))
+	  (let (
+		       
+		;;(info-book-name (string-match "-?[0-9]*\\.info" info-book))
+		(info-buffer (list-search-positive
+			      (lambda (item)
+				(message "%s =? %s"
+					 (variable-in-buffer item 'Info-current-file)
+					 info-file)
+				(if (file=
+				     ;; fixme: ;(file-name-nondirectory 
+				     (variable-in-buffer item 'Info-current-file)
+				     info-file)
+				    item))
+			      info-buffers
+					;(buffers-in-mode 'Info-mode)
+			      )))
+	    (if info-buffer
+		(switch-to-buffer info-buffer)
+	      (progn
+		(message "invoking info on %s" info-file)
+		(info info-file)))
+	    (rename-buffer (concat "*info-" info-book) 'unique)))
+      (progn
+	(message "cannot find the File for info book %s" info-book)
+	(info)))))
 
 ;; keys: (overload:)
 ;; batch does not like it:
