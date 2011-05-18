@@ -1,16 +1,15 @@
 
-;; Featurs:
+;; Features:
 
-;; o   When deleting dir-names   /.../  i want to be able to delete entire dirname (beside words)
-;;     so  ../my_documents/@   (@ point)  i can back-delete the word and all the dirname.
+;; - When deleting dir-names /.../.../  i want to be able to delete entire
+;; dirname (beside words)
+;; so  ../my_documents/@   (@ point)  i can back-delete the word and all the dirname.
 
 
+;; 13 Jun 2001   I start studying the syntax tables/indentation...
 
-
-;; 13 Jun 01   I start studying the syntax tables/indentation...
-
-; (syntax-table-p  (standard-syntax-table))
-; text-mode-syntax-table
+;; (syntax-table-p  (standard-syntax-table))
+;; text-mode-syntax-table
 
 '(with-syntax-table (standard-syntax-table)
   (let* ((char ?\ )
@@ -18,26 +17,28 @@
     (message "%c -> %s (%c)" char (aget syntax-alist code) code)))
 
 
-
 ;(with-syntax-table text-mode-syntax-table
 ;  (char-syntax ?\ ))
 
 
 ;;; Read syntax:
-;; the same as in mmc-simple.el
-(defvar syntax-history (make-symbol "syntax-history") "") ;;
+;; the same as in mmc-simple.el  display-history
+(defvar syntax-history (make-symbol "syntax-history") "")
 (set syntax-history ())
+;; What is the point?
+
 (defvar syntax-ring (make-ring 10) "")
 
 (defun read-syntax-table (&optional prompt def)
-  ""
+  "with completion on symbols, chosen by REGEXP"
   (intern-soft
    (my-completing-read
     (or prompt "syntax table: ")
     (symbols-matching-re "^\\(.*-syntax-table\\)$")
-    nil nil "" syntax-history def nil display-ring
-    )))
-;		          sawfish-mode-syntax-table
+    nil nil "" syntax-history def nil syntax-ring)))
+
+;; (read-syntax-table "syntax table? ")
+;; sawfish-mode-syntax-table
 
 
 (require 'assoc)
@@ -103,20 +104,18 @@
 
 (eval-after-load "make-mode"
   '(progn
-    (modify-syntax-entry ?   " " ;fundamental-mode
+    (modify-syntax-entry ?   " "
 			makefile-mode-syntax-table)
-   (modify-syntax-entry ?.   "_" ;fundamental-mode
-                       makefile-mode-syntax-table)
-  ))
+   (modify-syntax-entry ?.   "_"
+                       makefile-mode-syntax-table)))
 
 (eval-after-load "shell"
   '(when (boundp 'shell-mode-syntax-table)
      ;; not Xemacs !!
-     (modify-syntax-entry ?   " "       ;fundamental-mode
+     (modify-syntax-entry ?   " "
                           shell-mode-syntax-table)
-     (modify-syntax-entry ?.   "_"      ;fundamental-mode
-                          shell-mode-syntax-table)
-     ))
+     (modify-syntax-entry ?.   "_"
+                          shell-mode-syntax-table)))
 
 (eval-after-load "sh-script"
   '(if (boundp 'sh-mode-syntax-table)
@@ -131,13 +130,13 @@
 		     compilation-mode))
 
 
-
+;; unused
 (defun syntax-space ()
   ""
   (interactive)
   (modify-syntax-entry ?   " "))
 
-
+;; Unused
 (defun syntax-table-correct ()
   ""
   (interactive)
@@ -145,12 +144,9 @@
 
 
 
-
 (eval-after-load "cperl-mode"
   '(modify-syntax-entry ?   " " ;fundamental-mode
 		     cperl-mode-syntax-table))
-
-
 
 
 (defun make-space-space (&optional table)
@@ -160,9 +156,8 @@
 
 
 (eval-after-load "cperl"
-  '(modify-syntax-entry ?   " " ;fundamental-mode
-		     cperl-mode-syntax-table)
-  )
+  '(modify-syntax-entry ?   " "
+		     cperl-mode-syntax-table))
 
 
 
@@ -172,9 +167,8 @@
 ;; (if the command is ...)
 ;; (message "syntax")
 
-(defvar file-name-reading-syntax-table
-  (make-syntax-table)
-  "")
+(defvar file-name-reading-syntax-table (make-syntax-table)
+  "used in minibuffer, when reading a filename")
 
 (let ((table file-name-reading-syntax-table))
   (modify-syntax-entry ?/ "." table)
@@ -185,10 +179,10 @@
 ;(setq minibuffer-preferred-syntax-table file-name-reading-syntax-table)
 (defvar minibuffer-preferred-syntax-table nil "")
 
-
 (defun my-minibuffer-setup-hook ()
   "change syntax, so that pathname editing can use sexp navigation to skip to '/'"
   (unless running-xemacs
+    ;; (message "my-minibuffer-setup-hook")
     (set-syntax-table
      (cond
       ;; this is suspect:
@@ -233,4 +227,3 @@
 
 
 (provide 'mmc-syntax)
-
