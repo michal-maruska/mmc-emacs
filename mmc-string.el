@@ -9,7 +9,7 @@
 	((null (cdr xs)) (car xs))
 	(t (concat (car xs) (or sep " ") (string-join (cdr xs) sep)))))
 
-;; (string-join (string-split "\\." "a.b") "/")  <-- string-replace-match
+;; (string-join (split-string "\\." "a.b") "/")  <-- string-replace-match
 ;; we need source
 ;; (load "/usr/share/emacs/site-lisp/elib/string.el")
 
