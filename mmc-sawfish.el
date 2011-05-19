@@ -97,12 +97,13 @@ find and return its path in the filesystem"
         path found)
     ;; take the first...
     (setq found
-	  (or (let ((filename (compose-path (expand-file-name "~/sf/before/lisp") relative)))
-		(if (file-exists-p filename)
-					;filename
-		  nil))
-	      (sawfish-eval-read
-	       (format "(locate-file \"%s\" load-path)" relative))))
+	  (or
+	   ;; (let ((filename (compose-path (expand-file-name "~/sf/before/lisp") relative)))
+	   ;;   (if (file-exists-p filename)
+	   ;; 				;filename
+	   ;; 	 nil))
+	   (sawfish-eval-read
+	    (format "(locate-file \"%s\" load-path)" relative))))
     (unless found
       ;; try the C  sources
       (let* ((last-word
@@ -407,7 +408,7 @@ find and return its path in the filesystem"
     (string-match ".* is exported by: \\(.*\\)\\.\n" output)
     (let ((modules (match-string 1 output)))
       ;;here we have: "%gaol, sawfish.wm, sawfish.wm.windows."
-      (setq modules (string-split ", " modules))
+      (setq modules (split-string ", " modules))
       (setq modules (delete "%gaol" modules))
       (setq modules (delete "sawfish.wm" modules))
 

@@ -37,8 +37,9 @@
 ;;    do the *implicit* colorization of nicknames.  (as XChat does)
 ;;    This file is in fact about having nice points in rgb space.
 
-;; 
+;;
 
+(require 'cl)
 
 ;;; dedication: to people behind www.wsws.org
 
@@ -176,7 +177,6 @@ which is a lower approximation"
 ;(rgb->grid-node 20 20 29)
 
 ;;; the squeezed vector
-(require 'cl)
 (defun squeeze-vector (vector)
   "given a VECTOR, return another vector, w/ only non-nil elements"
   ;; make a list

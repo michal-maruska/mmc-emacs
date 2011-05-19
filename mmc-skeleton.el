@@ -1,5 +1,5 @@
 
-;;; inserting the -*- header -*-
+;;; inserting the -\*- header -\*-
 (defun read-mode-symbol (&optional prompt default)
   "return the mode symbol name w/o the -mode suffix. DEFAULT is symbol, PROMPT"
   (let* ((name (symbol-name (or default major-mode)))
@@ -9,7 +9,7 @@
     (setq candidate
 	  (my-completing-read
 	   (or prompt "mode: ")
-	   (alist-from-list (mode-symbols)) nil nil "" nil 
+	   (alist-from-list (mode-symbols)) nil nil "" nil
 	   abbrev))
     (if candidate
 	(intern (concat candidate "-mode")))))
@@ -31,7 +31,7 @@
 
 (define-skeleton mode-header-skeleton
   ""
-  ;; read 
+  ;; read
   (name-of-the-major-mode (read-mode-symbol))
   "-*-" str "-*-")
 
@@ -58,8 +58,7 @@
 (let ((map my-global-keymap));; insert-keymap
   (define-key map "M" 'mode-header))
 
-;;; 
-
+;;;
 (define-skeleton provide-feature
   "insert the (provide 'feature)
 at the end of the file"
