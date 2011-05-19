@@ -940,13 +940,13 @@ Goes backward if ARG is negative; error if CHAR not found."
 	(this-display (make-symbol "this-display"))
 	(the-display (make-symbol "the-display"))
 	)
-    `(let ((,old-display (getenv "DISPLAY"))
-	   (,the-display ,x-display)
-	   (,this-display (if (eq ,the-display t)
-			      (if running-xemacs
-				  (frame-property (selected-frame) 'display  "0:0")
-				(frame-parameter (selected-frame) 'display))
-			    ,the-display)))
+    `(let* ((,old-display (getenv "DISPLAY"))
+	    (,the-display ,x-display)
+	    (,this-display (if (eq ,the-display t)
+			       (if running-xemacs
+				   (frame-property (selected-frame) 'display  "0:0")
+				 (frame-parameter (selected-frame) 'display))
+			     ,the-display)))
        (if (string= ,this-display (concat (hostname) ":0"))
 	   (setq ,this-display ":0"))
        (unwind-protect

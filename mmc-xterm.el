@@ -17,6 +17,7 @@
     (unwind-protect
         (progn
           (setenv "INSIDE_EMACS" nil)
+	  ;; fixme: might use  env(1)
           (with-display display
             (save-window-excursion
               ;;(shell-command
