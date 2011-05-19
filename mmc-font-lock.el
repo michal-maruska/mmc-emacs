@@ -1,5 +1,7 @@
 ;; I define some new faces
 
+(require 'mmc-simple)
+
 ;   '(("\\(di\\|sub\\)graph \\(\\sw+\\)" (2 font-lock-function-name-face))))
 
 ;;; installing a *GLOBAL* fontified keyword

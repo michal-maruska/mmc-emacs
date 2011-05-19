@@ -938,8 +938,7 @@ Goes backward if ARG is negative; error if CHAR not found."
   "run BODY with the DISPLAY env-var set to X-DISPLAY, 't ->frame's one"
   (let ((old-display (make-symbol "old-display"))
 	(this-display (make-symbol "this-display"))
-	(the-display (make-symbol "the-display"))
-	)
+	(the-display (make-symbol "the-display")))
     `(let* ((,old-display (getenv "DISPLAY"))
 	    (,the-display ,x-display)
 	    (,this-display (if (eq ,the-display t)
