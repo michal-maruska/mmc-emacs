@@ -38,12 +38,12 @@
 
 
 
-;;; 
+;;;
 (defun possible-filenames()
   "find filenames, which relate to the point, mark?, buffer (& major mod) ...."
   (let ((file-list '())
 	(file (thing-at-point 'filename)))
-    ;; need a macro 
+    ;; need a macro
     (add-existing-file file 'file-list)
     (when (eq major-mode 'dired-mode)
       ;(setq file (dired-get-filename nil 't))

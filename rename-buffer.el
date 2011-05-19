@@ -76,12 +76,10 @@
 
   (with-buffer-renamed (current-buffer) "ahoj"
                        (buffer-name (current-buffer)))
-  
+
   (let ((ahoj (get-buffer-create "ahoj")))
     (with-buffer-renamed (current-buffer) "ahoj"
-                         (buffer-name ahoj)))
-      
-  )
+                         (buffer-name ahoj))))
 
 
 

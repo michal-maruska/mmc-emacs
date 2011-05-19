@@ -47,7 +47,7 @@ either local exit from BODY, or the successful termination."
 When editing the Grep command line, \M-m invokes selection of directory where to run."
   (interactive
    (let ((ask-for-directory nil))
-     
+
      (let (grep-default
 	   (arg current-prefix-arg))
        (unless grep-command

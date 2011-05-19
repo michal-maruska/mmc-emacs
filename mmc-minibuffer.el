@@ -44,7 +44,7 @@ either local exit from BODY, or the successful termination."
   "my keymap used for reading filenames: we inherit from")
 
 
-;;; 
+;;;
 (let ((map mmc-minibuffer-local-filename-map))
   (set-keymap-parent map
 		     minibuffer-local-completion-map)
@@ -53,8 +53,6 @@ either local exit from BODY, or the successful termination."
     ;'exit-and-get-filename-of-buffer
     )
   )
-
-
 
 ;;; functions which get called from inside the minibuffer, while reading filename:
 (when nil
