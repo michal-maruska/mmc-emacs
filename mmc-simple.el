@@ -910,7 +910,14 @@ Goes backward if ARG is negative; error if CHAR not found."
       (replace-match "" 't 't string)
     string))
 
-
+(defun do-replace-string (from to _ignored start end)
+  "like [replace-string] but not for interactive, and does not support DELIMITED"
+  (save-excursion
+    (if start
+	(goto-char start))
+    (while (search-forward from end 'noerror)
+      (delete-region (- (point) (length from)) (point))
+      (insert to))))
 
 (defun message-date ()
   ""
