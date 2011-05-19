@@ -25,13 +25,14 @@
 (defmacro with-keymaps-switched (old new &rest body) ; not hygienic !!!
   "eval BODY with OLD and NEW keymaps switched (given as symbols). Restore the original keymaps upon
 either local exit from BODY, or the successful termination."
-  `(let ((old-map ,old))
-     (unwind-protect
-	 (progn
-	   (setq ,old ,new)		;(set old ,new)
-	   ,@body)
-       ;; And guarantee, that things get back again.
-       (setq ,old old-map))))
+  (let ((old-map (make-symbol "old-map")))
+    `(let ((,old-map ,old))
+       (unwind-protect
+	   (progn
+	     (setq ,old ,new)		;(set old ,new)
+	     ,@body)
+	 ;; And guarantee, that things get back again.
+	 (setq ,old ,old-map)))))
 
 (put 'with-keymaps-switched 'lisp-indent-function 2)
 
