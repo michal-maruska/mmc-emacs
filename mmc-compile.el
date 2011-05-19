@@ -29,16 +29,17 @@
 
 
 
-(defmacro with-default-directory (directory &rest body) ; not hygienic !!!
+(defmacro with-default-directory (directory &rest body)
   "eval BODY with cwd set to DIRECTORY. Restore the original default-directory upon
 either local exit from BODY, or the successful termination."
-  `(let ((old-directory ,default-directory))
-     (unwind-protect
-	 (progn
-       (set-default-directory ,directory) 
-	   ,@body)
-       ;; And guarantee, that things get back again.
-     (set-default-directory old-directory))))
+  (let ((temp-variable (make-symbol "old-directory")))
+    `(let ((,old-directory ,default-directory))
+       (unwind-protect
+	   (progn
+	     (set-default-directory ,directory)
+	     ,@body)
+	 ;; And guarantee, that things get back again.
+	 (set-default-directory ,old-directory))))
 
 
 (defun my-grep (command-args directory)

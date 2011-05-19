@@ -19,11 +19,14 @@
 
 
 
-(defmacro add-existing-file (file list)
+;; fixme: evaluates twice the file.
+(defmacro add-existing-file! (file list)
   "add to the list file, but only if it really exists."
-  `(if (and (file-exists-p ,file)
-	    (file-regular-p ,file))
-       (add-to-list ,list ,file)))
+  ;; not hygienic:
+  `(let ((file ,file))
+     (if (and (file-exists-p file)
+	      (file-regular-p file))
+	 (add-to-list ,list file))))
 
 ;; testing:
 (when nil

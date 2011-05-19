@@ -35,12 +35,13 @@
 ;; Why not just use LET ?
 (defmacro with-variable-overloaded (variable value &rest body)
   "set VARIABLE to VALUE and eval BODY. After that (even on local exit), restore the original value."
-  `(let ((original-value ,variable))
-      (unwind-protect
-          (progn
-            (setq ,variable ,value)
-            ,@body)
-        (setq ,variable original-value))))
+  (let ((original-value (make-symbol "original-value")))
+    `(let ((,original-value ,variable))
+       (unwind-protect
+	   (progn
+	     (setq ,variable ,value)
+	     ,@body)
+	 (setq ,variable ,original-value)))))
 
 (put 'with-variable-overloaded 'lisp-indent-function 2)
 

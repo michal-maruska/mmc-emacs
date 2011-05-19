@@ -23,12 +23,14 @@
 
 ;; fixme:  more standard name?
 (defmacro run-wo-fail (&rest body)
-  `(condition-case error-var                    ;error
+  (let ((error-var (make-symbol "error-var")))
+  `(condition-case ,error-var
       (progn
         ,@body
         )
-    (error				;"Font `-*-lucidatypewriter-medium-r-normal-*-20-*-*-*-*-*-fontset-1' is not defined"
-     (message "error occured, avoiding FAIL! %s" error-var) 't)))
+    (error
+     ;;"Font `-*-lucidatypewriter-medium-r-normal-*-20-*-*-*-*-*-fontset-1' is not defined"
+     (message "error occured, avoiding FAIL! %s" ,error-var) 't))))
 
 
 ;;
@@ -934,20 +936,25 @@ Goes backward if ARG is negative; error if CHAR not found."
 ;; The problem is  with the x-display variable: (can be shadowed by `old-display')
 (defmacro with-display (x-display &rest body)
   "run BODY with the DISPLAY env-var set to X-DISPLAY, 't ->frame's one"
-  `(let ((old-display (getenv "DISPLAY"))
-	 (this-display (if (eq ,x-display 't)
-			   (if running-xemacs
-			       (frame-property (selected-frame) 'display  "0:0")
-			     (frame-parameter (selected-frame) 'display))
-			 ,x-display)))
-     (if (string= this-display (concat (hostname) ":0"))
-	 (setq this-display ":0"))
-     (unwind-protect
-	 (progn
-	   (setenv "DISPLAY" this-display)
-	   ;; ((command (format "guardafotoz %s >/dev/null 2&>1 &" id)))
-	   ,@body)
-       (setenv "DISPLAY" old-display))))
+  (let ((old-display (make-symbol "old-display"))
+	(this-display (make-symbol "this-display"))
+	(the-display (make-symbol "the-display"))
+	)
+    `(let ((,old-display (getenv "DISPLAY"))
+	   (,the-display ,x-display)
+	   (,this-display (if (eq ,the-display t)
+			      (if running-xemacs
+				  (frame-property (selected-frame) 'display  "0:0")
+				(frame-parameter (selected-frame) 'display))
+			    ,the-display)))
+       (if (string= ,this-display (concat (hostname) ":0"))
+	   (setq ,this-display ":0"))
+       (unwind-protect
+	   (progn
+	     (setenv "DISPLAY" ,this-display)
+	     ;; ((command (format "guardafotoz %s >/dev/null 2&>1 &" id)))
+	     ,@body)
+	 (setenv "DISPLAY" ,old-display)))))
 ;; (frame-property (selected-frame) 'display  "0:0")
 ;;  (frame-properties (selected-frame)) 'display  "0:0")
 (put 'with-display 'lisp-indent-function 1)

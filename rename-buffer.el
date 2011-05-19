@@ -49,29 +49,26 @@
 ;;   work w/ renamed buffer for the duration of BODY
 (defmacro with-buffer-renamed (buffer new-name &rest body)
   "run BODY w/ BUFFER temporarily renamed to NEW-NAME"
-  `(let* ((old-buffer (get-buffer ,new-name))
-          (old-name (buffer-name ,buffer))
-          (temp-buffer-name (if old-buffer
-                                (generate-new-buffer-name "with-buffer-renamed")
-                              nil)))
-
-     ;; this complicates a bit:
-     (if (eq old-buffer ,buffer)
-         (setq old-buffer nil))
-
-     (unwind-protect
-         (progn
-           (if old-buffer
-               (buffer-rename old-buffer temp-buffer-name))
-           (buffer-rename ,buffer ,new-name)
-           ,@body
-           )
-       ;; restore:
-       (buffer-rename ,buffer old-name)
-       (if old-buffer (buffer-rename old-buffer ,new-name)))))
-
-
-
+  (let ((old-buffer (make-symbol "old-buffer"))
+	(old-name (make-symbol "old-name"))
+	(temp-buffer-name (make-symbol "temp-buffer-name")))
+    `(let* ((,old-buffer (get-buffer ,new-name))
+	    (,old-name (buffer-name ,buffer))
+	    (,temp-buffer-name (if ,old-buffer
+				   (generate-new-buffer-name "with-buffer-renamed")
+				 nil)))
+       ;; this complicates a bit:
+       (if (eq ,old-buffer ,buffer)
+	   (setq ,old-buffer nil))
+       (unwind-protect
+	   (progn
+	     (if ,old-buffer
+		 (buffer-rename ,old-buffer ,temp-buffer-name))
+	     (buffer-rename ,buffer ,new-name)
+	     ,@body)
+	 ;; restore:
+	 (buffer-rename ,buffer ,old-name)
+	 (if ,old-buffer (buffer-rename ,old-buffer ,new-name))))))
 
 ;;; 2 demos:
 

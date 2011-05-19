@@ -36,10 +36,11 @@
 ;;; Text
 (defmacro with-output-to-temp-buffer-bury (buffer-name &rest body)
   ""
-  `(progn
-     (with-output-to-temp-buffer ,buffer-name
-       ,@body)
-     (bury-buffer ,buffer-name)))
+  (let ((buf-name (make-symbol "buf-name")))
+    `(let ((,buf-name ,buffer-name))
+       (with-output-to-temp-buffer ,buf-name
+	 ,@body)
+       (bury-buffer ,buf-name))))
 
 (put 'with-output-to-temp-buffer-bury 'lisp-indent-function 1)
 ;(put 'define 'lisp-indent-function 'defun)
