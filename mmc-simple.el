@@ -1046,9 +1046,10 @@ If the current buffer now contains an empty file that you just visited
   (delq nil (apply 'list args)))
 
 
-'(defmacro list-non-nil (&rest args)
-  "return list of ARGS removing nils"
-  `(delq nil (list ,@args)))
+;; '(defmacro list-non-nil (&rest args)
+;;   "return list of ARGS removing nils"
+;;   `(delq nil (list ,@args)))
+
 ;(list-non-nil 1 nil 2 3 )
 
 

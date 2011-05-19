@@ -30,8 +30,8 @@
 ; (define-minor-mode MODE DOC &optional INIT-VALUE LIGHTER KEYMAP)
 
 
-(defmacro emacs-define-minor-mode (mode doc &optional init-value lighter keymap &rest body)
-  (list 'define-minor-mode mode doc init-value lighter keymap))
+;;(defmacro emacs-define-minor-mode (mode doc &optional init-value lighter keymap &rest body)
+;;  (list 'define-minor-mode mode doc init-value lighter keymap))
 
 (require 'advice)
 '(defadvice define-minor-mode (before emacs-compatible
