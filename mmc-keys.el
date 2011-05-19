@@ -30,7 +30,7 @@
 ; (require  'ffap)
 (eval-after-load "ffap"
   '(progn
-     (message "overriding ffap's C-x C-r binding")
+     ;; (message "overriding ffap's C-x C-r binding")
      (ffap-bindings)				; do default key bindings
      (global-set-key "\C-x\C-r" 'revert-buffer)))
 
@@ -46,7 +46,7 @@
 					;(global-set-key [kp-0] (lambda () (interactive) (insert ?0)))
 					;(global-set-key [kp-1] (lambda () (interactive) (insert ?1)))
 					;(global-set-key [kp-2] (lambda () (interactive) (insert ?2)))
-; (global-set-key [(hyper m)] 'insert-date) 
+					; (global-set-key [(hyper m)] 'insert-date)
 					;(global-set-key [(mod2 m)] 'insert-date)
 (global-set-key [(meta shift delete)] 'kill-line-save)
 (global-set-key [(meta  ?K)] 'kill-line-save)
@@ -71,7 +71,7 @@
   (global-set-key [f34] 'insert-parentheses)
   (global-set-key [f33] 'M-insert-brackets)
   (global-set-key [f31] 'lg)
-    
+
   (global-set-key "\C-^" 'M-insert-exponent)
   (global-set-key [(control kp-subtract)] 'M-insert-log))
 
@@ -129,7 +129,7 @@
 
 
 ;; For X-Windows:
-(when (under-x)  
+(when (under-x)
 					;(global-set-key "\c-?" 'delete-char)
 					;(global-set-key "\C--" 'undo)
 					;(global-set-key "\c-$" 'undo)
@@ -184,7 +184,7 @@
   (when nil
     (global-set-key [(control down)] (lambda () (interactive) (scroll-up 1)))
     (global-set-key [(control up)] '(lambda () (interactive) (scroll-up -1)))
-      
+
     (global-set-key [(romaji)] (lambda () (interactive) (scroll-up 1)))
     (global-set-key [(hankaku)] (lambda () (interactive) (scroll-up -1)))
     )
@@ -275,10 +275,7 @@
 
 
 ;;; ALIAS !!!
-;; Here I had highlight-current-line. now obsoleted by 
-
-  
-
+;; Here I had highlight-current-line. now obsoleted by
 
 (when (eq window-system 'x)
   (global-set-key [(control ?h) ?W] 'find-function))
@@ -291,9 +288,8 @@
 (let ((map my-global-buffer-keymap)
       )
   (define-key map [?k] 'kill-buffers-with-minor-mode)
-  (define-key map [?b] 'switch-to-buffer)
-  )
-  
+  (define-key map [?b] 'switch-to-buffer))
+
 
 (eval-and-compile
   (defconst my-global-keymap (make-sparse-keymap) ""))
@@ -305,7 +301,7 @@
   ;(define-key map [?d] 'calibrate-current-directory)
 
   ;; see my-desktop.el##my-desktop-keymap
-  
+
   ;(define-key map [?f] 'set-fill-column)
   (define-key map [?m] 'my-display-messages)
 
@@ -320,7 +316,7 @@
   (define-key map [?+] 'make-directory)
   (define-key map [?i] 'imenu)
   (define-key map [?j] 'list-jobs)
-  
+
   (define-key map [?/] 'set-default-directory)
 
   (define-key map [?.] 'normal-mode)
@@ -430,7 +426,6 @@ Leave one space or none, according to the context."
 (global-set-key [(meta ?+ )] 'grep)
 
 
-
 (global-set-key [(control x) (?<)] 'scroll-right)
 (global-set-key [(control x) (?>)] 'scroll-left)
 (global-set-key [(control x) (meta ?>)] 'scroll-other-window)
@@ -474,7 +469,7 @@ Leave one space or none, according to the context."
 ;;; testing SEXPs vs WORDS
 ;(unless running-xemacs
 (progn
-  ;; 
+  ;;
   (define-key lisp-mode-shared-map [(meta ?f)] 'forward-sexp)
   (define-key lisp-mode-shared-map [(meta control ?f)] 'forward-word)
 
@@ -492,7 +487,7 @@ Leave one space or none, according to the context."
 
   ;; fixme: why global ?
   (switch-keys global-map [(meta ?t)] [(control meta ?t)])
-    
+
   (switch-keys global-map [(meta ?h)] [(control meta ?h)])
                                         ; lisp-mode-shared-map
   )
@@ -549,7 +544,7 @@ Leave one space or none, according to the context."
 
 (unless (under-x)
   (global-set-key [(control ?\})] 'other-window))
-	 
+
 
 ; (keyboard-translate ?\C-x nil)
 ; (keyboard-translate ?\C-; ?\C-x)

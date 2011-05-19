@@ -14,14 +14,12 @@
   "i really expected this pretty standard, why not?")
 
 (provide 'mmc-narrow)
-(defvar my-narrow-end "\\endinput"
-  "regexp which indicates the beginning of local (file) variables section") ;I often use TeX
 
-(defvar  my-narrow-end-other "Local Variables: "
+(defvar my-narrow-end (concat "\\" "endinput")
+  "regexp which indicates the beginning of lo-cal (file) variables section") ;I often use TeX
+
+(defvar  my-narrow-end-other (concat "Local " "Variables: ")
   "an alternative to `my-narrow-end'")
-
-;(setq   my-narrow-end-other "Local Variables:")
-
 
 (defun narrow-to-local-vars ()
   "Narrow to the real content of the file; i.e. cut off Emacs-related administration, \\
