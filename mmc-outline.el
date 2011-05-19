@@ -368,9 +368,8 @@ If FLAG is nil then text is shown, while if FLAG is t the text is hidden."
   (save-excursion
     (goto-char from)
     (end-of-line)
-    (unless (or emacs-22
-		emacs-24)
-      (outline-discard-overlays (point) to 'outline))
+    (if (functionp 'outline-discard-overlays)
+	(outline-discard-overlays (point) to 'outline))
     (if flag
         ;;
         (if comment-start
