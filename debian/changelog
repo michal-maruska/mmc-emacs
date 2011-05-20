@@ -1,3 +1,9 @@
+mmc-emacs (1.4.4) maverick; urgency=low
+
+  * fixes
+
+ -- Michal Maruska <mmaruska@gmail.com>  Fri, 20 May 2011 23:45:45 +0200
+
 mmc-emacs (1.4.3) maverick; urgency=low
 
   * include mmc-ibuffer
