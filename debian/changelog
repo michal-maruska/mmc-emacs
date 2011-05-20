@@ -1,3 +1,9 @@
+mmc-emacs (1.4.3) maverick; urgency=low
+
+  * include mmc-ibuffer
+
+ -- Michal Maruska <mmaruska@gmail.com>  Fri, 20 May 2011 12:21:14 +0200
+
 mmc-emacs (1.4.2) maverick; urgency=low
 
   * fix macros for byte-compiling
