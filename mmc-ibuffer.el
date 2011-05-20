@@ -1,3 +1,6 @@
+;; todo:
+;; < >  to dired buffers?
+
 
 ;; mine!
 (require 'ibuffer)
@@ -12,7 +15,7 @@
   "Visit the buffer on this line.
 If optional argument SINGLE is non-nil, then also ensure there is only"
   (interactive "P")
-  (let ((buf (ibooouffer-current-buffer)))
+  (let ((buf (ibuffer-current-buffer)))
     (unless (buffer-live-p buf)
       (error "Buffer %s has been killed!" buf))
     ;;(bury-buffer (current-buffer))
