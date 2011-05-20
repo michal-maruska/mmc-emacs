@@ -17,8 +17,8 @@
        (source-dir (concat "/usr/share/emacs/site-lisp/" package-name)))
 ;; If package-dir does not exist, the mmc-emacs package must have
 ;; removed but not purged, and we should skip the setup.
-  (when (file-directory-p flavor-dir)
     ;; since we add to the beginning, first the less desired/slower:
-    (add-to-list 'load-path flavor-dir))
   (add-to-list 'load-path source-dir)
-  (load "mmc-emacs-init.el"))
+  (when (file-directory-p flavor-dir)
+    (add-to-list 'load-path flavor-dir))
+  (load "mmc-emacs-init"))
