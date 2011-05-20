@@ -33,7 +33,7 @@
   "eval BODY with cwd set to DIRECTORY. Restore the original default-directory upon
 either local exit from BODY, or the successful termination."
   (let ((old-directory (make-symbol "old-directory")))
-    `(let ((,old-directory ,default-directory))
+    `(let ((,old-directory default-directory))
        (unwind-protect
 	   (progn
 	     (set-default-directory ,directory)
