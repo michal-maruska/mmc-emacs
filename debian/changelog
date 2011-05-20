@@ -1,3 +1,9 @@
+mmc-emacs (1.4.5) maverick; urgency=low
+
+  * fix -- dependency on dircolors
+
+ -- Michal Maruska <mmaruska@gmail.com>  Fri, 20 May 2011 23:47:40 +0200
+
 mmc-emacs (1.4.4) maverick; urgency=low
 
   * fixes
