@@ -1,11 +1,8 @@
 ;; todo:
 ;; < >  to dired buffers?
 
-
-;; mine!
 (require 'ibuffer)
 (require 'mmc-simple)
-;; (load "~/emacs/patch/ibuffer.el")
 
 
 ;;; I don't want to bury the  *Ibuffer* buffer.

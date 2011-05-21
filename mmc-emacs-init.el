@@ -102,5 +102,10 @@
     "iswitchb"
   '(load "mmc-patches"))
 
+(eval-after-load
+    "ibuffer"
+  '(load "mmc-ibuffer"))
+(global-set-key (kbd "C-x C-b") 'ibuffer)
+
 (iswitchb-mode 1)
 
