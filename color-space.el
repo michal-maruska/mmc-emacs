@@ -39,7 +39,7 @@
 
 ;;
 
-(require 'cl)
+(eval-when-compile (require 'cl))
 
 ;;; dedication: to people behind www.wsws.org
 
