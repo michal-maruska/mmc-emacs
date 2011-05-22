@@ -361,9 +361,7 @@ Show the heading too, if it is currently invisible."
 (defun outline-flag-region (from to flag) ;mmc
   "Hides or shows lines from FROM to TO, according to FLAG.
 If FLAG is nil then text is shown, while if FLAG is t the text is hidden."
-
-  (if (or emacs-22
-	  emacs-24)
+  (if (functionp 'remove-overlays)
       (remove-overlays from to 'invisible 'outline))
   (save-excursion
     (goto-char from)
