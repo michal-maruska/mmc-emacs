@@ -1151,6 +1151,7 @@ If the current buffer now contains an empty file that you just visited
     (byte-compile-file file 't)))
 
 
+;;; find-in  debian 
 (defun find-function-search-for-symbol (symbol type library)
   "Search for SYMBOL's definition of type TYPE in LIBRARY.
 Visit the library in a buffer, and return a cons cell (BUFFER . POSITION),
@@ -1168,8 +1169,20 @@ The search is done in the source for library LIBRARY."
     (setq symbol (get symbol 'definition-name)))
   (if (string-match "\\`src/\\(.*\\.\\(c\\|m\\)\\)\\'" library)
       (find-function-C-source symbol (match-string 1 library) type)
+
     (when (string-match "\\.el\\(c\\)\\'" library)
-      (setq library (substring library 0 (match-beginning 1))))
+      ;; mmc: replace debian-emacs-flavor with "emacs"
+      ;; mmc:  maybe do this text ops inside a temp. buffer...
+      (setq library (substring library 0 (match-beginning 1)))
+      (if (string-match
+	   (regexp-opt (list (concat "/"
+				     (symbol-name debian-emacs-flavor)
+				     "/"))
+		       t) library)
+	  (setq library (concat
+			 (substring library 0 (match-beginning 1))
+			 "/emacs/"
+			 (substring library (match-end 1))))))
     ;; Strip extension from .emacs.el to make sure symbol is searched in
     ;; .emacs too.
     (when (string-match "\\.emacs\\(.el\\)" library)
