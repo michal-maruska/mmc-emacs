@@ -109,3 +109,4 @@
 
 (iswitchb-mode 1)
 
+(require 'mmc-session)
