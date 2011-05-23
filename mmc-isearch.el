@@ -97,38 +97,38 @@
 ;  (setq search-invisible 'open)
 ;;; isearch
 ;; see  my-std.el
-(unless running-xemacs
-  (defun isearch-yank-sexp ()
-    "Pull next word from buffer into search string."
-    (interactive)
-    (message "byte-compile-protection: isearch-yank-sexp")
-    (isearch-yank-string
-     (save-excursion
-       ;; (message "%s %s" isearch-forward isearch-other-end)
-       (when (and (not isearch-forward)
-		  isearch-other-end)
+
+;;fixme:  (unless running-xemacs
+(defun isearch-yank-sexp ()
+  "Pull next word from buffer into search string."
+  (interactive)
+  ;;fixme: (message "byte-compile-protection: isearch-yank-sexp")
+  (isearch-yank-string
+   (save-excursion
+     ;; (message "%s %s" isearch-forward isearch-other-end)
+     (if (and (not isearch-forward)
+	      isearch-other-end)
 	 ;; fixme: somehow this is needed, so that byte-compiled
 	 ;; stuff works. otherwise we alway go to isearch-other-end
-	 ;(message "going at the END %s" isearch-other-end)
+	 ;;(message "going at the END %s" isearch-other-end)
 	 (goto-char isearch-other-end))
+     (let ((text (buffer-substring
+		  (point)
+		  (progn (forward-sexp 1)
+			 (point)))))
+					;(message "yanking %s" text)
+       text))))
 
-       (let ((text (buffer-substring
-		 (point)
-		 (progn (forward-sexp 1)
-			(point)))))
-	 ;(message "yanking %s" text)
-	 text))))
+					;(lookup-key isearch-mode-map (kbd "\C-s"))
+(define-key isearch-mode-map [(control ?z)] 'isearch-yank-sexp)
+(define-key isearch-mode-map [backspace] 'isearch-delete-char)
 
-  ;(lookup-key isearch-mode-map (kbd "\C-s"))
-  (define-key isearch-mode-map [(control ?z)] 'isearch-yank-sexp)
-  (define-key isearch-mode-map [backspace] 'isearch-delete-char)
-  
-  (define-key isearch-mode-map [(control ?i)] 'isearch-complete)
-  (define-key isearch-mode-map [(control ?-)] 'isearch-delete-char)
+(define-key isearch-mode-map [(control ?i)] 'isearch-complete)
+(define-key isearch-mode-map [(control ?-)] 'isearch-delete-char)
 
   ;;(define-key isearch-mode-map [(control ?-)] 'isearch-ring-retreat)
   ;; isearch-ring-retreat
-  )
+;;  )
 
 
 (add-hook 'text-mode-hook
