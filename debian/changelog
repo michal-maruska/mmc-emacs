@@ -1,3 +1,17 @@
+mmc-emacs (1.4.6) maverick; urgency=low
+
+  * fix dependency
+  * load/register mmc-ibuffer on startup
+  * start:  require macros only for compilation
+  * depend on Features, not emacs version
+  * import   find-function-search-for-symbol
+  * fix find-function-search-for-symbol for Debian el & elc separation
+    in diff. dirs
+  * make recover-session possibly open all buffers
+  * try to have stuff at top-level ... drop xemacs
+
+ -- Michal Maruska <mmaruska@gmail.com>  Mon, 23 May 2011 14:02:50 +0200
+
 mmc-emacs (1.4.5) maverick; urgency=low
 
   * fix -- dependency on dircolors
