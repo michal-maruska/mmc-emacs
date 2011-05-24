@@ -6,7 +6,7 @@
 
 
 ;; You need to set the SEDPATH environment !
-;; 
+;;
 
 (defvar sed-on-region-history (make-symbol "sed-on-region-history")
   "")
@@ -19,7 +19,7 @@
   (interactive "r")
   (sed-on-region start end 't		;
 		 (compose-path maruska-sed-dir ;"/tmp"
-			       "russo.sed")
+			       "russo-utf8.sed")
 		 'utf-8 ;;cyrillic-iso-8bit
 		 'iso-8859-1))
 
@@ -28,7 +28,8 @@
 (defun cyrillic->latin (start end)
   ""
   (interactive "r")
-  (sed-on-region start end 't (compose-path maruska-sed-dir "de_russo.sed") 'cyrillic-iso-8bit))
+  (sed-on-region start end 't (compose-path maruska-sed-dir "de_russo.sed")
+		 'cyrillic-iso-8bit))
 
 
 (defun utf-cyrillic->latin (start end)
@@ -56,7 +57,7 @@
 
 (defun sed-on-region (start end &optional prefix sed-file coding-system
 			    ouput-coding-system)
-  "Process the region through SED(1) and replace with the result. 
+  "Process the region through SED(1) and replace with the result.
 Coding system and the 'sed -f' file are read from minibuffer."
   (interactive                          ;"rp"
    (list (mark) (point)
@@ -65,19 +66,20 @@ Coding system and the 'sed -f' file are read from minibuffer."
          (read-coding-system "coding system (koi8): " 'koi8)))
   ;; replace ??
   (let ((coding-system-for-read coding-system)
-        (coding-system-for-write (or ouput-coding-system 'no-conversion))) ;Could be different !!! coding-system
+        (coding-system-for-write (or ouput-coding-system 'no-conversion)))
+    ;; Could be different !!! coding-system
     (print prefix)
-    (if prefix 
+    (if prefix
         (progn
           (message "replace !")
           (shell-command-on-region
-           start end 
+           start end
            (format "sed -f %s" sed-file)
            ;"cat > /tmp/sed.output"
            (current-buffer) prefix))
       (message "don't replace!")
-      (shell-command-on-region 
-       start end 
+      (shell-command-on-region
+       start end
        (format "sed -f %s " sed-file)))))
 ;;doesn't work !!
 
@@ -90,4 +92,3 @@ Coding system and the 'sed -f' file are read from minibuffer."
 
 
 (provide 'mmc-sed)
-
