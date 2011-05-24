@@ -1,3 +1,10 @@
+mmc-emacs (1.4.7) maverick; urgency=low
+
+  * fix isearch ... byte-compilation bug
+  * clean mmc-sed
+
+ -- Michal Maruska <mmaruska@gmail.com>  Tue, 24 May 2011 11:36:14 +0200
+
 mmc-emacs (1.4.6) maverick; urgency=low
 
   * fix dependency
