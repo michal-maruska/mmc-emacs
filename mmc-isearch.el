@@ -102,7 +102,8 @@
 (defun isearch-yank-sexp ()
   "Pull next word from buffer into search string."
   (interactive)
-  ;;fixme: (message "byte-compile-protection: isearch-yank-sexp")
+  ;;fixme:
+  (message "byte-compile-protection: isearch-yank-sexp")
   (isearch-yank-string
    (save-excursion
      ;; (message "%s %s" isearch-forward isearch-other-end)
