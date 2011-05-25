@@ -1,3 +1,13 @@
+mmc-emacs (1.4.8) maverick; urgency=low
+
+  * Show the buffer about to be reloaded.
+  * trick for macros taken from the stock emacs lisp..
+  * fix my adaptation of find-function-search-for-symbol
+  * stop using obsolete undo-group-boundary
+  * HACK: to fix another bug with byte-compilation
+
+ -- Michal Maruska <mmaruska@gmail.com>  Wed, 25 May 2011 20:21:53 +0200
+
 mmc-emacs (1.4.7) maverick; urgency=low
 
   * fix isearch ... byte-compilation bug
