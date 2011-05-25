@@ -191,8 +191,11 @@ move to with the same argument."
   (save-excursion
     (let ((regexp "[ 	]+$")
 	  (to-string ""))
-      (replace-regexp regexp to-string nil start end))))
-
+      (goto-char start)
+      (while (re-search-forward regexp end t)
+	(replace-match to-string nil nil))
+      ;(replace-regexp regexp to-string nil start end)
+      )))
 
       ;(goto-char start)
 ;    (while (re-search-forward regexp end t)
@@ -342,13 +345,16 @@ move to with the same argument."
     yes))
 
 
-(defconst quote-region-delimiters-alist
-  `(
-    (?\" "\"" "\"")
-    (?\( "(" ")")
-    (?\` "\`" "\'")
-    )
-  "")
+(eval-when-compile
+  (defconst quote-region-delimiters-alist
+    (list
+     '(?\" "\"" "\"")
+     '(?\( "(" ")")
+     '(?\` "\`" "\'"))
+    "")
+
+  (message "quote-region-delimiters-alist %s" quote-region-delimiters-alist)
+  )
 
 (defun decode-last-key ()
   "get the ascii-code of the last key (throw away modifiers )"
@@ -360,15 +366,25 @@ move to with the same argument."
 	   ;;(insert (logand  255))
 	   (logand last-command-event 255))))) ;char
 
+;; Debugger entered--Lisp error: (wrong-type-argument listp "'")
+;;   copy-alist("'")
+;;   aget("'" 96 t)
+;;   quote-region(9523 9552 96)
+;;   highlight-keyword()
+;;   call-interactively(highlight-keyword nil nil)
+
 
 ;;; misc
 (defun quote-region (start end &optional delimiter)
   (interactive "r")
+  (message "quote-region alist: %s %s" quote-region-delimiters-alist
+	   delimiter)
   (save-excursion
     (let ((last  (or delimiter (decode-last-key)))
           (start-char "'")
           (end-char "'")
           info)
+      (message "%s in alist: %s" last quote-region-delimiters-alist)
       (if (setq info (aget quote-region-delimiters-alist last 't))
           (setq start-char (nth 0 info)
                 end-char (nth 1 info)))
