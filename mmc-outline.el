@@ -42,23 +42,25 @@
 
 ;(keymapp outline-minor-mode-map)
 
-(if running-xemacs
-    (progn
-     ;(require 'outline "/usr/share/emacs/21.3/lisp/textmodes/outline.el")
-      (require 'outline)
-      ;(load "/usr/share/emacs/21.3/lisp/textmodes/outline.el")
+;; (require 'outline)
+(eval-and-compile
+  (if running-xemacs
+      (progn
+					;(require 'outline "/usr/share/emacs/21.3/lisp/textmodes/outline.el")
+	(require 'outline)
+					;(load "/usr/share/emacs/21.3/lisp/textmodes/outline.el")
 
 
-      (define-minor-mode outline-minor-mode
-  "Toggle Outline minor mode.
+	(define-minor-mode outline-minor-mode
+	  "Toggle Outline minor mode.
 With arg, turn Outline minor mode on if arg is positive, off otherwise.
 See the command `outline-mode' for more information on this mode."
-  nil " Outl" (list (cons [menu-bar] outline-mode-menu-bar-map)
-		    (cons outline-minor-mode-prefix outline-mode-prefix-map))
-  )
-    )
+	  nil " Outl" (list (cons [menu-bar] outline-mode-menu-bar-map)
+			    (cons outline-minor-mode-prefix outline-mode-prefix-map))
+	  )
+	)
 
-  (require 'outline))
+    (require 'outline)))
 
 (unless
     (lookup-key outline-minor-mode-map (kbd "\C-c\C-d"))
@@ -356,38 +358,44 @@ Show the heading too, if it is currently invisible."
     o))
 ;; ab
 
-  ;; 
+;;
+(defun cheese-outline-hide (to)
+  ""
+  (let ((beginning (point))
+	(regexp (concat "^" (regexp-quote comment-start))))
+    (while (re-search-forward regexp to 't)
+      (goto-char (match-beginning 0))
+      (if (> (- (point) beginning) 2)
+	  (outline-flag-region-make-overlay beginning
+					    (- (point) 1)))
+                                        ;(goto-char
+      (end-of-line)
+      (setq beginning (point)))
+    ;; the final part:
+    (outline-flag-region-make-overlay beginning to)))
+
 
 (defun outline-flag-region (from to flag) ;mmc
   "Hides or shows lines from FROM to TO, according to FLAG.
 If FLAG is nil then text is shown, while if FLAG is t the text is hidden."
+  ;; mmc: 
   (if (functionp 'remove-overlays)
       (remove-overlays from to 'invisible 'outline))
   (save-excursion
     (goto-char from)
     (end-of-line)
-    (if (functionp 'outline-discard-overlays)
-	(outline-discard-overlays (point) to 'outline))
+    ;;(if (functionp 'outline-discard-overlays)
+    ;;	(outline-discard-overlays (point) to 'outline))
     (if flag
-        ;;
+        ;; mmc: I want to leave the comments visible!
+	;; very ugly code:
         (if comment-start
-            (let ((beginning (point))
-                  (regexp (concat "^" (regexp-quote comment-start))))
-              (while (re-search-forward regexp to 't)
-                (goto-char (match-beginning 0))
-                (if (> (- (point) beginning) 2)
-                    (outline-flag-region-make-overlay beginning
-                                                      (- (point) 1)))
-                                        ;(goto-char
-                (end-of-line)
-                (setq beginning (point)))
-              (outline-flag-region-make-overlay beginning to))
+            (cheese-outline-hide to) 
           ;; original:
           (let ((o (make-overlay (point) to)))
             (overlay-put o 'invisible 'outline)
             (overlay-put o 'isearch-open-invisible
-                         'outline-isearch-open-invisible))
-          ))
+                         'outline-isearch-open-invisible))))
     (run-hooks 'outline-view-change-hook)))
 
 
