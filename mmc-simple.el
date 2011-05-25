@@ -1084,7 +1084,7 @@ If the current buffer now contains an empty file that you just visited
 (defun my-kill-line-old (arg)
   "Move to beginning of the line, and then kill the whole line"
   (interactive "p")
-  (undo-group-boundary)
+  (undo-boundary)
   (push-mark)
   (kill-region (point-at-bol)
                (progn
@@ -1096,7 +1096,7 @@ If the current buffer now contains an empty file that you just visited
                        (forward-visible-line 1)
                      (end-of-visible-line)))
                  (point)))
-  (undo-group-boundary))
+  (undo-boundary))
 
 (global-set-key [(control ?K)] 'my-kill-line)
 
