@@ -15,19 +15,20 @@
 
 (defconst emacs-24 (= emacs-major-version 24))
 
-(if running-xemacs
-    ;;"21.2.b37" ;emacs-version
-    (defvar xemacs-version (construct-emacs-version-name) ""))
-  
+(eval-when-compile
+  (message "running-xemacs %s" running-xemacs)
+  (if running-xemacs
+      ;;"21.2.b37" ;emacs-version
+      (defvar xemacs-version (construct-emacs-version-name) "")))
 
 
 ;; fixme:  more standard name?
 (defmacro run-wo-fail (&rest body)
   (let ((error-var (make-symbol "error-var")))
   `(condition-case ,error-var
-      (progn
-        ,@body
-        )
+      (cons
+       progn
+       ,body)
     (error
      ;;"Font `-*-lucidatypewriter-medium-r-normal-*-20-*-*-*-*-*-fontset-1' is not defined"
      (message "error occured, avoiding FAIL! %s" ,error-var) 't))))
