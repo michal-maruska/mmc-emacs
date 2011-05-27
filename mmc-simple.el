@@ -5,8 +5,9 @@
   "do nothing")
 
 
-
-(defvar running-xemacs (string-match "XEmacs\\|Lucid" emacs-version))
+(defvar running-xemacs
+  (eval-when-compile
+    (string-match "XEmacs\\|Lucid" emacs-version)))
 (defconst emacs-21
   (string-match "^2[124]\.*" emacs-version))
 
@@ -289,11 +290,14 @@ move to with the same argument."
 
 
 ;; fixme: ring !!!
-(defun my-completing-read (prompt table &optional predicate require-match init hist def inherit-input-method ring)
+(defun my-completing-read (prompt table &optional predicate require-match init
+				  hist def inherit-input-method ring)
   "I often have only a list ....(not Alist)
 ;; i want to accept symbols !!"
   ;; ??? we have to
-  (if (and (fboundp 'history-clos-p) (history-clos-p hist))
+  (if (and (fboundp 'history-clos-p)
+	   (history-clos-p hist))
+      ;; so oref is from eieieo ?
       (setq ring (oref hist ring)
 	    hist (oref hist e-history))) ;fixme: what is that?
   (let* ((my-table (cond ((vectorp table) table)
@@ -716,7 +720,9 @@ dots(...) get processed:
 ;; unused:
 (defun read-hostname ()
   "Read a hostname"
-  (my-completing-read "hostname: " hostname-list nil nil "" hostname-history nil nil hostname-ring))
+  (my-completing-read "hostname: "
+		      hostname-list nil nil ""
+		      hostname-history nil nil hostname-ring))
 
 
 
@@ -1158,8 +1164,6 @@ If the current buffer now contains an empty file that you just visited
   (let ((string (shell-command-to-string command)))
     (substring string 0 (1- (length string)))))
 
-;;; end
-(provide 'mmc-simple)
 
 (defun byte-compile-this-file ()
   ""
