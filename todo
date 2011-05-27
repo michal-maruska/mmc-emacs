@@ -6,7 +6,8 @@
 ** still keymaps don't work.
 
 
-
+* do-replace-regexp
+  in string ...?
 
 
 * dired  end-of-buffer  ... on the last file LINE  (not below)
