@@ -1,4 +1,11 @@
-
+(defun maybe-open-rest (other-files)
+  ""
+  (if other-files
+      (if (y-or-n-p "open also the other --clean-- files? ")
+	  (mapc
+	   (lambda (file)
+	     (find-file-noselect file t))
+	   other-files))))
 
 ;; open ALL the files.
 (defun recover-session-finish (&optional force)
@@ -49,6 +56,9 @@ This command is used in the special Dired buffer created by
 		  (setq thisfile
 			(buffer-substring-no-properties
 			 (point) (progn (end-of-line) (point))))
+		  (message "possibly buffer to open %d %d %s"
+			   (point) (progn (end-of-line) (point))
+			   thisfile)
 		  (forward-line 1)
 		  (setq autofile
 			(buffer-substring-no-properties
@@ -58,7 +68,9 @@ This command is used in the special Dired buffer created by
 	      ;; mmc: WRONG!
 	      (if (and autofile (file-exists-p autofile))
 		  (setq files (cons thisfile files))
-		(add-to-list 'other-files thisfile))))
+		(message "possibly buffer to open %s -- %s" thisfile autofile)
+		(if (stringp thisfile)
+		    (add-to-list 'other-files thisfile)))))
 	  (setq files (nreverse files))
 	  ;; The file contains a pair of line for each auto-saved buffer.
 	  ;; The first line of the pair contains the visited file name
@@ -75,12 +87,7 @@ This command is used in the special Dired buffer created by
 			     '("file" "files" "recover"))
 	    (message "No files can be recovered from this session now"))
 
-	  (if other-files
-	      (if (y-or-n-p "open also the other --clean-- files? ")
-		  (mapc
-		   (lambda (file)
-		     (find-file-noselect file t))
-		   other-files))))
+	  (maybe-open-rest other-files))
       (kill-buffer buffer))))
 
 (provide 'mmc-session)
