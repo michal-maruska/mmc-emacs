@@ -26,12 +26,14 @@
 (defmacro run-wo-fail (&rest body)
   (let ((error-var (make-symbol "error-var")))
   `(condition-case ,error-var
-      (cons
-       progn
-       ,body)
+      ,(cons
+	'progn
+	body)
     (error
      ;;"Font `-*-lucidatypewriter-medium-r-normal-*-20-*-*-*-*-*-fontset-1' is not defined"
-     (message "error occured, avoiding FAIL! %s" ,error-var) 't))))
+     (message "error occured while loading %s, avoiding FAIL! %s"
+	      ,load-file-name
+	      ,error-var) 't))))
 
 
 ;;
