@@ -183,7 +183,7 @@ this is a no-op when emacs is running in batch mode."
 
 
 (unless running-xemacs
-  (mapcar
+  (mapc
    (lambda (item)
      (if (equal (timer-function item)
 		;;'(message "idle too much!")
