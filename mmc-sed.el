@@ -8,22 +8,20 @@
 ;; You need to set the SEDPATH environment !
 ;;
 
-(defvar sed-on-region-history (make-symbol "sed-on-region-history")
-  "")
+;; (defvar sed-on-region-history
+;;   (make-symbol "sed-on-region-history")
+;;   "")
 
-
-(defconst maruska-sed-dir "/usr/share/maruska/sed/")
+(defconst maruska-sed-dir "/usr/share/maruska/sed/" "path to SED scripts")
 
 (defun latin->cyrillic (start end)
-  ""
+  "convert (transliteration) buffer text to cyrillic."
   (interactive "r")
   (sed-on-region start end 't		;
-		 (compose-path maruska-sed-dir ;"/tmp"
+		 (compose-path maruska-sed-dir
 			       "russo-utf8.sed")
 		 'utf-8 ;;cyrillic-iso-8bit
 		 'iso-8859-1))
-
-
 
 (defun cyrillic->latin (start end)
   ""
@@ -81,8 +79,8 @@ Coding system and the 'sed -f' file are read from minibuffer."
       (shell-command-on-region
        start end
        (format "sed -f %s " sed-file)))))
-;;doesn't work !!
 
+;;doesn't work !!
 (require 'mmc-region)
 (define-key ctl-x-r-map "S" 'sed-on-region)
 
