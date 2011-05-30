@@ -929,7 +929,7 @@ Goes backward if ARG is negative; error if CHAR not found."
       (replace-match "" 't 't string)
     string))
 
-(defun do-replace-string (from to _ignored start end)
+(defun do-replace-string (from to &optional _ignored start end)
   "like [replace-string] but not for interactive, and does not support DELIMITED"
   (save-excursion
     (if start
