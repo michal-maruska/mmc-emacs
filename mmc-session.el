@@ -1,5 +1,6 @@
 (defun maybe-open-rest (other-files)
   ""
+  (message "maybe-open-rest %s" other-files)
   (if other-files
       (if (y-or-n-p "open also the other --clean-- files? ")
 	  (mapc
@@ -56,8 +57,10 @@ This command is used in the special Dired buffer created by
 		  (setq thisfile
 			(buffer-substring-no-properties
 			 (point) (progn (end-of-line) (point))))
-		  (message "possibly buffer to open %d %d %s"
-			   (point) (progn (end-of-line) (point))
+		  (message "possibly buffer to open %d %d %s: %s"
+			   (point) (progn (beginning-of-line) (point))
+			   (buffer-substring-no-properties
+			    (progn (beginning-of-line) (point)) (point) )
 			   thisfile)
 		  (forward-line 1)
 		  (setq autofile
@@ -89,5 +92,53 @@ This command is used in the special Dired buffer created by
 
 	  (maybe-open-rest other-files))
       (kill-buffer buffer))))
+
+;; 
+(defun recover-file (file &optional force)
+  "Visit file FILE, but get contents from its last auto-save file."
+  ;; Actually putting the file name in the minibuffer should be used
+  ;; only rarely.
+  ;; Not just because users often use the default.
+  (interactive "FRecover file: ")
+  (setq file (expand-file-name file))
+  (if (auto-save-file-name-p (file-name-nondirectory file))
+      (error "%s is an auto-save file" (abbreviate-file-name file)))
+  (let ((file-name (let ((buffer-file-name file))
+		     (make-auto-save-file-name))))
+    (cond ((if (file-exists-p file)
+	       (not (file-newer-than-file-p file-name file))
+	     (not (file-exists-p file-name)))
+	   (error "Auto-save file %s not current"
+		  (abbreviate-file-name file-name)))
+	  ((save-window-excursion
+	     (with-output-to-temp-buffer "*Directory*"
+	       (buffer-disable-undo standard-output)
+	       (save-excursion
+		 (let ((switches dired-listing-switches))
+		   (if (file-symlink-p file)
+		       (setq switches (concat switches "L")))
+		   (set-buffer standard-output)
+		   ;; Use insert-directory-safely, not insert-directory,
+		   ;; because these files might not exist.  In particular,
+		   ;; FILE might not exist if the auto-save file was for
+		   ;; a buffer that didn't visit a file, such as "*mail*".
+		   ;; The code in v20.x called `ls' directly, so we need
+		   ;; to emulate what `ls' did in that case.
+		   (insert-directory-safely file switches)
+		   (insert-directory-safely file-name switches))))
+	     ;; mmc:
+	     (or force
+		 (yes-or-no-p (format "Recover auto save file %s? " file-name))))
+	   (switch-to-buffer (find-file-noselect file t))
+	   (let ((inhibit-read-only t)
+		 ;; Keep the current buffer-file-coding-system.
+		 (coding-system buffer-file-coding-system)
+		 ;; Auto-saved file should be read with special coding.
+		 (coding-system-for-read 'auto-save-coding))
+	     (erase-buffer)
+	     (insert-file-contents file-name nil)
+	     (set-buffer-file-coding-system coding-system))
+	   (after-find-file nil nil t))
+	  (t (error "Recover-file cancelled")))))
 
 (provide 'mmc-session)
