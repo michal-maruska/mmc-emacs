@@ -62,6 +62,7 @@ Coding system and the 'sed -f' file are read from minibuffer."
          current-prefix-arg             ; prefix-arg
          (read-file-name "sed -f " (getenv "SEDPATH"))
          (read-coding-system "coding system (koi8): " 'koi8)))
+  (message "sed-on-region %d %d" start end)
   ;; replace ??
   (let ((coding-system-for-read coding-system)
         (coding-system-for-write (or ouput-coding-system 'no-conversion)))
