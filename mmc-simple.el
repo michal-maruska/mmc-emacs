@@ -27,12 +27,14 @@
 (defmacro run-wo-fail (&rest body)
   (let ((error-var (make-symbol "error-var")))
   `(condition-case ,error-var
-      (cons
-       progn
-       ,body)
+      ,(cons
+	'progn
+	body)
     (error
      ;;"Font `-*-lucidatypewriter-medium-r-normal-*-20-*-*-*-*-*-fontset-1' is not defined"
-     (message "error occured, avoiding FAIL! %s" ,error-var) 't))))
+     (message "error occured while loading %s, avoiding FAIL! %s"
+	      ,load-file-name
+	      ,error-var) 't))))
 
 
 ;;
@@ -933,7 +935,7 @@ Goes backward if ARG is negative; error if CHAR not found."
       (replace-match "" 't 't string)
     string))
 
-(defun do-replace-string (from to _ignored start end)
+(defun do-replace-string (from to &optional _ignored start end)
   "like [replace-string] but not for interactive, and does not support DELIMITED"
   (save-excursion
     (if start

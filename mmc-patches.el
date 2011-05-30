@@ -70,6 +70,7 @@ variable `iswitchb-mode'."
     (run-hooks 'iswitchb-define-mode-map-hook)))
 
 
+;;; Show the buffer when asking whether to reload.
 (defun find-file-noselect (filename &optional nowarn rawfile wildcards)
   "Read file FILENAME into a buffer and return the buffer.
 If a buffer exists visiting FILENAME, return that one, but

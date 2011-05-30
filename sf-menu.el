@@ -1,6 +1,7 @@
 ;;; Menus:
 ;; Warning. i took pieces from the process-menu.el and started to overwrite it, expect some non-sense
 
+(require 'mmc-simple)
 (defconst sf-windows-buffer "*sf-windows*" "name of the ..buffer")
 ;;; w/  Widgets: not used.
 (when nil
@@ -177,11 +178,11 @@
 
 (defun sf-format-output ()
   ""
-  (goto-char (point-min)) (replace-string "\\012" "\n")
-  (goto-char (point-min)) (replace-string "\\011" "\t")
+  (goto-char (point-min)) (do-replace-string "\\012" "\n")
+  (goto-char (point-min)) (do-replace-string "\\011" "\t")
   (goto-char (point-min))
   (delete-char 1)			; "
-  (replace-string "=" "=\t")
+  (do-replace-string "=" "=\t")
   (goto-char (point-max))
   (backward-delete-char 1))
 
@@ -193,7 +194,7 @@
    (let ((def (sf-window-on-the-line)))
      (list (if (string= (buffer-name) sf-windows-buffer)
 		def
-	     (string-to-int (read-string "window id: " def))))))
+	     (string-to-number (read-string "window id: " def))))))
   ;134217742
   (let* ((buffer-name (format "*sf-%s*" id)) ;(truncate 146800642.0)
 	 (buffer (get-buffer-create buffer-name)))

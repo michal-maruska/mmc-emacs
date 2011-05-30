@@ -44,7 +44,7 @@ cd ${ELCDIR}
 cat << EOF > path.el
 (add-to-list 'load-path ".")
 (add-to-list 'load-path "/usr/share/emacs/site-lisp/mmc-emacs")
-(setq byte-compile-warnings nil)
+(setq byte-compile-warnings t)
 EOF
 ${FLAVOR} ${FLAGS} ${FILES}
 rm -f *.el path.el
