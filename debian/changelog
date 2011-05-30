@@ -1,3 +1,21 @@
+mmc-emacs (1.4.9) maverick; urgency=low
+
+  * HACK fix outline byte-compiling by dividing into 2 functions
+  * reformating mmc-simple
+  * note on todo
+  * HACK: divide mmc-session  for byte-compilation
+  * byte-compilation clean-up:  do-replace-string -to-int require
+  * fix & extend run-wo-fail macro
+  * do-replace-string   make the region optional
+  * fix byte-compilation: require, mapchar, faces as variables
+  * verbose byte-compilaton!!!
+  * recover-session ... don't ask for each autosave file. Also more
+    verbosity
+  * SQ  comment!  Show the buffer when asking whether to reload.
+  * set-default-directory
+
+ -- Michal Maruska <mmaruska@gmail.com>  Mon, 30 May 2011 14:20:26 +0200
+
 mmc-emacs (1.4.8) maverick; urgency=low
 
   * Show the buffer about to be reloaded.
