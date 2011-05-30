@@ -1,3 +1,18 @@
+mmc-emacs (1.4.10) maverick; urgency=low
+
+  * clean sed.el
+  * HACK: insert message to recover byte-compilation failure (argument
+    are messed)
+  * remove ERC stuff. Not suitable for this generic pkg
+  * Makefile support "clean" target
+  * desktop-basefilename -> desktop-base-file-name
+  * clean for byte-compile
+  * HACK this message fixes?
+  * break recover-session-finish  into 2 functions
+  * clean for byte-compile
+
+ -- Michal Maruska <mmaruska@gmail.com>  Tue, 31 May 2011 00:44:03 +0200
+
 mmc-emacs (1.4.9) maverick; urgency=low
 
   * HACK fix outline byte-compiling by dividing into 2 functions
