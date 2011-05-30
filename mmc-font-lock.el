@@ -145,20 +145,20 @@
 
 
 ;;; additional `Faces'
-(defvar font-lock-section-face)
-(setq font-lock-section-face 'font-lock-section-face)
-(setq font-lock-th-face 'font-lock-th-face)
-(setq font-lock-lemma-face 'font-lock-lemma-face)
-(setq font-lock-def-face 'font-lock-def-face)
-(setq font-lock-secondary 'font-lock-secondary)
-(setq font-lock-important 'font-lock-important)
+(defface font-lock-section-face nil "" :group 'mmc-faces)
+(defface font-lock-def-face nil "" :group 'mmc-faces)
+(defface font-lock-th-face nil "" :group 'mmc-faces)
+(defface font-lock-lemma-face nil "" :group 'mmc-faces)
+(defface font-lock-secondary nil "" :group 'mmc-faces)
+(defface font-lock-important nil "" :group 'mmc-faces)
 
-(make-face 'font-lock-section-face)
-(make-face 'font-lock-def-face)
-(make-face 'font-lock-th-face)
-(make-face 'font-lock-lemma-face)
-(make-face 'font-lock-secondary)
-(make-face 'font-lock-important)
+;; (setq font-lock-section-face 'font-lock-section-face)
+;; (setq font-lock-th-face 'font-lock-th-face)
+;; (setq font-lock-lemma-face 'font-lock-lemma-face)
+;; (setq font-lock-def-face 'font-lock-def-face)
+;; (setq font-lock-secondary 'font-lock-secondary)
+;; (setq font-lock-important 'font-lock-important)
+
 
 (unless running-xemacs
   (font-lock-add-keywords

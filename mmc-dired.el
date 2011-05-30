@@ -57,7 +57,7 @@
     (dired-up-directory arg)
     (kill-buffer buffer)))
 
-
+(require 'mmc-read-dir)
 
 (defun dired-do-cd (directory)
   "dired another DIRECTORY. (would be `dired-do-chdir')"

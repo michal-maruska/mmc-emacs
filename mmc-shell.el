@@ -1,6 +1,6 @@
 
 (require 'eshell)
-
+(require 'sh-script)
 (defun find-which (command-name)
   "execute which (1) and visit the file"
   (interactive "sThe command name: ")

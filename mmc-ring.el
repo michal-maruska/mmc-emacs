@@ -97,7 +97,7 @@
 ;;; Test
 (when nil
   (setq current-ring (make-ring 100))
-  (mapcar
+  (mapc
    (lambda (atom)
      (ring-insert current-ring atom)
      )
