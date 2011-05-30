@@ -56,27 +56,27 @@
   "i want the possibility to say explicitely from what file to take the data"
   ;; the problem is, that the desktop-read  is not flexible !
   (interactive "p")
-  (let ((orig-desktop-basefilename desktop-basefilename) ; default filename
+  (let ((orig-desktop-basefilename desktop-base-file-name) ; default filename
 	default)
     (if arg
 	;; get the filename
 	(let ((default (or (car (possible-filenames))
-			   orig-desktop-basefilename))
+			   orig-desktop-base-file-name))
 	      )
 	      ;; get defaults:
 	  ;; (thing-at-point 'filename)
-	  (setq desktop-basefilename
+	  (setq desktop-base-file-name
 		(file-name-nondirectory
 		 (read-file-name
 		  (concat "desktop file: (" default ") ")
 		  "~/"
 		  (file-name-nondirectory default)
 		  't
-		  ;orig-desktop-basefilename
+		  ;orig-desktop-base-file-name
 		  (file-name-nondirectory default)
 		  )))))
     (desktop-read)
-    (setq desktop-read orig-desktop-basefilename)))
+    (setq desktop-read orig-desktop-base-file-name)))
 
 ;;; for reference:    taken from desktop.el
 (defun desktop-read-from (file)
@@ -98,12 +98,12 @@ this is a no-op when emacs is running in batch mode."
     (let ((dirs '("./" "~/")))
       (while (and dirs
 		  (not (file-exists-p (expand-file-name
-				       desktop-basefilename
+				       desktop-base-file-name
 				       (car dirs)))))
 	(setq dirs (cdr dirs)))
       (setq desktop-dirname (and dirs (expand-file-name (car dirs))))
       (if desktop-dirname
-	  (desktop-read-from (expand-file-name desktop-basefilename desktop-dirname))
+	  (desktop-read-from (expand-file-name desktop-base-file-name desktop-dirname))
 	(desktop-clear)))))
 
 
@@ -143,7 +143,7 @@ this is a no-op when emacs is running in batch mode."
   ;(message "my-desktop-save! idle start: [%s].." start-idle-time)
   (message "auto-saving! start: [%s].." (current-time-string))
   (let* ((directory  (concat  (getenv "HOME") "/") )
-	 (current (concat directory desktop-basefilename))
+	 (current (concat directory desktop-base-file-name))
 	 (new (format "%s-%d" current (emacs-pid)))
 	 (d-buffer "*desktop*"))
     (if (file-exists-p current) (rename-file current new 't))
