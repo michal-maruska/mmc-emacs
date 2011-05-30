@@ -2,6 +2,7 @@
 ;;; This is to enter the URL for an `own' file. File-opening-completion is used to find
 ;;  the file on local FS, and URL is then created by rewriting.
 
+(require 'url nil 'NOERROR)
 
 ;; todo:
 ;; have a `root' + read-root
@@ -11,10 +12,10 @@
 
 
 ;; todo: Customize
-(defconst www-server-config
+(defvar www-server-config
   (list "/linux/2/var/www/maruska/htdocs"
-        "ruska.dyndns.org"
-        ))
+        "ruska.dyndns.org")
+  " (LOCAL-DIR  URL). Not alist yet.")
 
 (defun insert-local-url-michal ()
   ""
@@ -74,7 +75,6 @@
       (apply 'find-file-noselect path args))))
 
 
-(require 'url nil 'NOERROR) ; fixme!
 
 (when nil
   (let ((url
