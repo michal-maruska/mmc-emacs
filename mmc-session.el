@@ -1,6 +1,6 @@
 (defun maybe-open-rest (other-files)
   ""
-  (message "maybe-open-rest %s" other-files)
+  ;; (message "maybe-open-rest %s" other-files)
   (if other-files
       (if (y-or-n-p "open also the other --clean-- files? ")
 	  (mapc
