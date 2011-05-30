@@ -505,7 +505,7 @@ set by the variable `sawfish-result-buffer'"
 		   (point-min))		; the display.
 		(frame-width)))
 	(setf (point) (point-min))
-	(replace-string "\n" "")	; Strip any trailing EOLs.
+	(do-replace-string "\n" "")	; Strip any trailing EOLs.
 	(when (get-buffer-window sawfish-result-buffer)
 	  ;; The long result buffer is visible, delete it.
 	  (delete-window (get-buffer-window sawfish-result-buffer)))
@@ -517,8 +517,8 @@ set by the variable `sawfish-result-buffer'"
 		(progn			;mmc
 		  (pp (read output) (current-buffer))
 		  (setf (point) (point-min))
-		  ;(replace-string "\\\\""" "\"")
-					;(replace-string "\\n" ""))
+		  ;; (replace-string "\\\\""" "\"")
+		  ;;(replace-string "\\n" ""))
 		  )
 	      (setf (buffer-string) (format "%s" (with-current-buffer temp-buffer
 						   (buffer-string)))))
