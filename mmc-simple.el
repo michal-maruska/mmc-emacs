@@ -1085,9 +1085,9 @@ If the current buffer now contains an empty file that you just visited
 
 (defun set-default-directory (dir)
   ""
-  (interactive "Ddefault-directory: ")
-  ;; (let ((dir (read-directory-name "default-directory: " default-directory)
-  ;;))
+  (interactive
+					;"Ddefault-directory: "
+   (list (ffap-prompter)))
   (setq default-directory dir))
 
 
