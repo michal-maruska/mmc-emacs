@@ -1,14 +1,29 @@
 ;; I define some new faces
 
 (require 'mmc-simple)
+;;; additional `Faces'
+; (get 'font-lock-section-face 'face-defface-spec)
+; (get 'font-lock-section-face 'face-documentation)
+; (get 'font-lock-important 'face-documentation)
+(defface font-lock-section-face nil "For headers of sections" :group 'mmc-faces)
+(defface font-lock-def-face nil "" :group 'mmc-faces)
+(defface font-lock-th-face nil "" :group 'mmc-faces)
+(defface font-lock-lemma-face nil "" :group 'mmc-faces)
+(defface font-lock-secondary nil "" :group 'mmc-faces)
+(defface font-lock-important nil "highligted words" :group 'mmc-faces)
+
 
 ;   '(("\\(di\\|sub\\)graph \\(\\sw+\\)" (2 font-lock-function-name-face))))
 
 ;;; installing a *GLOBAL* fontified keyword
 
-;;; on #emacs    someone got the idea of fontlocking numbers. 
-(defvar font-lock-number-face (make-face 'font-lock-number-face)
-  "Face to use for numbers.")
+;;; on #emacs    someone got the idea of fontlocking numbers.
+(eval-and-compile
+  (defface font-lock-number-face nil
+    "Face to use for numbers."
+    :group 'mmc-faces))
+;;(defvar font-lock-number-face (make-face 'font-lock-number-face)
+
 (set-face-foreground 'font-lock-number-face "red")
 
 ;; hmmm, no:
@@ -20,44 +35,46 @@
 
 (defun font-lock-add-my-global()
   (when font-lock-mode
-    (if nil
-        (progn
-          ;; Old approch
-	  ;; fixme: 
-          (add-to-list 'font-lock-keywords '("\\b\\([[:digit:]]+\\)\\b" (1 font-lock-number-face prepend))) ; keep 't keep prepend append
+    (message "adding for %s my keywords" major-mode)
+    (message "using %s" (get 'font-lock-number-face 'face-documentation))
+    (font-lock-add-keywords nil ; major-mode	; nil					     ; nil -> current buffer major mode
+      '(("\\b\\([[:digit:]]+\\)\\b" 1 font-lock-number-face keep)	 ;; 't) ; keep prepend append
+	;; Numbers
+	;; keep ... exclusive !
+	;; append
+	;; prepend
+	;; `keywords'
+	("`\\(\\(\\s_\\|\\sw\\)+\\)'" 1 font-lock-important prepend) ;) 't)
+
+	;; ("\\*\\(\\(\\s_\\|\\sw\\)+\\)\\*" 1 font-lock-warning-face prepend)
+	;; fixed words:
+	("\\b\\(fixme\\|XXX\\|mmc\\|todo\\|bug\\|obsolete\\|note\\|new\\)[:!?]" 1 font-lock-warning-face prepend) ; 't)
+	)
+      'end
+      )))
+
+(when nil
+  ;; Old approch
+  ;; fixme: 
+  (add-to-list 'font-lock-keywords '("\\b\\([[:digit:]]+\\)\\b" (1 font-lock-number-face prepend))) ; keep 't keep prepend append
                                         ;(add-to-list 'font-lock-keywords '("\\([[:digit:]]+\\)" (1 font-lock-number-face)) 't)
-          (add-to-list 'font-lock-keywords '("`\\(\\(\\s_\\|\\sw\\)+\\)'" (1 font-lock-important prepend))) ; t
-          (add-to-list 'font-lock-keywords '("*\\(\\(\\s_\\|\\sw\\)+\\)*" (1 font-lock-warning-face prepend)))
-          ;; bold
+  (add-to-list 'font-lock-keywords '("`\\(\\(\\s_\\|\\sw\\)+\\)'" (1 font-lock-important prepend))) ; t
+  (add-to-list 'font-lock-keywords '("*\\(\\(\\s_\\|\\sw\\)+\\)*" (1 font-lock-warning-face prepend)))
+  ;; bold
 
-          (add-to-list 'font-lock-keywords '("\\b\\(fixme\\|XXX\\|mmc\\|todo\\|bug\\|obsolete\\|note\\|new\\)[:!?]"
-                                             (1 font-lock-warning-face prepend)))) ; t
-
-      ;; In CVS:
-      ;(when nil
-      (progn
-	(font-lock-add-keywords nil	; nil -> current buffer major mode
-	  '(				;; Numbers
-	    ("\\b\\([[:digit:]]+\\)\\b" 1 font-lock-number-face keep) ;; 't) ; keep prepend append
-	    ;; keep ... exclusive !
-	    ;; append
-	    ;; prepend
-	    ;; `keywords'
-	    ("`\\(\\(\\s_\\|\\sw\\)+\\)'" 1 font-lock-important prepend) ;) 't)
-
-	    ;; ("\\*\\(\\(\\s_\\|\\sw\\)+\\)\\*" 1 font-lock-warning-face prepend)
-	    ;; fixed words:
-	    ("\\b\\(fixme\\|XXX\\|mmc\\|todo\\|bug\\|obsolete\\|note\\|new\\)[:!?]" 1 font-lock-warning-face prepend) ; 't)
-	    )
-	  'end
-	  )))))
-    
+  (add-to-list 'font-lock-keywords '("\\b\\(fixme\\|XXX\\|mmc\\|todo\\|bug\\|obsolete\\|note\\|new\\)[:!?]"
+				     (1 font-lock-warning-face prepend))))
 
     
 
-;;; This works:
+;;; this works:
 ;(unless emacs-22
-(add-hook 'font-lock-mode-hook 'font-lock-add-my-global)
+(defadvice font-lock-set-defaults (after mmc-add-global-keywords first nil activate)
+  (message "after font-lock-set-defaults")
+  (font-lock-add-my-global))
+
+; (add-hook 'font-lock-mode-hook 'font-lock-add-my-global)
+; global-font-lock-mode-hook
 
 ;(setq font-lock-mode-hook (cdr font-lock-mode-hook))
 ;(setcdr font-lock-mode-hook nil)
@@ -142,15 +159,6 @@
     'c-mode
     '(("`\\(\\(\\s_\\|\\sw\\)+\\)'" 1 font-lock-important prepend)))
   )
-
-
-;;; additional `Faces'
-(defface font-lock-section-face nil "" :group 'mmc-faces)
-(defface font-lock-def-face nil "" :group 'mmc-faces)
-(defface font-lock-th-face nil "" :group 'mmc-faces)
-(defface font-lock-lemma-face nil "" :group 'mmc-faces)
-(defface font-lock-secondary nil "" :group 'mmc-faces)
-(defface font-lock-important nil "" :group 'mmc-faces)
 
 ;; (setq font-lock-section-face 'font-lock-section-face)
 ;; (setq font-lock-th-face 'font-lock-th-face)
