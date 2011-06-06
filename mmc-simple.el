@@ -866,18 +866,19 @@ dots(...) get processed:
 		       (file-name-nondirectory guess)))
 	     overlay)
 	(ffap-highlight)
-        
-	(setq filename
-              (if emacs-22
-                  (ffap-read-file-or-url "Insert filename: " guess)
-                (read-file-name "Insert filename: " dir base nil base)))
+	(unless filename 	;without this, message will use base
+	  (setq filename
+		(if emacs-22
+		    (ffap-read-file-or-url "Insert filename: " guess)
+		  (read-file-name "Insert filename: " dir base nil base))))
 	;; (interactive "finsert filename: ")
+	(message "inserting %s" filename)
 	(if (setq overlay ffap-highlight-overlay)
 	    (delete-region (overlay-start overlay) ;;kill-region
 			   (overlay-end overlay)))
 	(ffap-highlight t)
 	(insert filename))
-      (ffap-highlight t)))
+    (ffap-highlight t)))
 
 
 (when nil
