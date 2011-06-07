@@ -1230,6 +1230,7 @@ If TYPE is nil, look for a function definition.
 Otherwise, TYPE specifies the kind of definition,
 and it is interpreted via `find-function-regexp-alist'.
 The search is done in the source for library LIBRARY."
+  (message "find symbol: %s" (symbol-name symbol))
   (if (null library)
       (error "Don't know where `%s' is defined" symbol))
   (if (not find-function-regexp-alist)
