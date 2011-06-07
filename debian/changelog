@@ -1,3 +1,19 @@
+mmc-emacs (1.4.11) maverick; urgency=low
+
+  * insert-filename (fix byte-compile)
+  * SQ:  remove erc
+  * step one in Global font-lock vs byte-compile
+  * insert-filename (fix byte-compile)
+  * clean diff
+  * start to hightlight in diff-mode
+  * outline in sh-mode
+  * spaces
+  * eval-and-compile is necessary when a function A is _re_defined and
+    then invoked from B.
+  * verbosity in seeking a symbol definition
+
+ -- Michal Maruska <mmaruska@gmail.com>  Tue, 07 Jun 2011 17:21:32 +0200
+
 mmc-emacs (1.4.10) maverick; urgency=low
 
   * clean sed.el
