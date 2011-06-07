@@ -1175,6 +1175,51 @@ If the current buffer now contains an empty file that you just visited
 
 
 (require 'find-func)
+;; dividing into 2 functions byte-compilation is no more buggy.
+;; -- no! it still cannot find the symbol.
+
+(eval-and-compile
+  ;; mmc: necessary to redefine!
+  (defun find-function-search-for-symbol-1 (symbol type library)
+    "see `find-function-search-for-symbol'"
+    (let* ((filename (find-library-name library))
+	   (regexp-symbol (cdr (assq type find-function-regexp-alist))))
+      (message " filename: %s symbol: %s" filename symbol)
+      (with-current-buffer (find-file-noselect filename)
+	(message "regexp-symbol for %s -> %s; see %s" type
+		 (symbol-value regexp-symbol)
+		 find-function-regexp-alist)
+	(let ((regexp (format (symbol-value regexp-symbol)
+			      ;; Entry for ` (backquote) macro in loaddefs.el,
+			      ;; (defalias (quote \`)..., has a \ but
+			      ;; (symbol-name symbol) doesn't.  Add an
+			      ;; optional \ to catch this.
+			      (concat "\\\\?"
+				      (regexp-quote (symbol-name symbol)))))
+	      (case-fold-search))
+	  (with-syntax-table emacs-lisp-mode-syntax-table
+	    (goto-char (point-min))
+	    (message "searching in the buffer for %s\n to find %s" regexp (symbol-name symbol))
+	    (if (or (re-search-forward regexp nil t)
+		    ;; `regexp' matches definitions using known forms like
+		    ;; `defun', or `defvar'.  But some functions/variables
+		    ;; are defined using special macros (or functions), so
+		    ;; if `regexp' can't find the definition, we look for
+		    ;; something of the form "(SOMETHING <symbol> ...)".
+		    ;; This fails to distinguish function definitions from
+		    ;; variable declarations (or even uses thereof), but is
+		    ;; a good pragmatic fallback.
+		    (re-search-forward
+		     (concat "^([^ ]+" find-function-space-re "['(]?"
+			     (regexp-quote (symbol-name symbol))
+			     "\\_>")
+		     nil t))
+		(progn
+		  (beginning-of-line)
+		  (cons (current-buffer) (point)))
+	      (cons (current-buffer) nil)))))))
+  )
+
 ;;; find-in  debian
 (defun find-function-search-for-symbol (symbol type library)
   "Search for SYMBOL's definition of type TYPE in LIBRARY.
@@ -1214,48 +1259,8 @@ The search is done in the source for library LIBRARY."
     (when (string-match "\\.emacs\\(.el\\)" library)
       (setq library (substring library 0 (match-beginning 1))))
 
+    (message "find symbol: %s" (symbol-name symbol))
     (find-function-search-for-symbol-1 symbol type library)))
-
-;; dividing into 2 functions byte-compilation is no more buggy.
-
-(defun find-function-search-for-symbol-1 (symbol type library)
-  "see `find-function-search-for-symbol'"
-  (let* ((filename (find-library-name library))
-	 (regexp-symbol (cdr (assq type find-function-regexp-alist))))
-    (message " filename %s" filename)
-    (with-current-buffer (find-file-noselect filename)
-      (message "regexp-symbol for %s -> %s; see %s" type
-	       (symbol-value regexp-symbol)
-	       find-function-regexp-alist)
-      (let ((regexp (format (symbol-value regexp-symbol)
-			    ;; Entry for ` (backquote) macro in loaddefs.el,
-			    ;; (defalias (quote \`)..., has a \ but
-			    ;; (symbol-name symbol) doesn't.  Add an
-			    ;; optional \ to catch this.
-			    (concat "\\\\?"
-				    (regexp-quote (symbol-name symbol)))))
-	    (case-fold-search))
-	(with-syntax-table emacs-lisp-mode-syntax-table
-	  (goto-char (point-min))
-	  (if (or (re-search-forward regexp nil t)
-		  ;; `regexp' matches definitions using known forms like
-		  ;; `defun', or `defvar'.  But some functions/variables
-		  ;; are defined using special macros (or functions), so
-		  ;; if `regexp' can't find the definition, we look for
-		  ;; something of the form "(SOMETHING <symbol> ...)".
-		  ;; This fails to distinguish function definitions from
-		  ;; variable declarations (or even uses thereof), but is
-		  ;; a good pragmatic fallback.
-		  (re-search-forward
-		   (concat "^([^ ]+" find-function-space-re "['(]?"
-			   (regexp-quote (symbol-name symbol))
-			   "\\_>")
-		   nil t))
-	      (progn
-		(beginning-of-line)
-		(cons (current-buffer) (point)))
-	    (cons (current-buffer) nil)))))))
-
 
 
 
