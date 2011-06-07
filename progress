@@ -1,0 +1,112 @@
+* not buggy, with (message ..)
+
+
+* buggy, since no message.
+
+
+byte code for sed-on-region:
+  doc:  Process the region through SED(1) and replace with the result. ...
+
+
+  args: (start end &optional prefix sed-file coding-system ouput-coding-system)
+
+ interactive: (list (mark) (point) current-prefix-arg (read-file-name "sed -f " (getenv "SEDPATH")) (read-coding-system "coding system (koi8): " (quote koi8)))
+
+0	varref	  coding-system
+1	varref	  ouput-coding-system
+2	goto-if-not-nil-else-pop 1
+5	constant  no-conversion
+6:1	varbind	  coding-system-for-write
+7	varbind	  coding-system-for-read
+8	constant  print
+9	varref	  prefix
+10	call	  1
+11	discard	  
+12	varref	  prefix
+13	goto-if-nil 2
+16	constant  message
+17	constant  "replace !"
+18	call	  1
+19	discard	  
+20	constant  shell-command-on-region
+21	varref	  coding-system-for-write
+22	varref	  end
+24	constant  format
+25	constant  "sed -f %s"
+26	varref	  sed-file
+28	call	  2
+29	current-buffer 
+30	varref	  prefix
+31	call	  5
+32	goto	  3
+35:2	constant  message
+36	constant  "don't replace!"
+37	call	  1
+38	discard	  
+39	constant  shell-command-on-region
+40	varref	  coding-system-for-write
+41	varref	  end
+43	constant  format
+44	constant  "sed -f %s "
+45	varref	  sed-file
+47	call	  2
+48	call	  3
+49:3	unbind	  2
+50	return	  
+
+
+byte code for sed-on-region:
+  doc:  Process the region through SED(1) and replace with the result. ...
+  args: (start end &optional prefix sed-file coding-system ouput-coding-system)
+ interactive: (list (mark) (point) current-prefix-arg (read-file-name "sed -f " (getenv "SEDPATH")) (read-coding-system "coding system (koi8): " (quote koi8)))
+
+
+
+0	constant  message
+1	constant  "sed-on-region %d %d"
+2	varref	  start
+3	varref	  end
+4	call	  3
+5	discard	  
+
+6	varref	  coding-system
+7	varref	  ouput-coding-system
+8	goto-if-not-nil-else-pop 1
+11	constant  no-conversion
+12:1	varbind	  coding-system-for-write
+13	varbind	  coding-system-for-read
+14	constant  print
+15	varref	  prefix
+17	call	  1
+18	discard	  
+19	varref	  prefix
+21	goto-if-nil 2
+24	constant  message
+25	constant  "replace !"
+26	call	  1
+27	discard	  
+28	constant  shell-command-on-region <<<<<<<<<<<<<
+29	varref	  start
+30	varref	  end
+31	constant  format
+32	constant  "sed -f %s"
+33	varref	  sed-file
+35	call	  2
+36	current-buffer 
+37	varref	  prefix
+39	call	  5
+40	goto	  3
+43:2	constant  message
+44	constant  "don't replace!"
+45	call	  1
+46	discard	  
+47	constant  shell-command-on-region <<<<<<<<<<<<<<<
+48	varref	  start
+49	varref	  end
+50	constant  format
+51	constant  "sed -f %s "
+52	varref	  sed-file
+54	call	  2
+55	call	  3
+56:3	unbind	  2
+57	return	  

@@ -1,4 +1,5 @@
 
+(require 'cl)
 ;; diff-mode.el
 
 (defun diff-2-ediff ()
@@ -9,10 +10,8 @@
       (diff-find-source-location 't nil)
     ;; B
     (destructuring-bind (buf-B line-offset pos old new &optional switched)
-      (diff-find-source-location nil nil)
+	(diff-find-source-location nil nil)
       (ediff-buffers buf-A buf-B))))
-    
-
 
 (define-key diff-mode-map "\C-c\C-n" 'diff-hunk-next)
 (define-key diff-mode-map "\C-c\C-p" 'diff-hunk-prev)
