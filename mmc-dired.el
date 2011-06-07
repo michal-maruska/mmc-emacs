@@ -1,6 +1,7 @@
 ;; fixme: autoload!
 
 (require 'dired)
+(require 'mmc-read-dir)
 
 ;(require 'background)
 ;; This is standard in xemacs!

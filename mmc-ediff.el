@@ -1,6 +1,7 @@
 
 ;; http://www.emacswiki.org/cgi-bin/wiki/EdiffMode 
 
+(require 'ediff)
 ;;; config:
 (setq ediff-window-setup-function ;; default:
       'ediff-setup-windows-multiframe

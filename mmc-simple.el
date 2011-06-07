@@ -852,33 +852,33 @@ dots(...) get processed:
 
 
 
-
+(require 'ffap)
 ;;; [07 Oct 01]
 (defun insert-filename (&optional filename)
   "insert at point a filename, possibly a completion of a gem"
   (interactive)
-  ;(ffap-file-finder "prompt: ")
-
+					;(ffap-file-finder "prompt: ")
   (unwind-protect
       (let* ((guess (ffap-guesser))
-            (dir (if (stringp guess)    ;could be `nil'
-                     (file-name-directory guess)))
-            (base (if (stringp guess)
-                      (file-name-nondirectory guess)))
-	    overlay)
+	     (dir (if (and guess (stringp guess))	;could be `nil'
+		      (file-name-directory guess)))
+	     (base (if (and guess (stringp guess))
+		       (file-name-nondirectory guess)))
+	     overlay)
 	(ffap-highlight)
-        
-	(setq filename
-              (if emacs-22
-                  (ffap-read-file-or-url "Insert filename: " guess)
-                (read-file-name "Insert filename: " dir base nil base)))
+	(unless filename 	;without this, message will use base
+	  (setq filename
+		(if emacs-22
+		    (ffap-read-file-or-url "Insert filename: " guess)
+		  (read-file-name "Insert filename: " dir base nil base))))
 	;; (interactive "finsert filename: ")
+	(message "inserting %s" filename)
 	(if (setq overlay ffap-highlight-overlay)
 	    (delete-region (overlay-start overlay) ;;kill-region
 			   (overlay-end overlay)))
 	(ffap-highlight t)
 	(insert filename))
-      (ffap-highlight t)))
+    (ffap-highlight t)))
 
 
 (when nil
