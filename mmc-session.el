@@ -93,7 +93,7 @@ This command is used in the special Dired buffer created by
 	  (maybe-open-rest other-files))
       (kill-buffer buffer))))
 
-;; 
+;;
 (defun recover-file (file &optional force)
   "Visit file FILE, but get contents from its last auto-save file."
   ;; Actually putting the file name in the minibuffer should be used

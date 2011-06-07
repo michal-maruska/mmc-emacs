@@ -23,7 +23,7 @@
     (if nil
         (progn
           ;; Old approch
-	  ;; fixme: 
+	  ;; fixme:
           (add-to-list 'font-lock-keywords '("\\b\\([[:digit:]]+\\)\\b" (1 font-lock-number-face prepend))) ; keep 't keep prepend append
                                         ;(add-to-list 'font-lock-keywords '("\\([[:digit:]]+\\)" (1 font-lock-number-face)) 't)
           (add-to-list 'font-lock-keywords '("`\\(\\(\\s_\\|\\sw\\)+\\)'" (1 font-lock-important prepend))) ; t
@@ -51,9 +51,8 @@
 	    )
 	  'end
 	  )))))
-    
 
-    
+
 
 ;;; This works:
 ;(unless emacs-22
