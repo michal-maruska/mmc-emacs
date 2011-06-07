@@ -116,8 +116,9 @@
     (set
      (make-local-variable 'outline-regexp)
      ;;"\\(#*\\)"
-     "##+"
-     )))
+     ;; "##+"
+      "function"
+      )))
 
 
 (provide 'mmc-modes)
