@@ -6,11 +6,15 @@
 ; (get 'font-lock-section-face 'face-documentation)
 ; (get 'font-lock-important 'face-documentation)
 (defface font-lock-section-face nil "For headers of sections" :group 'mmc-faces)
+
 (defface font-lock-def-face nil "" :group 'mmc-faces)
 (defface font-lock-th-face nil "" :group 'mmc-faces)
 (defface font-lock-lemma-face nil "" :group 'mmc-faces)
 (defface font-lock-secondary nil "" :group 'mmc-faces)
+
 (defface font-lock-important nil "highligted words" :group 'mmc-faces)
+
+
 
 
 ;   '(("\\(di\\|sub\\)graph \\(\\sw+\\)" (2 font-lock-function-name-face))))
@@ -19,12 +23,27 @@
 
 ;;; on #emacs    someone got the idea of fontlocking numbers.
 (eval-and-compile
-  (defface font-lock-number-face nil
+  (defface font-lock-number-face
+    '((default :foreground "red"))
     "Face to use for numbers."
     :group 'mmc-faces))
-;;(defvar font-lock-number-face (make-face 'font-lock-number-face)
 
-(set-face-foreground 'font-lock-number-face "red")
+; (get 'font-lock-number-face 'face-documentation)
+;;(defvar font-lock-number-face (make-face 'font-lock-number-face)
+; (set-face-foreground 'font-lock-number-face "red")
+
+
+
+;; After reading comment at the beginning of /usr/share/emacs/23.1/lisp/font-lock.el.gz
+(defvar font-lock-number-face		'font-lock-number-face
+  "Face name to use for numbers.")
+(defvar font-lock-section-face 'font-lock-section-face)
+(defvar font-lock-def-face 'font-lock-def-face)
+(defvar font-lock-th-face 'font-lock-th-face)
+(defvar font-lock-lemma-face 'font-lock-lemma-face)
+(defvar font-lock-secondary 'font-lock-secondary)
+(defvar font-lock-important 'font-lock-important)
+
 
 ;; hmmm, no:
 '(mapcar
@@ -37,23 +56,56 @@
   (when font-lock-mode
     (message "adding for %s my keywords" major-mode)
     (message "using %s" (get 'font-lock-number-face 'face-documentation))
-    (font-lock-add-keywords nil ; major-mode ...infinite recursion
-      ;; nil -> current buffer major mode
-      '(("\\b\\([[:digit:]]+\\)\\b" 1 font-lock-number-face keep)    ;; 't) ; keep prepend append
-	;; Numbers
-	;; keep ... exclusive !
-	;; append
-	;; prepend
-	;; `keywords'
-	("`\\(\\(\\s_\\|\\sw\\)+\\)'" 1 font-lock-important prepend) ;) 't)
+    (when nil
+      (font-lock-add-keywords major-mode ; nil ...infinite recursion
+	;; nil -> current buffer major mode
+	'(
+	  ;("\\b\\([[:digit:]]+\\)\\b" 1 font-lock-number-face keep) ;; 't) ; keep prepend append
+	  ;; Numbers
+	  ;; keep ... exclusive !
+	  ;; append
+	  ;; prepend
+	  ;; `keywords'
+	  ("`\\(\\(\\s_\\|\\sw\\)+\\)'" 1 font-lock-important prepend) ;) 't)
 
-	;; ("\\*\\(\\(\\s_\\|\\sw\\)+\\)\\*" 1 font-lock-warning-face prepend)
-	;; fixed words:
-	("\\b\\(fixme\\|XXX\\|mmc\\|todo\\|bug\\|obsolete\\|note\\|new\\)[:!?]"
-	 1 font-lock-warning-face prepend) ; 't)
-	)
-      'end
-      )))
+	  ;; ("\\*\\(\\(\\s_\\|\\sw\\)+\\)\\*" 1 font-lock-warning-face prepend)
+	  ;; fixed words:
+	  ("\\b\\(fixme\\|XXX\\|mmc\\|todo\\|bug\\|obsolete\\|note\\|new\\)[:!?]"
+	   1 font-lock-warning-face prepend) ; 't)
+	  )
+	'end
+	))))
+
+(defun font-lock-add-my-global-1()
+  (when font-lock-mode
+    (message "adding for %s my keywords" major-mode)
+    (message "using %s" (get 'font-lock-number-face 'face-documentation))
+    (unless (equal major-mode 'help-mode)
+      (font-lock-add-keywords nil	; major-mode ; nil ...infinite recursion
+	;; nil -> current buffer major mode
+	'(
+	  ("\\b\\([[:digit:]]+\\)\\b" 1 font-lock-number-face keep) ;; 't) ; keep prepend append
+	  ;; Numbers
+	  ;; keep ... exclusive !
+	  ;; append todo! mmc: todo: 5684 todo:   `keyword' todo: todo: todo: 568 `keyword' todo:
+	  ;; prepend
+	  ;; `keywords'
+	  ("`\\(\\(\\s_\\|\\sw\\)+\\)'" 1 font-lock-important prepend) ;) 't)
+
+	  ;; ("\\*\\(\\(\\s_\\|\\sw\\)+\\)\\*" 1 font-lock-warning-face prepend)
+	  ;; fixed words:
+	  ("\\b\\(fixme\\|XXX\\|mmc\\|todo\\|bug\\|obsolete\\|note\\|new\\)[:!?]"
+	   1 font-lock-warning-face prepend) ; 't)
+	  )
+	'end
+	))))
+
+;; I screwed: 568 55 todo:  55 565
+;; (font-lock-add-keywords nil '(("\\b\\([[:digit:]]+\\)\\b" 1 font-lock-number-face keep)) 'end)
+;; (font-lock-remove-keywords nil '(("\\b\\([[:digit:]]+\\)\\b" 1 font-lock-number-face keep)))
+
+
+;; (font-lock-remove-keywords nil '(("`\\(\\(\\s_\\|\\sw\\)+\\)'" 1 font-lock-important prepend)))
 
 (if nil
     (progn
@@ -77,11 +129,14 @@
 
 ;;; this works:
 ;(unless emacs-22
+;; (ad-disable-advice 'font-lock-set-defaults 'after 'mmc-add-global-keywords)
+;; (ad-remove-advice  'font-lock-set-defaults 'after 'mmc-add-global-keywords)
 (defadvice font-lock-set-defaults (after mmc-add-global-keywords first nil activate)
   (message "after font-lock-set-defaults")
-  (font-lock-add-my-global))
+  ;(font-lock-add-my-global)
+  )
 
-; (add-hook 'font-lock-mode-hook 'font-lock-add-my-global)
+(add-hook 'font-lock-mode-hook 'font-lock-add-my-global-1)
 ; global-font-lock-mode-hook
 
 ;(setq font-lock-mode-hook (cdr font-lock-mode-hook))
@@ -117,17 +172,6 @@
   basic-faces
   w3-active-faces
   )
-
-
-;; fixme!  repeated!
-(defconst emacs-24
-  (or
-   (= emacs-major-version 24)
-   ;; old git
-  (and
-   (= emacs-major-version 23)
-   (= emacs-minor-version 1)
-   )))
 
 
 ;;; Global (setting)
