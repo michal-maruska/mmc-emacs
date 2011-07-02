@@ -411,14 +411,18 @@ If FLAG is nil then text is shown, while if FLAG is t the text is hidden."
 
 ;; (setq magic-mode-alist ())
 ;; fixme: I need something to go `after' auto-mode-alist, when `text-mode' is on
-(add-to-list 'magic-mode-alist
+(add-to-list 'magic-fallback-mode-alist
+	     ;;magic-mode-alist
 	     '(detect-outline . outline-mode))
 
+;; magic-fallback-mode-alist
+;; (setq magic-mode-alist ())
 (defun detect-outline ()
   ""
-  (save-excursion
-    (goto-char (point-min))
-    (search-forward-regexp "^\\*\\([^/]|*+\\)" 1000 t)))
+  (and (eq major-mode 'text-mode)
+       (save-excursion
+	 (goto-char (point-min))
+	 (search-forward-regexp "^\\*\\([^/]|*+\\)" 1000 t))))
 
 
 
