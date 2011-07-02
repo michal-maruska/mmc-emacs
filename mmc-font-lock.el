@@ -94,7 +94,7 @@
 
 	  ;; ("\\*\\(\\(\\s_\\|\\sw\\)+\\)\\*" 1 font-lock-warning-face prepend)
 	  ;; fixed words:
-	  ("\\b\\(fixme\\|XXX\\|mmc\\|todo\\|bug\\|obsolete\\|note\\|new\\)[:!?]"
+	  ("\\b\\(fixme\\|XXX\\|mmc\\|TODO\\|todo\\|bug\\|obsolete\\|note\\|new\\)[:!?]"
 	   1 font-lock-warning-face prepend) ; 't)
 	  )
 	'end
