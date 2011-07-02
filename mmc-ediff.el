@@ -35,7 +35,7 @@
 ;; But w/ cvs !!
 (defun my-ediff (buffer prefix)
   "diff the current buffer with its image on the disk"
-  (interactive "bEdiff buffer with it's file: \np")
+  (interactive "bEdiff buffer with its file: \np")
   (condition-case nil
       (save-excursion
 	(set-buffer buffer)
