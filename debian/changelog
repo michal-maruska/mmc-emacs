@@ -1,3 +1,12 @@
+mmc-emacs (1.4.12) maverick; urgency=low
+
+  * font-lock vs faces .... solved
+  * grammar
+  * fixme keyword
+  * only _fallback_ to outline mode
+
+ -- Michal Maruska <mmaruska@gmail.com>  Mon, 04 Jul 2011 00:21:35 +0200
+
 mmc-emacs (1.4.11) maverick; urgency=low
 
   * insert-filename (fix byte-compile)
