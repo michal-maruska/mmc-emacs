@@ -6,7 +6,7 @@
 ;(require 'background)
 ;; This is standard in xemacs!
 
-;; started from http://www.gatago.com/gnu/emacs/help/16477675.html 
+;; started from http://www.gatago.com/gnu/emacs/help/16477675.html
 (defun dired-do-shell-command-in-background (files command)
   "In dired, do shell command in background on the file or directory named on this line."
   (interactive
@@ -16,7 +16,7 @@
      (list files (dired-read-shell-command (concat "& on " "%s: ") nil files))))
   ;(apply 'call-process command nil (generate-new-buffer "*dired background*") 't files)
   (shell-command (concat command " "
-                         (mapconcat 
+                         (mapconcat
                           'shell-quote-argument
                           files " ")
                          "&")
@@ -63,7 +63,7 @@
 (defun dired-do-cd (directory)
   "dired another DIRECTORY. (would be `dired-do-chdir')"
   (interactive  ;; "d")
-   (list 
+   (list
     (my-read-directory "cd to directory: " "" nil nil (dired-current-directory))))
   ;;(completing-read "cd: " dired-subdir-alist 'nil 't (try-completion "" dired-subdir-alist))
   (dired directory))
@@ -118,7 +118,7 @@
 
 
 
-;; fixme: 
+;; fixme:
 (defun my-read-file-name (prompt &optional dir default must-match initial)
   ""
   (let ((my-prompt (if default
@@ -204,7 +204,7 @@
 
 
 
-;;; 
+;;;
 (defun dired-create-directory-if-necessary (dir)
   "i want to Rename/Move into an inexistent directory and create it implicitely"
   ;; If we move to a directory:  ---more files
@@ -225,7 +225,7 @@
     ;; Return nil to say it must be created:
     nil)))
 ;; else
-;; If we do rename: 
+;; If we do rename:
 ;     (if (and (file-directory-p (car fn-list))
 ; 	     (> fn-count 1))
 ; 	nil
@@ -256,8 +256,8 @@
    ((eq major-mode 'dired-mode)
     (let ((message (current-message)))
       (shell-command
-       (format 
-	"if [ -e MANIFEST ]; then grep  %s MANIFEST|head --lines=1; fi" 
+       (format
+	"if [ -e MANIFEST ]; then grep  %s MANIFEST|head --lines=1; fi"
 	(file-name-nondirectory (dired-get-filename)))
        (get-buffer-create " eldoc-shell"))
       (message message)
@@ -277,10 +277,10 @@
   ""
   (interactive)
   (with-output-to-temp-buffer "*timers*"
-  (mapcar 
+  (mapcar
    (lambda (timer)
      (print				;(timer-relative-time timer)
-      (aref timer 5) 
+      (aref timer 5)
       )) timer-idle-list    ;timer-list
     )) )
 
@@ -302,7 +302,7 @@
 (require 'mmc-read-dir)
 
 
-;;;  10 Jul 01: after 2 responses on dired/efs mail-list: 
+;;;  10 Jul 01: after 2 responses on dired/efs mail-list:
 (defun directory-of-buffer (buffer)
   "Given BUFFER, return its `default-directory' (in dired ??)"
   (with-current-buffer buffer ;;save-excursion
@@ -388,14 +388,14 @@ get a name of (an open) dired buffer. taking the basename of the current path as
   (define-key map [delete] 'dired-unmark-backward)
   (define-key map [backspace] 'dired-unmark-backward)
 
-  
+
   (define-key map "c" 'dired-do-cd)
   (define-key map "j" 'dired);; -at-point
   (define-key map "w" 'dired-substitute);; -at-point
   (define-key map "‚½" 'dired-up-directory-substitute);; -at-point
   (define-key map "\C-^" 'dired-up-directory-substitute)
-  
-  
+
+
   (define-key map "+" 'dired-possible-create) ;
   (define-key map "'" 'dired-do-prune) ;
   (define-key map "@" 'dired-create-directory)
@@ -403,7 +403,7 @@ get a name of (an open) dired buffer. taking the basename of the current path as
 " 'dired-advertised-find-file)
 
   (define-key map "N" 'my-dired-chgrp-chmod)
-  
+
   (define-key map "{" 'dired-prev-file)
   (define-key map "}" 'dired-next-file)
   (define-key map [(control ?k)] 'dired-kill-line)
@@ -498,7 +498,7 @@ as the final argument."
 				  '(dired-command-args-history . 1))))
   (let ((dired-buffers dired-buffers)
 	(buffer-name "*Find*"))
-    
+
     ;; Expand DIR ("" means default-directory), and make sure it has a
     ;; trailing slash.
     (setq dir (abbreviate-file-name
@@ -521,7 +521,7 @@ as the final argument."
 		  (delete-process find))
 	      (error nil))
 	  (error "Cannot have two processes in `%s' at once" (buffer-name)))))
-      
+
     (widen)
     (kill-all-local-variables)
     (setq buffer-read-only nil)
@@ -541,7 +541,7 @@ as the final argument."
 	;; and later)
 	(dired-simple-subdir-alist)
       ;; else we have an ancient tree dired (or classic dired, where
-      ;; this does no harm) 
+      ;; this does no harm)
       (set (make-local-variable 'dired-subdir-alist)
 	   (list (cons default-directory (point-min-marker)))))
     (setq buffer-read-only nil)
@@ -549,7 +549,7 @@ as the final argument."
     ;; subdir-alist points there.
     (insert "  " dir ":\n")
     ;; Make second line a ``find'' line in analogy to the ``total'' or
-    ;; ``wildcard'' line. 
+    ;; ``wildcard'' line.
     (insert "  " command-args "\n")
     ;; Start the find process.
     (let ((proc (start-process-shell-command
@@ -574,7 +574,7 @@ as the final argument."
       test)))
 ; (basename "/p/gauche-gtk-0.3.1/work/Gauche-gtk-0.3.1/")
 
-;; 
+;;
 (defun dired-create-symlink (prefix filename &optional dir)
   "ask for FILENAME, and make a symlink from CWD to FILENAME. (prefix -> hard)"
   (interactive
