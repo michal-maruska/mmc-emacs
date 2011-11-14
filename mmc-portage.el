@@ -54,11 +54,14 @@
 (defun etc-update-clone (clone)
   "used in Dired, `update' the file under point, taken as a suggested upgrade"
   (interactive (list (dired-get-filename)))
-  (let ((master (string-replace-match  "\\._cfg[[:digit:]]+_" (basename clone) ""))) ; {4} "\\._cfg\\d\\d\\d\\d_"
+  (let ((master (replace-regexp-in-string
+		 "\\._cfg[[:digit:]]+_" "" (basename clone)))) ; {4} "\\._cfg\\d\\d\\d\\d_"
     (if master
         (etc-update master))))
 
-(string-replace-match "\\._cfg[[:digit:]]+_" "._cfg0000_xinetd" "")
+(replace-regexp-in-string "\\._cfg[[:digit:]]+_"
+			  ""
+			  "._cfg0000_xinetd" )
 
 (defun etc-update-dired (dir)
   "get a dired buffer with  _cfg* files in DIR. To be used "

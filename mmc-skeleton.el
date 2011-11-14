@@ -63,8 +63,9 @@
   "insert the (provide 'feature)
 at the end of the file"
   nil
-  "(provide '" (string-replace-match "\\.el"
-				     (file-name-nondirectory (buffer-file-name)) "")
+  "(provide '" (replace-regexp-in-string
+		"\\.el" ""
+		(file-name-nondirectory (buffer-file-name)))
   ")\n")
 (define-key  insert-keymap "p" 'provide-feature)
 
