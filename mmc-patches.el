@@ -123,7 +123,8 @@ the various files."
 		  (setq buf other))))
 	;; Check to see if the file looks uncommonly large.
 	(when (not (or buf nowarn))
-	  (abort-if-file-too-large (nth 7 attributes) "open"))
+	;;
+	  (abort-if-file-too-large (nth 7 attributes) "open" filename))
 	(if buf
 	    ;; We are using an existing buffer.
 	    (let (nonexistent)
