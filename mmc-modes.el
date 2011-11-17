@@ -6,7 +6,7 @@
 (setq tex-default-mode 'latex-mode)
 (setq-default TeX-mode t)
 ;(setq default-major-mode 'latex-mode)
-(setq default-major-mode 'text-mode)
+(setq-default major-mode 'text-mode)
 
 ;; Commands
 (setq tex-dvi-view-command "xdvi")

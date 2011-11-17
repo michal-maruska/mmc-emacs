@@ -1,5 +1,7 @@
 ;; fixme: autoload!
 
+(eval-when-compile
+  (require 'dired-x))
 (require 'dired)
 (require 'mmc-read-dir)
 
