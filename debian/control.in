@@ -8,5 +8,7 @@ Standards-Version: 3.7.2
 Package: mmc-emacs
 Architecture: all
 Enhances: gnuserv
-Depends: emacsen
+Depends: emacsen, ${misc:Depends}
 Description: Michal Maruska handy elisp function (general utility)
+ This should probably be only generically useful code, without
+ anything strictly personal.
