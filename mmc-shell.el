@@ -78,7 +78,8 @@ why did they forget it ?"
 ;(setq sh-mode-hook '())
 (add-hook 'sh-mode-hook
           (lambda ()
-            (set (make-variable-buffer-local 'outline-regexp) "[^ 	]+\\(\\) ?{")))
+	    ;; make-variable-buffer-local
+            (set (make-local-variable 'outline-regexp) "[^ 	]+\\(\\) ?{")))
 
 
 ; (modify-syntax-entry ?-  "_"  shell-mode-syntax-table)
