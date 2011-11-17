@@ -19,7 +19,7 @@
           (if (symbolp event)
               (progn
                 (cond
-                 ((equalp event 'return) (throw 'done t))))
+                 ((equal event 'return) (throw 'done t))))
             (progn
               (setq c (char-to-string event)))
             (condition-case ()
