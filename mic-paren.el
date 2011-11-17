@@ -543,6 +543,31 @@ If POS is out of range, the value is nil.
 Function defined by mic-paren to be compatible with multibyte Emacses."
       (char-after (1- pos))))
 
+
+;;; ======================================================================
+;;; Pure Internal variables:
+
+(defvar mic-paren-backw-overlay (mic-make-overlay (point-min) (point-min))
+  "Overlay for the open-paren which matches the close-paren before
+point. When in sexp-mode this is the overlay for the expression before point.")
+
+(defvar mic-paren-point-overlay (mic-make-overlay (point-min) (point-min))
+  "Overlay for the close-paren before point.
+\(Not used when is sexp-mode.)")
+
+(defvar mic-paren-forw-overlay (mic-make-overlay (point-min) (point-min))
+  "Overlay for the close-paren which matches the open-paren after
+point. When in sexp-mode this is the overlay for the expression after point.")
+
+(defvar mic-paren-idle-timer nil
+  "Idle-timer. Used only in Emacs 19.31 and above \(and if paren-delay is
+nil)")
+
+(defvar mic-paren-previous-location [nil nil nil]
+  "Records where point was the last time mic-paren performed some action.
+Format is [POINT BUFFER WINDOW]")
+
+
 ;;; ======================================================================
 ;;; User Functions:
 
@@ -713,30 +738,6 @@ mode-hooks to activate or deactivate quoted paren matching."
   (interactive "p")
   (or arg (setq arg 1))
   (mic-paren-forward-sexp (- arg)))
-
-
-;;; ======================================================================
-;;; Pure Internal variables:
-
-(defvar mic-paren-backw-overlay (mic-make-overlay (point-min) (point-min))
-  "Overlay for the open-paren which matches the close-paren before
-point. When in sexp-mode this is the overlay for the expression before point.")
-
-(defvar mic-paren-point-overlay (mic-make-overlay (point-min) (point-min))
-  "Overlay for the close-paren before point.
-\(Not used when is sexp-mode.)")
-
-(defvar mic-paren-forw-overlay (mic-make-overlay (point-min) (point-min))
-  "Overlay for the close-paren which matches the open-paren after
-point. When in sexp-mode this is the overlay for the expression after point.")
-
-(defvar mic-paren-idle-timer nil
-  "Idle-timer. Used only in Emacs 19.31 and above \(and if paren-delay is
-nil)")
-
-(defvar mic-paren-previous-location [nil nil nil]
-  "Records where point was the last time mic-paren performed some action.
-Format is [POINT BUFFER WINDOW]")
 
 ;;; ======================================================================
 ;;; Internal function:
