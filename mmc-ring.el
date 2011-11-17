@@ -116,7 +116,7 @@
 ;; (keymap-parent minibuffer-local-completion-map)
 ;; (keymap-parent minibuffer-local-must-match-map)
 
-(mapcar
+(mapc
  (lambda (map)
    (define-key map [(control ?n)] 'minibuffer-next-ring)
    (define-key map [(control ?p)] 'minibuffer-previous-ring))

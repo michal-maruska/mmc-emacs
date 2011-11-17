@@ -42,7 +42,8 @@
   "insert the -*- -*- header at the beginning of the buffer (narrowing ??) ."
   (interactive)
   (save-excursion
-    (beginning-of-buffer)
+    ; (beginning-of-buffer)
+    (goto-char (point-min))
     (let (done)
     (unwind-protect
 	(progn
