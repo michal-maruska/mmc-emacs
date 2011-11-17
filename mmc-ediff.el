@@ -37,8 +37,7 @@
   "diff the current buffer with its image on the disk"
   (interactive "bEdiff buffer with its file: \np")
   (condition-case nil
-      (save-excursion
-	(set-buffer buffer)
+      (with-current-buffer buffer
 	(make-directory my-ediff-dir 't)
 	(let ((file (buffer-file-name (get-buffer-create buffer)))
 	      (temp-file (make-temp-name (concat my-ediff-dir "/"))))

@@ -126,11 +126,11 @@
 
 (defun line-string-at-marker (marker)
   "Get the `line-string' from the marker"
-  (save-excursion
-    (set-buffer (marker-buffer marker))
+  (with-current-buffer (marker-buffer marker)
+    ;(save-excursion
+    ;(set-buffer )
     (goto-char marker)
     (line-string)))
-
 ;; Capitalize ???
 
 					;(defun my-rename-buffer (newname)

@@ -382,8 +382,7 @@ Type q immediately to make the process menu go away."
 	  (error "No process named `%s'" name)
 	(setq buffer (read-buffer "Buffer to send: " nil t))
 	(if (not buffer) ()
-	  (save-excursion
-	    (set-buffer buffer)
+	  (with-current-buffer buffer
 	    (process-send-region name (point-min) (point-max))))))))
 
 (defun Process-menu-send-eof ()
@@ -421,8 +420,7 @@ Type q immediately to make the process menu go away."
 `EVENT' is the standard event as described by Emacs."
   (interactive "e")
   (let (buffer)
-    (save-excursion
-      (set-buffer (window-buffer (posn-window (event-end event))))
+    (with-current-buffer (window-buffer (posn-window (event-end event)))
       (save-excursion
 	(goto-char (posn-point (event-end event)))
 	(setq buffer (Process-menu-buffer t))))

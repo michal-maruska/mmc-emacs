@@ -77,9 +77,8 @@ This command is used in the special Dired buffer created by
     (dired-unmark 1)
     (dired-do-flagged-delete t)
     (unwind-protect
-	(save-excursion
+	(with-current-buffer buffer
 	  ;; Read in the auto-save-list file.
-	  (set-buffer buffer)
 	  (erase-buffer)
 	  (insert-file-contents file)
 	  (let ((res (decode-all-filenames)))
