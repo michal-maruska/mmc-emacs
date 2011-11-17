@@ -46,20 +46,16 @@
 (eval-and-compile
   (if running-xemacs
       (progn
-					;(require 'outline "/usr/share/emacs/21.3/lisp/textmodes/outline.el")
+	;;(require 'outline "/usr/share/emacs/21.3/lisp/textmodes/outline.el")
 	(require 'outline)
-					;(load "/usr/share/emacs/21.3/lisp/textmodes/outline.el")
-
-
+	;;(load "/usr/share/emacs/21.3/lisp/textmodes/outline.el")
 	(define-minor-mode outline-minor-mode
 	  "Toggle Outline minor mode.
 With arg, turn Outline minor mode on if arg is positive, off otherwise.
 See the command `outline-mode' for more information on this mode."
 	  nil " Outl" (list (cons [menu-bar] outline-mode-menu-bar-map)
 			    (cons outline-minor-mode-prefix outline-mode-prefix-map))
-	  )
-	)
-
+	  ))
     (require 'outline)))
 
 (unless

@@ -34,7 +34,7 @@
 
                  ((string-equal c "n") (shrink-window arg))
 
-         
+
                  ((string-equal c "k")
                   (if flexible-lower-edge-p
                       (shrink-window arg)
@@ -51,7 +51,7 @@
                  ((string-equal c "l") (enlarge-window-horizontally arg))
                  ((string-equal c "f") (enlarge-window-horizontally arg))
                  ((string-equal c "j") (shrink-window-horizontally arg))
-	     
+
                                         ;((and (> c ?0) (<= c ?9)) (setq arg (- c ?0)))
                  (t (progn
                                         ;(beep)

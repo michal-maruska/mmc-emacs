@@ -1,5 +1,5 @@
 ;;; Ring of LRU buffers:
-;(defvar buffer-standing 
+;(defvar buffer-standing
 ;  (make-ring 20)
 ;  "LRU  buffers")
 
@@ -139,7 +139,7 @@
 
 (defvar previous-frame nil "")
 ;;; Hooks
-(add-hook 
+(add-hook
  'before-make-frame-hook
  (lambda ()
    (message "leaving frame")
@@ -149,16 +149,16 @@
     (add-hook 'create-frame-hook 'frame-inherit-rings)
   ;; after-make-frame-functions
   (add-hook
-   'after-make-frame-functions 
+   'after-make-frame-functions
    'frame-inherit-rings))
 ;; FIXME: should inherit !!!
- 
+
 (defun frame-inherit-rings (frame)
   ""
   (modify-frame-parameters
    frame
    (list (cons 'recent-buffer-ring
-	       (clone-ring 
+	       (clone-ring
 		(frame-parameter previous-frame 'recent-buffer-ring)))))
   (unless running-xemacs
     (make-variable-frame-local 'recent-buffer-ring))
@@ -201,7 +201,7 @@
 
 (defvar recent-buffer-ring (make-ring 100))
 
-;;; the ring: 
+;;; the ring:
 (if nil
     ;; at first i had:
     (defvar recent-buffer-ring (make-ring 100))
@@ -246,7 +246,7 @@ I got tired of having the shared ring. FIXME: history ??"
       (aset to index (aref from index))
       (setq index (1+ index)))))
 
-(defun ring-vector (ring) 
+(defun ring-vector (ring)
   "return the vector associated w/ RING"
   (cdr (cdr ring)))
 
@@ -255,7 +255,7 @@ I got tired of having the shared ring. FIXME: history ??"
   (let* ((length (length (ring-vector ring)))
 	 (vector (make-vector length nil)))
     (copy-vector (ring-vector ring) vector)
-    (cons 
+    (cons
      (ring-head ring)
      (cons (ring-length ring) vector))))
 

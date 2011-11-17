@@ -25,7 +25,7 @@
       (define-key map [(meta ?l)] 'downcase-region)
       (define-key map [(meta ?u)] 'upcase-region)
       (define-key map [(meta ?c)] 'capitalize-region)
-      
+
       (define-key map ";" 'comment-region)
 
       (define-key map (kbd "C-w") 'delete-region))))
