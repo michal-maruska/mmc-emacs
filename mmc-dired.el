@@ -171,8 +171,6 @@
 
 
 ;;; `Auto-view'
-(define-key dired-mode-map [(control ?c) (control ?a)] 'dired-autoview-mode)
-
 (defun dired-current-directory-in-other-window ()
   ""
   (interactive)
@@ -199,6 +197,8 @@
     ;;(make-local-variable 'post-command-hook)
     (set (make-local-variable 'dired-autoview-mode)
 	 (not arg))))
+
+(define-key dired-mode-map [(control ?c) (control ?a)] 'dired-autoview-mode)
 ;;(remove-hook 'post-command-hook hook-function 't)
 
 

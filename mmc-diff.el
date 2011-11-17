@@ -1,6 +1,8 @@
 
+(eval-when-compile
+  (require 'diff-mode))
 (require 'cl)
-;; diff-mode.el
+
 
 (defun diff-2-ediff ()
   "invoke ediff on the context of 2 files in diff-mode"
