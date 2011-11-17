@@ -14,7 +14,18 @@
 (defconst emacs-22
   (string-match "^22\.*" emacs-version))
 
-(defconst emacs-24 (= emacs-major-version 24))
+; (defconst emacs-24 (= emacs-major-version 24))
+
+;; fixme!  repeated!
+(defconst emacs-24
+  (or
+   (= emacs-major-version 24)
+   ;; old git
+  (and
+   (= emacs-major-version 23)
+   (>= emacs-minor-version 1)
+   )))
+
 
 (eval-when-compile
   (message "running-xemacs %s" running-xemacs)
