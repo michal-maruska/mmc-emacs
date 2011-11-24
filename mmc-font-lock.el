@@ -54,8 +54,9 @@
 
 (defun font-lock-add-my-global()
   (when font-lock-mode
-    (message "adding for %s my keywords" major-mode)
-    (message "using %s" (get 'font-lock-number-face 'face-documentation))
+    (when nil
+      (message "adding for %s my keywords" major-mode)
+      (message "using %s" (get 'font-lock-number-face 'face-documentation)))
     (when nil
       (font-lock-add-keywords major-mode ; nil ...infinite recursion
 	;; nil -> current buffer major mode
@@ -78,8 +79,9 @@
 
 (defun font-lock-add-my-global-1()
   (when font-lock-mode
-    (message "adding for %s my keywords" major-mode)
-    (message "using %s" (get 'font-lock-number-face 'face-documentation))
+    (when nil
+      (message "adding for %s my keywords" major-mode)
+      (message "using %s" (get 'font-lock-number-face 'face-documentation)))
     (unless (equal major-mode 'help-mode)
       (font-lock-add-keywords nil	; major-mode ; nil ...infinite recursion
 	;; nil -> current buffer major mode
@@ -129,11 +131,14 @@
 
 ;;; this works:
 ;(unless emacs-22
+;; (ad-unadvise 'font-lock-set-defaults)
 ;; (ad-disable-advice 'font-lock-set-defaults 'after 'mmc-add-global-keywords)
 ;; (ad-remove-advice  'font-lock-set-defaults 'after 'mmc-add-global-keywords)
-(defadvice font-lock-set-defaults (after mmc-add-global-keywords first nil activate)
-  (message "after font-lock-set-defaults")
-  ;(font-lock-add-my-global)
+(when nil
+  (defadvice font-lock-set-defaults (after mmc-add-global-keywords first nil activate)
+    (message "after font-lock-set-defaults")
+					;(font-lock-add-my-global)
+    )
   )
 
 (add-hook 'font-lock-mode-hook 'font-lock-add-my-global-1)
