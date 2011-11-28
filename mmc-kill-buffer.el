@@ -18,7 +18,7 @@
        (kill-buffer (current-buffer)))))
 
 
-;; return nil iff 0 dirrerences! 
+;; return nil iff 0 dirrerences!
 (defun diff-buffer-with-associated-file ()
   "View the differences between BUFFER and its associated file.
  This requires the external program \"diff\" to be in your `exec-path'."
@@ -83,7 +83,7 @@
               buffer-file-name
               (not (string-match "\\*.*\\*" (buffer-name buffer)))
               ;; erc buffers will be automatically saved
-              
+
               (not (eq (with-current-buffer buffer
                          major-mode) 'erc-mode)) ;fixme!
               (= 1 arg))
@@ -98,6 +98,7 @@
                       "The file of the buffer was removed!")
                   "Buffer has unsaved changes, but no differences wrt the file")))))
    (if (and (boundp 'gnuserv-minor-mode)
+
             (with-current-buffer buffer
               gnuserv-minor-mode))
        ;; fixme?

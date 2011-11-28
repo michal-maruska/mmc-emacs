@@ -63,7 +63,6 @@ See the command `outline-mode' for more information on this mode."
   (define-key outline-minor-mode-map (kbd "\C-c\C-d")
     (lookup-key outline-minor-mode-map (kbd "\C-c@"))))
 
-
 ;;; Regexp:
 
 
