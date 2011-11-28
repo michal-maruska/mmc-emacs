@@ -1,3 +1,23 @@
+mmc-emacs (1.5) oneiric; urgency=low
+
+  * use replace-regexp-in-string!
+  * format
+  * use with-current-buffer instead of  save-excurions / set-buffer
+  * just define vars before using them ... mic-paren.el
+  * misc improvements:  avoid non-interactive beginning-of-buffer  etc.
+  * format
+  * cleaner code
+  * emacs-24  future-proof
+  * cleaner code
+  * change in API (find-file-noselect...
+  * avoid cl
+  * cleaner
+  * debian  pkg cleaner
+  * stop being verbose on font-lock'ing. -- echo area again helpful now!
+  * format
+
+ -- Michal Maruska <mmaruska@gmail.com>  Mon, 28 Nov 2011 22:39:58 +0100
+
 mmc-emacs (1.4.12) maverick; urgency=low
 
   * font-lock vs faces .... solved
