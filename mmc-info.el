@@ -99,6 +99,7 @@ function is used to access the lists in `sawfish-info-files'."
     (emacs-lisp-mode . "elisp")
     (scheme-mode . "gauche-refe")       ;scheme
     (sawfish-mode . "sawfish")
+    (awk-mode . "gawk")
     (makefile-mode . "make")
     (makefile-gmake-mode . "make")
     (gnus-group-mode . "gnus")
