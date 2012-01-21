@@ -21,9 +21,10 @@
   (if (string-match "/" module)
       module
     ;; (regexp-quote separator)
-    (or (string-join (split-string module "\\.") "/")
+    (or (string-join (split-string module separator) "/")
 	;;(string-replace-match "\\." module "/" 't 't)
 	module)))
 
-;; (translate-module-to-filename "a.b" ".")
+;; (translate-module-to-filename "a.b" "\\.")
+;;  (translate-module-to-filename "a::b" "::")
 (provide 'mmc-string)

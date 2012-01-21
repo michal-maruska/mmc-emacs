@@ -70,20 +70,10 @@
   (if (file-exists-p filename)
       filename))
 
-(defun add-suffix-optionally (filename suffix)
-  "add SUFFIX if not yet present"
-  (if (string-match (concat (regexp-quote suffix) "$") filename)
-      filename
-    (concat filename suffix)))
-
 (require 'mmc-string)
 
 
 ;; fixme: we should ask the sawfish-client! (locate-file )
-
-(defun file-name-in-directory (dir filename)
-  ""
-  (concat dir "/" filename))
 
 ;; todo   (sawfish-code (locate-file "workspace.jl" load-path))
 ; (sawfish-code (locate-file "sawfish/wm/util/prompt-wm.jl" load-path))
@@ -112,11 +102,7 @@ find and return its path in the filesystem"
                 (match-string 1 name)))
              (basename (concat last-word ".c")))
         (setq found
-              (list-search-positive
-               (lambda (item)
-                 (file-if-exists
-                  (file-name-in-directory item basename)))
-               sawfish-src-path))))
+	      (find-subpath-in-paths basename sawfish-src-path))))
     found))
 
 (require 'assoc)
