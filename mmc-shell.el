@@ -76,10 +76,17 @@ why did they forget it ?"
 
 
 ;(setq sh-mode-hook '())
-(add-hook 'sh-mode-hook
-          (lambda ()
-	    ;; make-variable-buffer-local
-            (set (make-local-variable 'outline-regexp) "[^ 	]+\\(\\) ?{")))
+;;; Shell:
+(add-hook
+    'sh-mode-hook
+  (lambda ()
+    (set
+     ;; make-variable-buffer-local
+     (make-local-variable 'outline-regexp)
+     ;;"\\(#*\\)"
+     ;; "##+"
+     ;; "[^ 	]+\\(\\) ?{"
+     "\\(function\\|[a-z_-]+(){?$\\)")))
 
 
 ; (modify-syntax-entry ?-  "_"  shell-mode-syntax-table)

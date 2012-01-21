@@ -109,17 +109,6 @@
 
 ;; (modify-syntax-entry ?. "\w" makefile-mode-syntax-table)
 
-;;; Shell:
-(add-hook
-    'sh-mode-hook
-  (lambda ()
-    (set
-     (make-local-variable 'outline-regexp)
-     ;;"\\(#*\\)"
-     ;; "##+"
-      "function"
-      )))
-
 
 (provide 'mmc-modes)
 
