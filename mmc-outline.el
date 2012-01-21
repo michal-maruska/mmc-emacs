@@ -13,7 +13,7 @@
 ;; koutl-mode
 ;; hyperbole
 
-;; Author: Michal Maru¹ka <mmc@linux4.maruska.tin.it>
+;; Author: Michal Maruska <mmc@linux4.maruska.tin.it>
 ;; Keywords: local
 
 ;;; Commentary:
@@ -106,7 +106,7 @@ See the command `outline-mode' for more information on this mode."
   (global-set-key [(meta ?A)] 'show-all)
   (global-set-key [(meta ?Y)] 'show-all)
   (global-set-key [(meta ?T)] 'hide-body)
-  
+
   ;;
   (global-set-key [(meta ?E)] 'show-entry)
   (global-set-key [(meta ?C)] 'hide-entry)
@@ -119,7 +119,7 @@ See the command `outline-mode' for more information on this mode."
 					;(define-key outline-mode-map  [(meta ?S)] nil)
 
   (global-set-key [(meta ?O)] 'hide-other)
-  (global-set-key [(meta ?Q)] (lambda () 
+  (global-set-key [(meta ?Q)] (lambda ()
 				(hide-sublevels 1))))
 
 
@@ -202,7 +202,7 @@ See the command `outline-mode' for more information on this mode."
 		    (cons			;(listify-key-sequence
 		     this-event			;)
 		     unread-command-events)))))))
-  
+
 (easy-mmode-define-minor-mode
  my-outline-mode
  ""
@@ -269,7 +269,7 @@ See the command `outline-mode' for more information on this mode."
   (require 'disp-table)
   (set-display-table-slot
    standard-display-table
-   'selective-display 
+   'selective-display
    ;[?M ?o ?r ?e ?. ?. ?.]
    [?\  ?. ?. ?.]
    ;[?\  46 46 46]
@@ -333,7 +333,7 @@ Show the heading too, if it is currently invisible."
 '(ad-disable-advice 'show-entry 'around 'before-heading)
 '(defadvice show-entry (around before-heading activate)
   "capture the condition-case: before first heading"
-  ;; (catch  
+  ;; (catch
   (condition-case nil
       ad-do-it
     (error
@@ -373,7 +373,7 @@ Show the heading too, if it is currently invisible."
 (defun outline-flag-region (from to flag) ;mmc
   "Hides or shows lines from FROM to TO, according to FLAG.
 If FLAG is nil then text is shown, while if FLAG is t the text is hidden."
-  ;; mmc: 
+  ;; mmc:
   (if (functionp 'remove-overlays)
       (remove-overlays from to 'invisible 'outline))
   (save-excursion
@@ -385,7 +385,7 @@ If FLAG is nil then text is shown, while if FLAG is t the text is hidden."
         ;; mmc: I want to leave the comments visible!
 	;; very ugly code:
         (if comment-start
-            (cheese-outline-hide to) 
+            (cheese-outline-hide to)
           ;; original:
           (let ((o (make-overlay (point) to)))
             (overlay-put o 'invisible 'outline)
@@ -398,8 +398,8 @@ If FLAG is nil then text is shown, while if FLAG is t the text is hidden."
 
 ;; stop
 (if running-xemacs
-    nil ;; (global-set-key [(meta shift ? )] 'outline-commands) 
-  (global-set-key [(meta shift ? )] 'outline-commands) 
+    nil ;; (global-set-key [(meta shift ? )] 'outline-commands)
+  (global-set-key [(meta shift ? )] 'outline-commands)
   )
 
 

@@ -57,7 +57,7 @@ variable `iswitchb-mode'."
     (define-key map "\C-s" 'iswitchb-next-match)
     (define-key map "\C-r" 'iswitchb-prev-match)
     (define-key map "\t" 'iswitchb-complete)
-    
+
     (define-key map "\C-j" 'iswitchb-select-buffer-text)
     (define-key map "\M-m" 'iswitchb-select-buffer-other-window)
     (define-key map "\C-t" 'iswitchb-toggle-regexp)
