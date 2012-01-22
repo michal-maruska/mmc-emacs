@@ -38,18 +38,21 @@
 ;; todo:
 ;;  - group the undo information
 ;;  - select the mode & insert the comment-start
-(defun mode-header ()
+(defun mode-header (major-mode)
   "insert the -*- -*- header at the beginning of the buffer (narrowing ??) ."
-  (interactive)
+  (interactive (list (read-mode-symbol)))
+  (apply major-mode ())
   (save-excursion
-    ; (beginning-of-buffer)
+    ;; (beginning-of-buffer)
     (goto-char (point-min))
     (let (done)
-    (unwind-protect
+      (unwind-protect
 	(progn
 	  (undo-boundary)
 	  (insert (or comment-start ""))
-	  (call-interactively 'mode-header-skeleton)
+	  (insert "-*-"
+		  (name-of-the-major-mode major-mode) "-*-")
+	  ;; (call-interactively 'mode-header-skeleton)
 	  (setq done 't))
       (unless done
 	(undo)))))
