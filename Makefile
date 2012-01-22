@@ -14,4 +14,5 @@ install:
 
 
 clean:
-	git clean -f -d -x
+	@echo "nothing to do to clean"
+# [ -d .git ] && git clean -f -d -x
