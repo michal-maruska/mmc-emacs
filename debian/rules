@@ -1,9 +1,5 @@
 #!/usr/bin/make -f
 
-# why this?
-DEB_AUTO_UPDATE_DEBIAN_CONTROL := yes
-
-
 # Let's use CDBS!
 include /usr/share/cdbs/1/rules/debhelper.mk
 
