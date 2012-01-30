@@ -1,3 +1,16 @@
+mmc-emacs (1.6) release; urgency=low
+
+  * info  awk
+  * shell: outline  functions
+  * spaces
+  * translate-module-to-filename & find-subpath-in-paths
+  * translate-module-to-filename & find-subpath-in-paths
+  * drop DEB_AUTO_UPDATE_DEBIAN_CONTROL
+  * stop Clean by git
+  * mode-header
+
+ -- Michal Maruska <mmaruska@gmail.com>  Mon, 30 Jan 2012 14:29:36 +0100
+
 mmc-emacs (1.5) oneiric; urgency=low
 
   * use replace-regexp-in-string!
