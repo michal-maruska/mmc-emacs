@@ -308,9 +308,10 @@ I would need  these `fluid' variables: `guess' `dir' `initial'   see: `' "
 (defun read-number (prompt &optional init def history)
   ""
   (with-keymaps-switched minibuffer-local-map read-number-map
-    (read-string (format "%s (%s) " prompt def)
+    (string-to-number
+     (read-string (format "%s (%s) " prompt def)
 		 (if (numberp init) (int-to-string init) init)
-		 history def)))
+		 history def))))
 
 
 ;(current-local-map)
