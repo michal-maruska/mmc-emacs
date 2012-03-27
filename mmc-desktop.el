@@ -76,41 +76,43 @@
 		  (file-name-nondirectory default)
 		  )))))
     (desktop-read)
-    (setq desktop-read orig-desktop-base-file-name)))
+    ;; (setq desktop-read orig-desktop-base-file-name)
+    ))
 
 ;;; for reference:    taken from desktop.el
-(defun desktop-read-from (file)
-  ""
-  ;; here we go:
-  (load file t t t)
-  (run-hooks 'desktop-delay-hook)
-  (setq desktop-delay-hook nil)
-  (message "desktop loaded."))
+(when nil
+  (defun desktop-read-from (file)
+    ""
+    ;; here we go:
+    (load file t t t)
+    (run-hooks 'desktop-delay-hook)
+    (setq desktop-delay-hook nil)
+    (message "desktop loaded."))
 
 
 ;;; read-in:
-(defun desktop-read ()
-  "read the desktop file and the files it specifies.
+  (defun desktop-read ()
+    "read the desktop file and the files it specifies.
 this is a no-op when emacs is running in batch mode."
-  (interactive)
-  (if noninteractive
-      nil
-    (let ((dirs '("./" "~/")))
-      (while (and dirs
-		  (not (file-exists-p (expand-file-name
-				       desktop-base-file-name
-				       (car dirs)))))
-	(setq dirs (cdr dirs)))
-      (setq desktop-dirname (and dirs (expand-file-name (car dirs))))
-      (if desktop-dirname
-	  (desktop-read-from (expand-file-name desktop-base-file-name desktop-dirname))
-	(desktop-clear)))))
-
+    (interactive)
+    (if noninteractive
+	nil
+      (let ((dirs '("./" "~/")))
+	(while (and dirs
+		    (not (file-exists-p (expand-file-name
+					 desktop-base-file-name
+					 (car dirs)))))
+	  (setq dirs (cdr dirs)))
+	(setq desktop-dirname (and dirs (expand-file-name (car dirs))))
+	(if desktop-dirname
+	    (desktop-read-from (expand-file-name desktop-base-file-name desktop-dirname))
+	  (desktop-clear)))))
+  )
 
 
 (defadvice desktop-create-buffer (around desktop-protect activate)
   "if we fail, .emacs does not execute, so we lose functionality (when repairing desktop files)"
-  ;; (catch  
+  ;; (catch
   (condition-case nil
       ad-do-it
     (error
@@ -136,10 +138,10 @@ this is a no-op when emacs is running in batch mode."
 (setq desktop-base-file-name (concat ".emacs.desktop-" (number-to-string (emacs-pid))))
 
 ;;; this is timer:
-(defun my-desktop-save () 
+(defun my-desktop-save ()
   "i keep the desktop of this session (read pid) separate. "
   (interactive)
-  ;; fixme: 
+  ;; fixme:
   ;(message "my-desktop-save! idle start: [%s].." start-idle-time)
   (message "auto-saving! start: [%s].." (current-time-string))
   (let* ((directory  (concat  (getenv "HOME") "/") )
@@ -212,8 +214,8 @@ this is a no-op when emacs is running in batch mode."
 ;;; TIMERED TASKS       FIXME !!!
 (run-with-idle-timer
  ;; every 6 seconds??
- 120 't 
- (lambda () 
+ 120 't
+ (lambda ()
    (my-desktop-save)
    ;;(when (buffer-live-p ".known-files")
    ;; (with-current-buffer ".known-files"(save-buffer ))
