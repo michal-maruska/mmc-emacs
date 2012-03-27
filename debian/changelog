@@ -1,3 +1,9 @@
+mmc-emacs (1.7) release; urgency=low
+
+  * fixes for git emacs
+
+ -- Michal Maruska <mmaruska@gmail.com>  Tue, 27 Mar 2012 22:32:02 +0200
+
 mmc-emacs (1.6) release; urgency=low
 
   * info  awk
