@@ -53,7 +53,7 @@
 (global-set-key [(meta shift backspace)] 'kill-backward-line-save)
 
 (unless running-xemacs
-  (global-set-key [M-,] 'tags-loop-continue)) ;scan
+  (global-set-key [(meta ?,)] 'tags-loop-continue)) ;scan
 
 
 ;;;  4th row
