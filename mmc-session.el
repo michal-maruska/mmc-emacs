@@ -42,11 +42,11 @@ Files is a list of those, which need recovery. other-files are the rest"
 	    (setq thisfile
 		  (buffer-substring-no-properties
 		   (point) (progn (end-of-line) (point))))
-	    (message "possibly buffer to open %d %d %s: %s"
-		     (point) (progn (beginning-of-line) (point))
-		     (buffer-substring-no-properties
-		      (progn (beginning-of-line) (point)) (point) )
-		     thisfile)
+	    ;; (message "possibly buffer to open %d %d %s: %s"
+	    ;; 	     (point) (progn (beginning-of-line) (point))
+	    ;; 	     (buffer-substring-no-properties
+	    ;; 	      (progn (beginning-of-line) (point)) (point) )
+	    ;; 	     thisfile)
 	    (forward-line 1)
 	    (setq autofile
 		  (buffer-substring-no-properties
@@ -57,7 +57,7 @@ Files is a list of those, which need recovery. other-files are the rest"
 	(if (and autofile (file-exists-p autofile))
 	    (add-to-list 'file thisfile)
 					;(setq files (cons thisfile files))
-	  (message "possibly buffer to open %s -- %s" thisfile autofile)
+	  ;; (message "possibly buffer to open %s -- %s" thisfile autofile)
 	  (if (stringp thisfile)
 	      (add-to-list 'other-files thisfile)))))
     (cons files
