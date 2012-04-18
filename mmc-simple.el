@@ -1195,11 +1195,11 @@ If the current buffer now contains an empty file that you just visited
     "see `find-function-search-for-symbol'"
     (let* ((filename (find-library-name library))
 	   (regexp-symbol (cdr (assq type find-function-regexp-alist))))
-      (message " filename: %s symbol: %s" filename symbol)
+      ;; (message " filename: %s symbol: %s" filename symbol)
       (with-current-buffer (find-file-noselect filename)
-	(message "regexp-symbol for %s -> %s; see %s" type
-		 (symbol-value regexp-symbol)
-		 find-function-regexp-alist)
+	;; (message "regexp-symbol for %s -> %s; see %s" type
+		 ;; (symbol-value regexp-symbol)
+		 ;; find-function-regexp-alist)
 	(let ((regexp (format (symbol-value regexp-symbol)
 			      ;; Entry for ` (backquote) macro in loaddefs.el,
 			      ;; (defalias (quote \`)..., has a \ but
@@ -1210,7 +1210,8 @@ If the current buffer now contains an empty file that you just visited
 	      (case-fold-search))
 	  (with-syntax-table emacs-lisp-mode-syntax-table
 	    (goto-char (point-min))
-	    (message "searching in the buffer for %s\n to find %s" regexp (symbol-name symbol))
+	    ;;(message "searching in the buffer for %s\n to find %s"
+	    ;;  regexp (symbol-name symbol))
 	    (if (or (re-search-forward regexp nil t)
 		    ;; `regexp' matches definitions using known forms like
 		    ;; `defun', or `defvar'.  But some functions/variables
@@ -1241,7 +1242,7 @@ If TYPE is nil, look for a function definition.
 Otherwise, TYPE specifies the kind of definition,
 and it is interpreted via `find-function-regexp-alist'.
 The search is done in the source for library LIBRARY."
-  (message "find symbol: %s" (symbol-name symbol))
+  ;; (message "find symbol: %s" (symbol-name symbol))
   (if (null library)
       (error "Don't know where `%s' is defined" symbol))
   (if (not find-function-regexp-alist)
@@ -1271,7 +1272,7 @@ The search is done in the source for library LIBRARY."
     (when (string-match "\\.emacs\\(.el\\)" library)
       (setq library (substring library 0 (match-beginning 1))))
 
-    (message "find symbol: %s" (symbol-name symbol))
+    ;; (message "find symbol: %s" (symbol-name symbol))
     (find-function-search-for-symbol-1 symbol type library)))
 
 
