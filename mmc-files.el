@@ -4,7 +4,7 @@
 
 ;; use native:  build-path
 (defun compose-path (&rest segments)
-  ""
+  "Return path composed of all segments, by adding / separator."
   (string-join
    segments "/"))
 
@@ -17,8 +17,8 @@
     (concat filename suffix)))
 
 (defun file-name-in-directory (dir filename)
-  ""
-  (concat dir "/" filename))
+  "see `compose-path'"
+  (compose-path dir filename))
 
 (defun find-subpath-in-paths (subpath path-list)
   ""
