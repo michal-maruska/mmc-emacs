@@ -1,4 +1,4 @@
-mmc-emacs (1.7) release; urgency=low
+mmc-emacs (1.8) release; urgency=low
 
   * read-number in new Emacs must return a Number.
   * stop redefining desktop-read
@@ -7,6 +7,12 @@ mmc-emacs (1.7) release; urgency=low
   * compose-path clean up
 
  -- Michal Maruska <mmaruska@gmail.com>  Wed, 18 Apr 2012 13:11:32 +0200
+
+mmc-emacs (1.7) release; urgency=low
+
+  * fixes for git emacs
+
+ -- Michal Maruska <mmaruska@gmail.com>  Tue, 27 Mar 2012 22:32:02 +0200
 
 mmc-emacs (1.6) release; urgency=low
 
