@@ -1,3 +1,13 @@
+mmc-emacs (1.7) release; urgency=low
+
+  * read-number in new Emacs must return a Number.
+  * stop redefining desktop-read
+  * silence find-function-search-for-symbol (now that it bytecompiles correctly)
+  * kconfig mode
+  * compose-path clean up
+
+ -- Michal Maruska <mmaruska@gmail.com>  Wed, 18 Apr 2012 13:11:32 +0200
+
 mmc-emacs (1.6) release; urgency=low
 
   * info  awk
