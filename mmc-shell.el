@@ -86,7 +86,7 @@ why did they forget it ?"
      ;;"\\(#*\\)"
      ;; "##+"
      ;; "[^ 	]+\\(\\) ?{"
-     "\\(function\\|[a-z_-]+(){?$\\)")))
+     "\\(\\(function +\\)?[a-z_-]+() *{?$\\)")))
 
 
 ; (modify-syntax-entry ?-  "_"  shell-mode-syntax-table)
