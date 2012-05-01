@@ -109,6 +109,8 @@ function is used to access the lists in `sawfish-info-files'."
     (autoconf-mode . "autoconf")
 
     (sgml-mode . "psgml")	;buffer
+
+    (gnuplot-mode . "gnuplot")	;buffer
     )
   "mapping Major mode -> info file"
   )
