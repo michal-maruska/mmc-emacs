@@ -302,7 +302,7 @@
 
   ;; see my-desktop.el##my-desktop-keymap
 
-  ;(define-key map [?f] 'set-fill-column)
+  (define-key map [?f] 'set-fill-column)
   (define-key map [?m] 'my-display-messages)
 
   (define-key map [?0] 'quit-window)
@@ -512,7 +512,8 @@ Leave one space or none, according to the context."
 	(switch-to-buffer-other-window "*psql*"))))
   )
 
-;; fixme: (define-key ctl-x-map "f" 'set-fill-column)
+;; fixme:
+(define-key ctl-x-map "f" 'set-fill-column)
 
 ;;; fighting bad keyboards:
 (global-set-key [(control meta ?y)] 'beginning-of-defun)
