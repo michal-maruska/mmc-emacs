@@ -1,3 +1,10 @@
+mmc-emacs (1.9) release; urgency=low
+
+  * reinstate  set-fill-column
+  * don't be verbose, now that it works (even byte-compiled)
+
+ -- Michal Maruska <mmaruska@gmail.com>  Thu, 03 May 2012 10:32:28 +0200
+
 mmc-emacs (1.8) release; urgency=low
 
   * read-number in new Emacs must return a Number.
