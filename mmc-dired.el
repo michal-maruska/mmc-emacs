@@ -464,8 +464,11 @@ get a name of (an open) dired buffer. taking the basename of the current path as
 
 (defun find-file-dired (directory name)
   "find the filenames in the subtree below DIRECTORY, which contain the NAME (as shell pattern)."
-  (interactive (list (read-file-name "Run find in directory: " nil "" t)
-		     (read-string "filename: " "" find-file-dired-history)))
+  (interactive (list
+		(if current-prefix-arg
+		    (read-file-name "Run find in directory: " nil "" t)
+		  default-directory)
+		(read-string "filename: " "" find-file-dired-history)))
   (find-dired directory (format "-name  '*%s*'" name)))
 
 
