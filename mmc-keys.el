@@ -291,9 +291,11 @@
   (define-key map [?b] 'switch-to-buffer))
 
 
-(eval-and-compile
-  (defconst my-global-keymap (make-sparse-keymap) ""))
+;; this does not define when loading it byte-compiled.
+;(eval-and-compile
+;  (defconst my-global-keymap (make-sparse-keymap) ""))
 
+(defconst my-global-keymap (make-sparse-keymap) "")
 ;;(defvar my-distinct-input-methods-map (make-sparse-keymap) "")
 (let ((map my-global-keymap))
   (define-key map [?b] my-global-buffer-keymap)
