@@ -1,3 +1,10 @@
+mmc-emacs (1.11) release; urgency=low
+
+  * cannot load bytecompiled, so backup-up from eval-and-compile
+  * fix that called-interactively-p.
+
+ -- Michal Maruska <mmaruska@gmail.com>  Fri, 01 Jun 2012 14:52:09 +0200
+
 mmc-emacs (1.10) release; urgency=low
 
   * called-interactively-p
