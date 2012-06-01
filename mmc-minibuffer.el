@@ -1,5 +1,6 @@
 ;;; (c) 2001,2002   M. Maruska     licence:  GNU GPL v. 2
 
+(require 'mmc-simple)
 ;; xemacs todo:
 ;; M-m   ~/
 ;; space complete (not word)
