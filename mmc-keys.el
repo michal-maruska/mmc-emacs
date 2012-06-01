@@ -284,55 +284,56 @@
 
 ;; i want letters-> buffers
 
-(defvar my-global-buffer-keymap (make-sparse-keymap) "my special ops on buffers")
-(let ((map my-global-buffer-keymap)
-      )
-  (define-key map [?k] 'kill-buffers-with-minor-mode)
-  (define-key map [?b] 'switch-to-buffer))
+;; (defvar my-global-buffer-keymap (make-sparse-keymap) "my special ops on buffers")
+(defvar my-global-buffer-keymap
+  (let ((map (make-sparse-keymap)))
+    (define-key map [?k] 'kill-buffers-with-minor-mode)
+    (define-key map [?b] 'switch-to-buffer)
+    map))
 
 
 ;; this does not define when loading it byte-compiled.
 ;(eval-and-compile
 ;  (defconst my-global-keymap (make-sparse-keymap) ""))
 
-(defconst my-global-keymap (make-sparse-keymap) "")
+;; (defconst my-global-keymap (make-sparse-keymap) "")
 ;;(defvar my-distinct-input-methods-map (make-sparse-keymap) "")
-(let ((map my-global-keymap))
-  (define-key map [?b] my-global-buffer-keymap)
-  (define-key map [?c] 'rename-buffer)	;adviced !
-  ;(define-key map [?d] 'calibrate-current-directory)
 
-  ;; see my-desktop.el##my-desktop-keymap
+(defvar my-global-keymap
+  (let ((map (make-sparse-keymap)))	; my-global-keymap
+    (define-key map [?b] my-global-buffer-keymap)
+    (define-key map [?c] 'rename-buffer) ;adviced !
+					;(define-key map [?d] 'calibrate-current-directory)
 
-  (define-key map [?f] 'set-fill-column)
-  (define-key map [?m] 'my-display-messages)
+    ;; see my-desktop.el##my-desktop-keymap
 
-  (define-key map [?0] 'quit-window)
-  (define-key map [?n] 'rename-uniquely)
-  (define-key map [?#] 'comment-region)
-  (define-key map [?r] 'toggle-read-only)
-  (define-key map [?h] 'highlight-current-line-toggle)
-  (define-key map [?s] 'hscroll-mode)
-  (define-key map [?S] 'screen-lines-mode)
-  (define-key map [?\\] 'set-my-distinct-input-methods-map)
-  (define-key map [?+] 'make-directory)
-  (define-key map [?i] 'imenu)
-  (define-key map [?j] 'list-jobs)
+    (define-key map [?f] 'set-fill-column)
+    (define-key map [?m] 'my-display-messages)
 
-  (define-key map [?/] 'set-default-directory)
+    (define-key map [?0] 'quit-window)
+    (define-key map [?n] 'rename-uniquely)
+    (define-key map [?#] 'comment-region)
+    (define-key map [?r] 'toggle-read-only)
+    (define-key map [?h] 'highlight-current-line-toggle)
+    (define-key map [?s] 'hscroll-mode)
+    (define-key map [?S] 'screen-lines-mode)
+    (define-key map [?\\] 'set-my-distinct-input-methods-map)
+    (define-key map [?+] 'make-directory)
+    (define-key map [?i] 'imenu)
+    (define-key map [?j] 'list-jobs)
 
-  (define-key map [?.] 'normal-mode)
-  (define-key map [?v] 'switch-to-alternate-buffer)
-  (define-key map [(control ?v)] 'switch-to-alternate-buffer)
+    (define-key map [?/] 'set-default-directory)
 
-  (define-key map [(meta ? )] 'set-default-directory)
-  ;; Finally:
-  (global-set-key [(control ?X) ] map)
+    (define-key map [?.] 'normal-mode)
+    (define-key map [?v] 'switch-to-alternate-buffer)
+    (define-key map [(control ?v)] 'switch-to-alternate-buffer)
 
+    (define-key map [(meta ? )] 'set-default-directory)
+    ;; Finally:
+    (global-set-key [(control ?X) ] map)
+    map))
 
-  (define-key ctl-x-map [?x ] map)
-  )
-
+(define-key ctl-x-map [?x ] my-global-keymap)
 
 
 (defconst my-distinct-input-methods-alist
