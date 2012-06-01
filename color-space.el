@@ -109,9 +109,8 @@
       (if (facep face)
           (face-foreground face)
         (plist-get face :foreground))))) ;; (plist-get '(bold :foreground "grey11" :weight bold) :foreground)
-  (let ((value (color-distance (background-rgb) (color->rgb color)))
-        )
-    (if (called-interactively-p)
+  (let ((value (color-distance (background-rgb) (color->rgb color))))
+    (if (called-interactively-p 'interactive)
         (message "|%s|=%d" color value)
       value)))
 
@@ -428,7 +427,7 @@ Just a specification, which is *legal* for text properties !"
 (defun face-at-point ()
   "shows face under point"
   (interactive)
-  (if (called-interactively-p)
+  (if (called-interactively-p 'interactive)
       (princ (plist-get (text-properties-at (point)) 'face))
     (plist-get (text-properties-at (point)) 'face)))
 
