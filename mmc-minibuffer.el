@@ -19,22 +19,46 @@
 ;;  i.e.  invoke another minibuffer action (recurse)
 
 
-;;;  This is a hack, b/c we _cannot_ invooke completing-read w/ a custom keymap
+;;;  This is a hack, b/c we _cannot_ invoke completing-read w/ a custom keymap
 ;; 2003-05-24:  but, we can read-from-minibuffer !!
 
-(defmacro with-keymaps-switched (old new &rest body) ; not hygienic !!!
-  "eval BODY with OLD and NEW keymaps switched (given as symbols). Restore the original keymaps upon
-either local exit from BODY, or the successful termination."
-  (let ((old-map (make-symbol "old-map")))
-    `(let ((,old-map ,old))
-       (unwind-protect
-	   (progn
-	     (setq ,old ,new)		;(set old ,new)
-	     ,@body)
-	 ;; And guarantee, that things get back again.
-	 (setq ,old ,old-map)))))
+(defun with-keymaps-switched (old new func)
+  (let ((old-map (symbol-value old)))
+    (unwind-protect
+	(progn
+	  (set old new)		;(set old ,new)
+	  (apply func ()))
+      ;; And guarantee, that things get back again.
+      (set old old-map))
+    ))
+(put 'with-keymaps-switched 'lisp-indent-function 'defun)
 
-(put 'with-keymaps-switched 'lisp-indent-function 2)
+;; (
+;;  (defvar a 1 "")
+;;  (setq a 1)
+;;  (with-keymaps-switched 'a 5
+;;    (lambda ()
+;;      (message "the value = %s" a)
+;;      6))
+;;  )
+
+
+
+;; (
+;;   (defmacro with-keymaps-switched (old new &rest body) ; not hygienic !!!
+;;     "eval BODY with OLD and NEW keymaps switched (given as symbols). Restore the original keymaps upon
+;; either local exit from BODY, or the successful termination."
+;;     (let ((old-map (make-symbol "old-map")))
+;;       `(let ((,old-map ,old))
+;; 	 (unwind-protect
+;; 	     (progn
+;; 	       (setq ,old ,new)	 ;(set old ,new)
+;; 	       ,@body)
+;; 	   ;; And guarantee, that things get back again.
+;; 	   (setq ,old ,old-map)))))
+;;   (put 'with-keymaps-switched 'lisp-indent-function 2)
+;;   )
+
 
 
 
@@ -108,16 +132,19 @@ I would need  these `fluid' variables: `guess' `dir' `initial'   see: `' "
       (setq my-continue-command nil)
       ;; (setq default (my-resolve-default table)
       ;; my-buffer-alist (buffer-name-list))
-      (with-keymaps-switched minibuffer-local-completion-map mmc-minibuffer-local-filename-map
-        ;;minibuffer-local-completion-map
-        (setq filename
-              (progn
-                ad-do-it ;;prompt dir default-filename mustmatch initial))
-                ))
-        ;; upon exit we can have some requested command to run:
-        (if post-command
-            (eval-command-or-form post-command)) ; (eval (bury-buffer))
-        ))
+      (with-keymaps-switched 'minibuffer-local-completion-map mmc-minibuffer-local-filename-map
+	(lambda ()
+	  ;;minibuffer-local-completion-map
+	  (setq filename
+		(progn
+		  ;;prompt dir default-filename mustmatch initial))
+		  ad-do-it))
+	  ))
+
+      ;; upon exit we can have some requested command to run:
+      (if post-command
+	  (eval-command-or-form post-command)) ; (eval (bury-buffer))
+      )
     filename))
 
 
@@ -128,9 +155,10 @@ I would need  these `fluid' variables: `guess' `dir' `initial'   see: `' "
     (while (null continue-command)
       ;; (setq default (my-resolve-default table)
       ;; my-buffer-alist (buffer-name-list))
-      (with-keymaps-switched minibuffer-local-completion-map mmc-minibuffer-local-filename-map
+      (with-keymaps-switched 'minibuffer-local-completion-map mmc-minibuffer-local-filename-map
 	;;minibuffer-local-completion-map
-	(read-file-name prompt dir default-filename mustmatch initial))
+	(lambda ()
+	  (read-file-name prompt dir default-filename mustmatch initial)))
       ;; upon exit we can have some requested command to run:
       (if post-command
 	  (eval-command-or-form post-command)) ; (eval (bury-buffer))
@@ -163,21 +191,23 @@ I would need  these `fluid' variables: `guess' `dir' `initial'   see: `' "
 		    (setq dir (file-name-directory guess))))
 	      ;; (setq default (my-resolve-default table)
 	      ;; my-buffer-alist (buffer-name-list))
-	      (with-keymaps-switched minibuffer-local-completion-map mmc-minibuffer-local-filename-map
-		;;minibuffer-local-completion-map
+	      (with-keymaps-switched 'minibuffer-local-completion-map mmc-minibuffer-local-filename-map
+		(lambda ()
+		  ;;minibuffer-local-completion-map
 					;(read-file-name prompt dir default-filename mustmatch initial))
-		(setq guess
-		      (completing-read
-		       prompt
-		       'ffap-read-file-or-url-internal
-		       dir
-		       nil
-		       (if dir (cons guess (length dir)) guess)
-		       (list 'file-name-history)))
-		;; upon exit we can have some requested command to run:
-		(if post-command
-		    (eval-command-or-form post-command)) ; (eval (bury-buffer))
-		))))
+		  (setq guess
+			(completing-read
+			 prompt
+			 'ffap-read-file-or-url-internal
+			 dir
+			 nil
+			 (if dir (cons guess (length dir)) guess)
+			 (list 'file-name-history)))
+		  ))
+	      ;; upon exit we can have some requested command to run:
+	      (if post-command
+		  (eval-command-or-form post-command)) ; (eval (bury-buffer))
+	      )))
 	;; ------------
 	;; Do file substitution like (interactive "F"), suggested by MCOOK.
 	(or (ffap-url-p guess) (setq guess (substitute-in-file-name guess)))
@@ -294,7 +324,7 @@ I would need  these `fluid' variables: `guess' `dir' `initial'   see: `' "
 (let ((map read-number-map)
       )
   (set-keymap-parent map minibuffer-local-map)
-  
+
   (define-key map [(control ?<)] 'read-number-decrement) ;"C-n"
   (define-key map [(control ?>)] 'read-number-increment)
 
@@ -307,11 +337,12 @@ I would need  these `fluid' variables: `guess' `dir' `initial'   see: `' "
 
 (defun read-number (prompt &optional init def history)
   ""
-  (with-keymaps-switched minibuffer-local-map read-number-map
-    (string-to-number
-     (read-string (format "%s (%s) " prompt def)
-		 (if (numberp init) (int-to-string init) init)
-		 history def))))
+  (with-keymaps-switched 'minibuffer-local-map read-number-map
+    (lambda ()
+      (string-to-number
+       (read-string (format "%s (%s) " prompt def)
+		    (if (numberp init) (int-to-string init) init)
+		    history def)))))
 
 
 ;(current-local-map)

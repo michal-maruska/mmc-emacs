@@ -23,19 +23,20 @@
 (defadvice rename-buffer (before interactive-edit-buffer-name activate)
   "Prompt for buffer name supplying CURRENT buffer name for editing."
   (interactive
-   (with-keymaps-switched minibuffer-local-completion-map rename-buffer-keymap
-     (let ((default (if (string-lessp "19" emacs-version)
-                        (cons (buffer-name) 0)
-                      (buffer-name))))
-       (if (eq major-mode 'info-mode)
-           (setq default Info-current-subfile))
-       (list (completing-read "Rename current buffer to: "
-                              (mapcar
-                               (lambda (buffer)
-                                 (list (buffer-name buffer)))
-                               (buffer-list))
-                              nil nil default)
-             current-prefix-arg)))))
+   (with-keymaps-switched 'minibuffer-local-completion-map rename-buffer-keymap
+     (lambda ()
+       (let ((default (if (string-lessp "19" emacs-version)
+			  (cons (buffer-name) 0)
+			(buffer-name))))
+	 (if (eq major-mode 'info-mode)
+	     (setq default Info-current-subfile))
+	 (list (completing-read "Rename current buffer to: "
+				(mapcar
+				 (lambda (buffer)
+				   (list (buffer-name buffer)))
+				 (buffer-list))
+				nil nil default)
+	       current-prefix-arg))))))
 
 
 

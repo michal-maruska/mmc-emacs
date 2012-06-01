@@ -73,10 +73,11 @@ When editing the Grep command line, \M-m invokes selection of directory where to
              (setq grep-default (replace-match (or tag-default "")
                                                t t grep-default 2)))))
        (list
-        (with-keymaps-switched minibuffer-local-map my-minibuffer-ask-for-directory
-          (read-from-minibuffer "Run grep (like this): "
-                                   (or grep-default grep-command)
-                                   nil nil 'grep-history))
+        (with-keymaps-switched 'minibuffer-local-map my-minibuffer-ask-for-directory
+	  (lambda ()
+	    (read-from-minibuffer "Run grep (like this): "
+				  (or grep-default grep-command)
+				  nil nil 'grep-history)))
         (if ask-for-directory
             (read-file-name "directory")
           default-directory)))))
