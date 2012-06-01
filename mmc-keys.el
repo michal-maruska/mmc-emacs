@@ -516,7 +516,7 @@ Leave one space or none, according to the context."
   )
 
 ;; fixme:
-(define-key ctl-x-map "f" 'set-fill-column)
+;; (define-key ctl-x-map "f" 'set-fill-column)
 
 ;;; fighting bad keyboards:
 (global-set-key [(control meta ?y)] 'beginning-of-defun)
