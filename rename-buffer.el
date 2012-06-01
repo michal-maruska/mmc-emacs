@@ -1,5 +1,8 @@
 ;; (C) Michal Maruska ???
 
+(eval-when-compile
+  ;; with-keymaps-switched macro
+  (require 'mmc-minibuffer))
 
 (require 'advice)
 

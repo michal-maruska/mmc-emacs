@@ -1,5 +1,8 @@
 ;;; use the patch from ~/diffs/emacs/files.el
 
+(eval-when-compile
+  ;; with-keymaps-switched macro
+  (require 'mmc-minibuffer))
 
 (require 'compile)                      ;grep
 ;; fixme: how to test if the GREP supports this...?
