@@ -156,7 +156,8 @@
 
 
 
-(require 'rename-buffer)
+;; advice, but I don't need it.... not interactively use 
+;; (require 'rename-buffer)
 
 (defun append-to-buffer-end (buffer string)
   "Append at the END of the BUFFER"
