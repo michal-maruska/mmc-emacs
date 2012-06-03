@@ -1,38 +1,33 @@
 ;;; (c) M. Maruska
 ;;; Simple functions, of general interest
 
-(defun relax (&rest rest)
-  "do nothing")
-
-
-(defvar running-xemacs
-  (eval-when-compile
-    (string-match "XEmacs\\|Lucid" emacs-version)))
-(defconst emacs-21
-  (string-match "^2[124]\.*" emacs-version))
-
-(defconst emacs-22
-  (string-match "^22\.*" emacs-version))
-
-; (defconst emacs-24 (= emacs-major-version 24))
-
-;; fixme!  repeated!
-(defconst emacs-24
-  (or
-   (= emacs-major-version 24)
-   ;; old git
-  (and
-   (= emacs-major-version 23)
-   (>= emacs-minor-version 1)
-   )))
-
-
 (eval-when-compile
-  (message "running-xemacs %s" running-xemacs)
+  (defvar running-xemacs
+    (string-match "XEmacs\\|Lucid" emacs-version))
   (if running-xemacs
       ;;"21.2.b37" ;emacs-version
-      (defvar xemacs-version (construct-emacs-version-name) "")))
+      (defvar xemacs-version (construct-emacs-version-name) ""))
 
+
+  (defconst emacs-21
+    (string-match "^2[124]\.*" emacs-version))
+  (defconst emacs-22
+    (string-match "^22\.*" emacs-version))
+  ;; (defconst emacs-24 (= emacs-major-version 24))
+  ;; fixme!  repeated!
+  (defconst emacs-24
+    (or
+     (= emacs-major-version 24)
+     ;; old git
+     (and
+      (= emacs-major-version 23)
+      (>= emacs-minor-version 1)
+      )))
+  )
+
+
+(defun relax (&rest rest)
+  "do nothing")
 
 ;; fixme:  more standard name?
 (defmacro run-wo-fail (&rest body)
@@ -50,9 +45,9 @@
 
 ;;
 ;;
-(require 'advice)
 (defun mapcar-nonil (function list)
-  "Get the list of non-nil results of `mapcar', seems to be a frequent operation"
+  "Get the list of non-nil results of `mapcar',
+seems to be a frequent operation"
   (delq
    nil
    (mapcar
@@ -72,7 +67,7 @@
 	    list (cdr list)))
     found))
 
-;;; 23 Jun 01:  how many times have i used this?
+;;; 23 Jun 2001:  how many times have I used this?
 (defsubst point-eol ()
   "like point-min"
   (save-excursion
@@ -91,17 +86,21 @@
 
 ;; I was quite surprised, that this kind of command was missing:  I bind it to \M-BS
 (defun backward-kill-line (point)
-  "kill the current line from cursos to the beginning (why isn't is standard function ?)"
+  "kill the current line from cursos to the beginning"
+  ;; "(why isn't this a standard function ?)"
   (interactive "d")
   (beginning-of-line)
   (delete-region  (point) point))
 
-(global-set-key [(meta ?H)] 'fc-kill-to-beginning-of-line)
+
 ;; forcer (irc)
 (defun fc-kill-to-beginning-of-line ()
   "Kill from the beginning of the line to point."
   (interactive)
   (kill-region (point-at-bol) (point)))
+
+(global-set-key [(meta ?H)] 'fc-kill-to-beginning-of-line)
+
 
 (defun kill-line-save (point)
   "kill line without killing, just push into the kill-ring."
@@ -142,21 +141,12 @@
     ;(set-buffer )
     (goto-char marker)
     (line-string)))
+
 ;; Capitalize ???
 
-					;(defun my-rename-buffer (newname)
-					;  "when reading the new name, INITIAL-CONTENTS is the current name"
-					;  (interactive
-					;   (list
-					;    (read-string "Rename buffer (to new name): " (buffer-name)) ))
-					;  (rename-buffer newname) )
+;; (lookup-key minibuffer-local-completion-map " ")
 
-;;(lookup-key minibuffer-local-completion-map " ")
-					;(unless running-xemacs
-
-
-
-;; advice, but I don't need it.... not interactively use 
+;; advice, but I don't need it.... not interactively used
 ;; (require 'rename-buffer)
 
 (defun append-to-buffer-end (buffer string)
@@ -196,7 +186,7 @@ move to with the same argument."
     (kill-ring-save (point) end))))
 
 (global-set-key [(control shift delete)] 'kill-sexp-save)
-					;(global-set-key [(control shift ?o)] 'other-window)
+;;(global-set-key [(control shift ?o)] 'other-window)
 (global-set-key [(control ?O)] 'other-window)
 
 
@@ -209,7 +199,7 @@ move to with the same argument."
       (goto-char start)
       (while (re-search-forward regexp end t)
 	(replace-match to-string nil nil))
-      ;(replace-regexp regexp to-string nil start end)
+      ;;(replace-regexp regexp to-string nil start end)
       )))
 
       ;(goto-char start)
@@ -330,9 +320,11 @@ move to with the same argument."
 	  (if default (format "%s (default %s) " prompt default) prompt))
 	 (result
 	  (if running-xemacs
-	      (completing-read  my-prompt my-table predicate require-match init hist default)
-	    (completing-read  my-prompt my-table predicate require-match init hist default
-			      inherit-input-method))))
+	      (completing-read my-prompt my-table predicate require-match
+			       init hist default)
+	    (completing-read my-prompt my-table predicate require-match
+			     init hist default
+			     inherit-input-method))))
     (if ring
 	(ring-to-head ring result))
     result))
@@ -705,7 +697,7 @@ dots(...) get processed:
 
 ;; (load "setx")
 ;; (setenv "DISPLAY" "linux6:0")
-;;; 
+;;;
 ;; i want to set easily the DISPLAY env- variable.
 (defun setx (display)
   "set the environement, interactively "
@@ -766,7 +758,7 @@ dots(...) get processed:
 ;;(read-display)
 
 
-
+(require 'advice)
 (defadvice make-frame-on-display (before read-the-display activate);; first
   (interactive
    (list (read-display "new frame on: "))))

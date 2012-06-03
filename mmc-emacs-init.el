@@ -85,7 +85,7 @@
              (cons "-desktop" 'relax))
 
 
-;; 
+;;
 (require 'uniquify)
 (setq uniquify-buffer-name-style 'forward)
 

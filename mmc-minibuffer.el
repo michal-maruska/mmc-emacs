@@ -319,11 +319,8 @@ I would need  these `fluid' variables: `guess' `dir' `initial'   see: `' "
   (read-number-increment (- arg)))
 
 
-
-
 (defconst read-number-map (make-sparse-keymap) "")
-(let ((map read-number-map)
-      )
+(let ((map read-number-map))
   (set-keymap-parent map minibuffer-local-map)
 
   (define-key map [(control ?<)] 'read-number-decrement) ;"C-n"
