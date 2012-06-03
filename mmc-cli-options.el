@@ -3,17 +3,15 @@
 ;; processing   command line arguments, options:
 
 ;; add the switch to known ones:
-(setq command-switch-alist
+(add-to-list 'command-switch-alist
       ;; relax --- function fired
-      (append
-       (list
-	(cons "-nodesktop" 'relax)
-	(cons "-gnus" 'relax)
-        ;(cons "-erc" 'relax)
-        )
-       command-switch-alist))
+	     (cons "-nodesktop" 'relax))
+(add-to-list 'command-switch-alist
+	     (cons "-gnus" 'relax))
 
-(defvar nodesktop (member "-nodesktop" command-line-args) "")
+
+(defvar nodesktop () "toggle from the CLI")
+(setq nodesktop (member "-nodesktop" command-line-args))
 
 
 (provide 'mmc-cli-options)
