@@ -4,11 +4,11 @@
 ;;; alternative to  etc-update command in gentoo linux.
 
 ;; how to use:
-;; 1/    select/locate files, which need update                              not completed
+;; 1/    select/locate files, which need update             not completed
 
 ;; 2/    run ediff on the file and its most recent .... upgrade              OK
 
-;; 3/    remove the  upgrade                                                 not supported
+;; 3/    remove the  upgrade                                supported
 
 
 (defun etc-update:most-recent-copy (filename)
