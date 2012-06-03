@@ -21,15 +21,6 @@ To disable the limit, call this function again."
   (ibuffer-update nil t))
 
 
-(defun ibuffer-visit-buffer ()
-  "Enter the buffer on this line."
-  (interactive)
-  (let ((buf (ibuffer-current-buffer)))
-    (unless (buffer-live-p buf)
-      (error "Buffer %s has been killed!" buf))
-    ;(bury-buffer (current-buffer))
-    (switch-to-buffer buf)))
-
 ;;; `iswitchb'
 (defun iswitchb-post-command ()
   "Run after command in `iswitchb-buffer'. mmc version"
