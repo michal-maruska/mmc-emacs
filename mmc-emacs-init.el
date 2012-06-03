@@ -52,6 +52,7 @@
 
 ;; Maybe not used:
 ;; (require 'mmc-ring)
+(define-key my-global-keymap [?u] 'bury-buffer)
 
 
 ;; todo:  move to mmc-emacs-config!
