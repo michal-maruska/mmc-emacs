@@ -55,8 +55,9 @@ Files is a list of those, which need recovery. other-files are the rest"
 	;; Ignore a file if its auto-save file does not exist now.
 	;; mmc: WRONG!
 	(if (and autofile (file-exists-p autofile))
-	    (add-to-list 'file thisfile)
-					;(setq files (cons thisfile files))
+	    (add-to-list 'files thisfile)
+	  ;;(setq files (cons thisfile files))
+
 	  ;; (message "possibly buffer to open %s -- %s" thisfile autofile)
 	  (if (stringp thisfile)
 	      (add-to-list 'other-files thisfile)))))
