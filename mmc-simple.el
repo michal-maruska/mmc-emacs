@@ -1,7 +1,8 @@
 ;;; (c) M. Maruska
 ;;; Simple functions, of general interest
 
-(eval-when-compile
+(eval-and-compile
+
   (defvar running-xemacs
     (string-match "XEmacs\\|Lucid" emacs-version))
   (if running-xemacs
