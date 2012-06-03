@@ -1,3 +1,12 @@
+mmc-emacs (1.14) release; urgency=low
+
+  * update mic-paren
+  * command-switch-alist
+  * clean .. elc files
+  * simplify (& clean, reformat) mmc-dired
+
+ -- Michal Maruska <mmaruska@gmail.com>  Sun, 03 Jun 2012 19:38:18 +0200
+
 mmc-emacs (1.13) release; urgency=low
 
   * clean warnings
