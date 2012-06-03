@@ -575,9 +575,10 @@ as the final argument."
   (let ((test (file-name-nondirectory filename)))
     (if (string= test "")
         (file-name-nondirectory
-         (substring filename 0 (- (length filename) 1)))
+	 ;; drop the last character:
+         (substring filename 0 -1))
       test)))
-; (basename "/p/gauche-gtk-0.3.1/work/Gauche-gtk-0.3.1/")
+;; (basename "/p/gauche-gtk-0.3.1/work/Gauche-gtk-0.3.1/")
 
 ;;
 (defun dired-create-symlink (prefix filename &optional dir)
