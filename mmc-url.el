@@ -74,11 +74,13 @@
 		      inhibit-file-name-handlers)))
 	(inhibit-file-name-operation 'find-file-noselect))
     (if (string-match "\\`www\\.\\|\\`https?:" path)
-	(progn (require 'hsite)
-	       ;; Display url.
-	       (hact 'www-url path)
-	       ;; return same buffer
-	       (current-buffer))
+	(progn
+	  (require 'hsite)
+	  ;; Display url.
+	  (if (fboundp 'hact)
+	      (hact 'www-url path))
+	  ;; return same buffer
+	  (current-buffer))
       (apply 'find-file-noselect path args))))
 
 
