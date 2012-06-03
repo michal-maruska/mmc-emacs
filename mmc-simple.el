@@ -106,9 +106,7 @@ seems to be a frequent operation"
   "kill line without killing, just push into the kill-ring."
   (interactive "d")
   (save-excursion
-    ;;(beginning-of-line)
-    (end-of-line)
-    (copy-region-as-kill (point) point)))
+    (copy-region-as-kill (point-bol) (point-eol))))
 
 
 (defun kill-backward-line-save (point)
