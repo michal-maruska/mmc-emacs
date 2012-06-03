@@ -1234,6 +1234,7 @@ If the current buffer now contains an empty file that you just visited
   )
 
 ;;; find-in  debian
+(defvar debian-emacs-flavor)
 (defun find-function-search-for-symbol (symbol type library)
   "Search for SYMBOL's definition of type TYPE in LIBRARY.
 Visit the library in a buffer, and return a cons cell (BUFFER . POSITION),

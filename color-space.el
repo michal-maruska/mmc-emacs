@@ -40,7 +40,7 @@
 ;;
 
 (eval-when-compile (require 'cl))
-
+(defvar emacs-22)
 ;;; dedication: to people behind www.wsws.org
 
 
