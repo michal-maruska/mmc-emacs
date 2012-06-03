@@ -888,8 +888,7 @@ dots(...) get processed:
 (when nil
   (thing-at-point 'filename) (find-file-at-point)
   (ffap-prompter)
-  (progn (ffap-guesser)(ffap-highlight))~/activity/sche
-)
+  (progn (ffap-guesser)(ffap-highlight)))
 
 (define-key insert-keymap "f" 'insert-filename)
 (define-key my-global-keymap [(control ?f)] 'insert-filename)
