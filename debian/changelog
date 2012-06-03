@@ -1,3 +1,15 @@
+mmc-emacs (1.12) release; urgency=low
+
+  * with-keymaps-switched as a function (not macro).
+  * sq: keymap definition experiment
+  * give up on ... ctl-x-map. seems nil during the init.
+  * require (possibly) macro for byte-compilation
+  * uncovered dependency!
+  * drop circular dependency. mmc-simple.el should not use (interactive) tools from elsewhere.
+  * find-file-dired:  by default use the current/default dir. Ask only when C-u
+
+ -- Michal Maruska <mmaruska@gmail.com>  Sun, 03 Jun 2012 13:33:23 +0200
+
 mmc-emacs (1.11) release; urgency=low
 
   * cannot load bytecompiled, so backup-up from eval-and-compile
