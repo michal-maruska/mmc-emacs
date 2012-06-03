@@ -290,7 +290,9 @@ I got tired of having the shared ring. FIXME: history ??"
 	      (princ (format "%d %s\n" index
 			     (ring-ref ring index)) )))))
 
-(require 'cl)
+(eval-when-compile
+  (require 'cl))
+
 (defun prune-dead-buffers-from-ring ()
   "delete from the `recent-buffer-ring' those elements which are dead buffers"
   (let ((ring (recent-buffer-ring))
