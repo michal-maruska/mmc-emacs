@@ -353,16 +353,16 @@ move to with the same argument."
     yes))
 
 
-(eval-when-compile
-  (defconst quote-region-delimiters-alist
-    (list
-     '(?\" "\"" "\"")
-     '(?\( "(" ")")
-     '(?\` "\`" "\'"))
-    "")
+;;(eval-when-compile
+(defconst quote-region-delimiters-alist
+  (list
+   '(?\" "\"" "\"")
+   '(?\( "(" ")")
+   '(?\` "\`" "\'"))
+  "Alist mapping the Opening to Closing glyphs")
 
-  (message "quote-region-delimiters-alist %s" quote-region-delimiters-alist)
-  )
+;;(message "quote-region-delimiters-alist %s" quote-region-delimiters-alist)
+;; )
 
 (defun decode-last-key ()
   "get the ascii-code of the last key (throw away modifiers )"
