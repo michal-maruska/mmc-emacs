@@ -138,6 +138,15 @@ See the command `outline-mode' for more information on this mode."
 (defvar my-outline-keymap (make-sparse-keymap)
   "")
 
+(easy-mmode-define-minor-mode
+ my-outline-mode
+ ""
+ nil
+ "OUT"
+ my-outline-keymap
+ )
+
+
 (defun define-key-even-control (map letter function)
   "bind the letter and even C-letter"
   (define-key map (make-vector 1 letter) function)
@@ -203,13 +212,6 @@ See the command `outline-mode' for more information on this mode."
 		     this-event			;)
 		     unread-command-events)))))))
 
-(easy-mmode-define-minor-mode
- my-outline-mode
- ""
- nil
- "OUT"
- my-outline-keymap
- )
 
 
 (defun outline-commands (&optional arg)
