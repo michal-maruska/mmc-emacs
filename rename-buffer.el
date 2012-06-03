@@ -15,11 +15,14 @@
 
 ;;;  renaming `interactively' buffer. Some improvements:
 
-(defvar rename-buffer-keymap (make-sparse-keymap) "used for prompt for a new buffer name (of an existing buffer)")
+(defvar rename-buffer-keymap (make-sparse-keymap)
+  "used for prompt for a new buffer name (of an existing buffer)")
+
 (let ((map rename-buffer-keymap))
   (set-keymap-parent map minibuffer-local-completion-map)
-  ;; i don't need the word-expansion ...
+  ;; I don't need the word-expansion ...
   (define-key map " " 'self-insert-command))
+
 
 (defadvice rename-buffer (before interactive-edit-buffer-name activate)
   "Prompt for buffer name supplying CURRENT buffer name for editing."
