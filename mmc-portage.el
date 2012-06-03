@@ -1,4 +1,6 @@
 
+(require 'mmc-dired)
+
 ;;; alternative to  etc-update command in gentoo linux.
 
 ;; how to use:
