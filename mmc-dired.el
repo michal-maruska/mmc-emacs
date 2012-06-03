@@ -1,7 +1,6 @@
 ;; fixme: autoload!
 
-(eval-when-compile
-  (require 'dired-x))
+(require 'dired-x)
 (require 'dired)
 (require 'mmc-read-dir)
 
@@ -10,13 +9,15 @@
 
 ;; started from http://www.gatago.com/gnu/emacs/help/16477675.html
 (defun dired-do-shell-command-in-background (files command)
-  "In dired, do shell command in background on the file or directory named on this line."
+  "In dired, do shell command in background on the file or directory
+named on this line."
   (interactive
    (let ((files (or
                 (dired-get-marked-files)
                 (list (dired-get-filename)))))
      (list files (dired-read-shell-command (concat "& on " "%s: ") nil files))))
-  ;(apply 'call-process command nil (generate-new-buffer "*dired background*") 't files)
+  ;;(apply 'call-process command nil (generate-new-buffer "*dired background*")
+  ;; 't files)
   (shell-command (concat command " "
                          (mapconcat
                           'shell-quote-argument
@@ -25,11 +26,18 @@
                  (generate-new-buffer "*dired background*")
                  't))
 
+
+;;(eval-after-load "dired" )
 (add-hook 'dired-load-hook
   (function (lambda ()
               (load "dired-x")
-              (define-key dired-mode-map "&" 'dired-do-shell-command-in-background))))
+              (define-key dired-mode-map "&"
+		'dired-do-shell-command-in-background)
 
+	      (dired-omit-mode)
+	      )))
+
+;; mime handlers:
 (setq dired-guess-shell-alist-user
       (list (list "\\.wav$" "snack")
             (list "\\.au$" "snack")
@@ -38,15 +46,15 @@
             (list "\\.xls$" "OOo")))
 
 
-;;(eval-after-load
-;;    "dired"
 (unless running-xemacs
   (require 'dired-x))
-(dired-omit-mode t)
+
+
 
 ;;; Browsing between:
 (defun dired-substitute ()
-  "find/dired the file on currrent line by substituting it (kill the current buffer)"
+  "find/dired the file on currrent line by substituting it
+\(kill the current buffer)"
   (interactive)
   (let ((buffer (current-buffer)))
     (dired-find-file)
@@ -66,10 +74,11 @@
   "dired another DIRECTORY. (would be `dired-do-chdir')"
   (interactive  ;; "d")
    (list
-    (my-read-directory "cd to directory: " "" nil nil (dired-current-directory))))
-  ;;(completing-read "cd: " dired-subdir-alist 'nil 't (try-completion "" dired-subdir-alist))
+    (my-read-directory "cd to directory: " "" nil nil
+		       (dired-current-directory))))
+  ;;(completing-read "cd: " dired-subdir-alist 'nil 't
+  ;;   (try-completion "" dired-subdir-alist))
   (dired directory))
-
 
 
 ;;; Pruning:
@@ -110,7 +119,8 @@
 (string-match "\\([^[:digit:]]+\\)" " 2 ")
 (defun increment-integer-in-string (string)
   "return the given STRING with the first number incremented"
-  (let ((scan-for-number-regexp "^\\(.*\\)\\([[:digit:]]+\\)\\([^[:digit:]]?.*\\)$"))
+  (let ((scan-for-number-regexp
+	 "^\\(.*\\)\\([[:digit:]]+\\)\\([^[:digit:]]?.*\\)$"))
     (if (string-match scan-for-number-regexp string)
 	(concat
 	 (match-string 1 string)
@@ -148,7 +158,8 @@
 	    prefix (increment-integer-in-string prefix)))
     ;; apply to this:
     (setq new-target-default (concat prefix new-name suffix)
-	  new-target (read-file-name prompt dir default must-match new-target-default)
+	  new-target (read-file-name prompt dir default
+				     must-match new-target-default)
 	  dired-last-rename-name new-name
 	  dired-last-rename-target (file-name-nondirectory new-target))
     new-target))
@@ -180,7 +191,8 @@
     ;;(condition-case
     (let ((dir (condition-case nil
 		   (dired-get-filename nil 't);; Good
-		 '(error . (message "error in hook")))))
+		 (error
+		  (message "error in hook")))))
       (if (and dir (file-directory-p dir))
 	  (save-selected-window
 	    (bury-buffer (dired-other-window dir)))
@@ -207,8 +219,11 @@
 
 
 ;;;
+;; so, some minibuffer code has this variable?
+(defvar fn-count)
+
 (defun dired-create-directory-if-necessary (dir)
-  "i want to Rename/Move into an inexistent directory and create it implicitely"
+  "I want to Rename/Move into an inexistent directory and create it implicitely"
   ;; If we move to a directory:  ---more files
   (cond
    ((and (not (file-exists-p dir))
@@ -263,7 +278,8 @@
 	(file-name-nondirectory (dired-get-filename)))
        (get-buffer-create " eldoc-shell"))
       (message message)
-					;(shell-command (format "grep --count 1 Description %s" (dired-get-filename)))
+      ;;(shell-command (format "grep --count 1 Description %s"
+      ;;        (dired-get-filename)))
       ))))
 
 
@@ -345,7 +361,8 @@ get a name of (an open) dired buffer. taking the basename of the current path as
     ;;complete-on-the name of -..
     (unless (member buffer-name buffer-list)
       ;; default:
-      (setq buffer-name (my-completing-read "dired-buffer: " buffer-list nil 't buffer-name)))
+      (setq buffer-name (my-completing-read "dired-buffer: "
+					    buffer-list nil 't buffer-name)))
     (delete-minibuffer-contents) ;;(erase-buffer)
     (insert (directory-of-buffer buffer-name))))
 
@@ -463,7 +480,8 @@ get a name of (an open) dired buffer. taking the basename of the current path as
 (defvar find-file-dired-history (make-symbol "find-file-dired-history") "")
 
 (defun find-file-dired (directory name)
-  "find the filenames in the subtree below DIRECTORY, which contain the NAME (as shell pattern)."
+  "Find those filenames in the subtree below DIRECTORY,
+which contain the NAME (as shell pattern)."
   (interactive (list
 		(if current-prefix-arg
 		    (read-file-name "Run find in directory: " nil "" t)
@@ -471,17 +489,14 @@ get a name of (an open) dired buffer. taking the basename of the current path as
 		(read-string "filename: " "" find-file-dired-history)))
   (find-dired directory (format "-name  '*%s*'" name)))
 
-
-
 (define-key my-global-keymap "f" 'find-file-dired)
+
+
 
 (defun dired-directory-of (buffer)
   "return the directory, that we dir-edit in BUFFER?"
   (with-current-buffer buffer
     (dired-current-directory)))
-
-
-
 
 
 ;;; external processes:
@@ -499,7 +514,8 @@ The command run (after changing into DIR) is
 except that the variable `find-ls-option' specifies what to use
 as the final argument."
   (interactive (list (read-file-name "Run in directory: " nil "" t)
-		     (read-string "command to run (with args): " dired-command-args-history
+		     (read-string "command to run (with args): "
+				  dired-command-args-history
 				  '(dired-command-args-history . 1))))
   (let ((dired-buffers dired-buffers)
 	(buffer-name "*Find*"))
@@ -532,7 +548,7 @@ as the final argument."
     (setq buffer-read-only nil)
     (erase-buffer)
     (setq default-directory dir
-	  dired-command-args command-args		; save for next interactive call
+	  dired-command-args command-args   ;; save for next interactive call
 	  )
     ;; The next statement will bomb in classic dired (no optional arg allowed)
     (dired-mode dir (cdr find-ls-option))
@@ -586,10 +602,11 @@ as the final argument."
   (interactive
    (list
     current-prefix-arg
-    (read-file-name (format "(existing) destination of %s link: " (if current-prefix-arg "hard" "symbolic")))))
-                                        ; (dired-do-symlink
-;  (unless dir (setq dir
-;                    (file-name-in-directory (dired-current-directory) (basename filename))))
+    (read-file-name (format "(existing) destination of %s link: "
+			    (if current-prefix-arg "hard" "symbolic")))))
+  ;; (dired-do-symlink
+  ;; (unless dir (setq dir
+  ;;  (file-name-in-directory (dired-current-directory) (basename filename))))
   (let ((destination (basename filename)))
     (if prefix
         (add-name-to-file filename destination)
@@ -602,7 +619,8 @@ as the final argument."
   (interactive (list (dired-get-filename)))
   (let ((destination (file-symlink-p symlink)))
     (when destination
-      (setq new-destination (read-file-name "new symlink destination: " destination destination))
+      (setq new-destination (read-file-name "new symlink destination: "
+					    destination destination))
       (delete-file symlink)
       (make-symbolic-link new-destination symlink)
       (revert-buffer))))
