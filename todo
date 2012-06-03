@@ -1,4 +1,12 @@
 
+
+* e-history ... mmc-ring
+completing-read with  c-p C-n using a "ring" history.
+part of that is in MDB ... the defition of variables -- the rings?
+
+
+
+
 * byte compilation
 ;; -*-no-byte-compile: t; -*-
 
