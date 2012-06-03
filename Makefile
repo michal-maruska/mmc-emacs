@@ -14,5 +14,7 @@ install:
 
 
 clean:
-	@echo "nothing to do to clean"
+	rm -f *.elc
+#	@echo "nothing to do to clean"
 # [ -d .git ] && git clean -f -d -x
+
