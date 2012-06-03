@@ -155,12 +155,6 @@
 
 (require 'faces)
 
-;; bug: isearch-level is not returned to 0.  Why?
-(defun isearch-reset()
-  (interactive)
-  (setq isearch-level 0)
-  (set-face-background 'cursor "green"))
-
 
 ;;; sometimes i  C-w (believing i'm in isearch, and lose the region, b/c i' *not*).
 ;;  So i make the cursor color change, and indicate  isearch-mode.
@@ -186,6 +180,12 @@
     ;; What if C-g ? is this run only once ?
     'mmc-isearch-exit
     ))
+
+;; bug: isearch-level is not returned to 0.  Why?
+(defun isearch-reset()
+  (interactive)
+  (setq isearch-level 0)
+  (set-face-background 'cursor "green"))
 
 
 (defun mmc-isearch-exit ()
