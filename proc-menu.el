@@ -461,8 +461,7 @@ The buffer is named `*Process List*'."
   (let ((old-buffer (current-buffer))
 	(standard-output standard-output)
 	desired-point)
-    (save-excursion
-      (set-buffer (get-buffer-create "*Process List*"))
+    (with-current-buffer (get-buffer-create "*Process List*")
       (setq buffer-read-only nil)
       (erase-buffer)
       (setq standard-output (current-buffer))
