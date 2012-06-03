@@ -13,23 +13,13 @@
 
 
 ;; todo: Customize
+;; (defcustom www-server-config :type directory)
 (defvar www-server-config
   (list "/linux/2/var/www/maruska/htdocs"
         "ruska.dyndns.org")
   " (LOCAL-DIR  URL). Not alist yet.")
 
-(defun insert-local-url-michal ()
-  ""
-  (interactive)
-  (let ((www-server-config
-	 (list "/linux/2/var/www/maruska/michal"
-	       "michal.ruska.dyndns.org")))
-    (call-interactively 'insert-local-url)))
 
-
-
-;; (defconst www-server-root  "/linux/2/var/www/maruska/htdocs/")
-;; "~/h/maruska/"
 
 (defun insert-local-url (file)
   "insert an URL from my local File System"
@@ -47,6 +37,20 @@
     (setq file-path (match-string 1 file))
     ;; FIXME: should use the `url'
     (insert (concat "http://" host "" file-path))))
+
+
+(defun insert-local-url-michal ()
+  "prompt for a file, and then insert a (public) URL for that."
+  (interactive)
+  (let ((www-server-config
+	 (list "/linux/2/var/www/maruska/michal"
+	       "michal.ruska.dyndns.org")))
+    (call-interactively 'insert-local-url)))
+
+
+
+;; (defconst www-server-root  "/linux/2/var/www/maruska/htdocs/")
+;; "~/h/maruska/"
 
 
 (global-set-key [(alt ?u)] 'insert-local-url)
@@ -86,8 +90,9 @@
 	(url-http-asynchronous-p nil))
     (url-http  url 'insert-the-http-download (list (point-marker)))))
 
+
 (defun insert-the-http-download (marker &rest args)
-  ""
+  "callback for URL to insert the downloade text at the MARKER."
   (message "ok")
   (search-forward-regexp "^$")
 
