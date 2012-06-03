@@ -64,11 +64,6 @@
     "/home/mmc/sf/.src/"
     )  "*Where to find C sources.")
 
-;;  other code for find-file
-(defun file-if-exists (filename)
-  "return the FILENAME, if it exists (in the filesystem), otherwise NIL"
-  (if (file-exists-p filename)
-      filename))
 
 (require 'mmc-string)
 

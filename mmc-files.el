@@ -20,6 +20,12 @@
   "see `compose-path'"
   (compose-path dir filename))
 
+;;  other code for find-file
+(defun file-if-exists (filename)
+  "return the FILENAME, if it exists (in the filesystem), otherwise NIL"
+  (if (file-exists-p filename)
+      filename))
+
 (defun find-subpath-in-paths (subpath path-list)
   ""
   (list-search-positive
