@@ -241,4 +241,35 @@ Do you want to revisit the file normally now? ")
 	  (find-file-noselect-1 buf filename nowarn
 				rawfile truename number))))))
 
+
+
+(defun find-library-name (library)
+  "Return the absolute file name of the Emacs Lisp source of LIBRARY.
+LIBRARY should be a string (the name of the library)."
+  ;; If the library is byte-compiled, try to find a source library by
+  ;; the same name.
+  (if (string-match "\\.el\\(c\\(\\..*\\)?\\)\\'" library)
+      (setq library (replace-match "" t t library)))
+  (or
+   (when (file-name-absolute-p library)
+     (let ((rel (find-library--load-name library)))
+       (when rel
+         (or
+          (locate-file rel
+                       (or find-function-source-path load-path)
+                       (find-library-suffixes))
+          (locate-file rel
+                       (or find-function-source-path load-path)
+                       load-file-rep-suffixes)))))
+
+   (locate-file library
+		(or find-function-source-path load-path)
+		(find-library-suffixes))
+   (locate-file library
+		(or find-function-source-path load-path)
+		load-file-rep-suffixes)
+
+   (error "Can't find library %s" library)))
+
+
 (provide 'mmc-patches)
