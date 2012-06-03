@@ -8,7 +8,7 @@
 ;; have a `root' + read-root
 ;; then we look at the filename, substract `root' from it
 ;; and rewrite it to hostname+path.
-;; 
+;;
 
 
 ;; todo: Customize
@@ -33,25 +33,25 @@
 (defun insert-local-url (file)
   "insert an URL from my local File System"
   (interactive
-   (list 
+   (list
     (read-file-name "Local file: " (nth 0 www-server-config))))
   (let ((host (nth 1 www-server-config))
 	file-path)
-    
-    (string-match 
+
+    (string-match
      (concat (regexp-quote (nth 0 www-server-config))
              "\\(/.*\\)$")
                                         ;"~/h/maruska\\(/.*\\)$"
      file)
     (setq file-path (match-string 1 file))
-    ;; FIXME: should use the `url' 
+    ;; FIXME: should use the `url'
     (insert (concat "http://" host "" file-path))))
 
 
 (global-set-key [(alt ?u)] 'insert-local-url)
 
 
-;;; Is this copied from somewhere? 
+;;; Is this copied from somewhere?
 
 ;; (w3-download-url "http://linux1/embperl/tex/indirizzi/proposte.tex?uomo=12394&tipo=1200" "hello")
 ;; (www-url-find-file-noselect "http://linux1/embperl/tex/indirizzi/proposte.tex?uomo=12394&tipo=1200")
@@ -86,7 +86,7 @@
   ""
   (message "ok")
   (search-forward-regexp "^$")
-  
+
   (let ((http-buffer (current-buffer))
 	(start (point))
 	(end (point-max)))
