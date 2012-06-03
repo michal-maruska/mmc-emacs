@@ -1,5 +1,5 @@
 
-;; http://www.emacswiki.org/cgi-bin/wiki/EdiffMode 
+;; http://www.emacswiki.org/cgi-bin/wiki/EdiffMode
 
 (require 'ediff)
 ;;; config:
@@ -10,7 +10,7 @@
 
 ;; (require 'ediff)
 
-;(setq emerge-diff-options "--ignore-all-space")  
+;(setq emerge-diff-options "--ignore-all-space")
 
 
 
@@ -22,7 +22,7 @@
 (defcustom my-ediff-dir "/tmp/emacs/ediff/"
   "Dir where i store temporary copy of the buffer, when ... to the file"
   :group 'ediff
-  :type 'filename);; directory 
+  :type 'filename);; directory
 
 
 ;; ignore space
@@ -50,7 +50,7 @@
 
 
 
-;; i want the stuff accessible from Global keymap: 
+;; i want the stuff accessible from Global keymap:
 (defconst ediff-keymap (make-sparse-keymap) "")
 
 (let ((map ediff-keymap))
@@ -91,7 +91,7 @@ that can be used to filter out certain file names."
              default-directory
                                         ;(ediff-get-default-directory-name)
              )
-            (dir-B 
+            (dir-B
              ;; realign buffers so that two visible bufs will be
              ;; at the top
              (save-window-excursion
@@ -100,9 +100,9 @@ that can be used to filter out certain file names."
                ))
             f)
         (list (setq f (ediff-read-file-name "Directory A to compare:" dir-A nil))
-              (ediff-read-file-name "Directory B to compare:" 
+              (ediff-read-file-name "Directory B to compare:"
                                     ;; '(if ediff-use-last-dir
-                                    ;; 				     ediff-last-dir-B 
+                                    ;; 				     ediff-last-dir-B
                                     ;;                                     (ediff-strip-last-dir f))
                                     dir-B
                                     nil)
@@ -120,7 +120,7 @@ that can be used to filter out certain file names."
   '(
     ""; "/x/cvs/xfree/xc/"
     ;; "/linux/13/x/xfree86/xc/";; programs/Xserver/
-    
+
 
     ;"/linux/13/x/xfree86/build-xkb/";; programs/Xserver/
     ;"/tmp/xpatches/medved/"
@@ -132,7 +132,7 @@ that can be used to filter out certain file names."
     "~/xfree/xpatches/medved-plugin/"
 
     ;;"/linux/13/x/xfree86/build-medved/";; programs/Xserver/
-    
+
 
 
     ;"/p/xfree-4.3.99.901-r4/work/"
@@ -168,7 +168,7 @@ that can be used to filter out certain file names."
 
 (eval-after-load "ediff"
   '(progn
-     (setcdr 
+     (setcdr
       (car ediff-control-frame-parameters) nil)
 
      (setq
