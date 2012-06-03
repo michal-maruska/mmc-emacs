@@ -181,6 +181,8 @@
     'mmc-isearch-exit
     ))
 
+(defvar isearch-level)
+
 ;; bug: isearch-level is not returned to 0.  Why?
 (defun isearch-reset()
   (interactive)
