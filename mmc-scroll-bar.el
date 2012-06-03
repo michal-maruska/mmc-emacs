@@ -1,9 +1,13 @@
-(if running-xemacs
-    (set-specifier scrollbar-on-left-p  't)
-  (progn
-    ;(set-scroll-bar-mode `right)
-    (set-scroll-bar-mode 'left)
-    ))
+
+(eval-when-compile
+  (if running-xemacs
+      (defun set-scrollbar-to-left ()
+	""
+	(set-specifier scrollbar-on-left-p  't))
+    (defun set-scrollbar-to-left ()
+					;(set-scroll-bar-mode `right)
+      (set-scroll-bar-mode 'left)
+      )))
 
 ;; mmc: Is this needed?
 ;; (make-face 'scroll-bar)
