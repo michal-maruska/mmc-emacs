@@ -1,3 +1,46 @@
+mmc-emacs (1.13) release; urgency=low
+
+  * clean warnings
+  * spaces
+  * cl vs. byte-compiling
+  * emacs vs Xemacs ?? -- Unsuccessful
+  * fix byte-compiler warning
+  * cl vs byte-compile
+  * mmc-paren:  fix & clean
+  * no need to require mmc-minibuffer  at compile time -- not a macro!
+  * fix a byte-compile warning
+  * fix BC warning
+  * space
+  * spaces
+  * ediff:  divide into sections. Document my functions.
+  * clean comments / format
+  * don't BCompile the init file
+  * format
+  * remove crap string
+  * kill-line-save:  the (whole) line AROUND
+  * put mmc-ring on-hold
+  * substring TO negative
+  * wrong use of eval-when-compile
+  * move file-if-exists to where needed
+  * syntax-alist  fix
+  * global-font-lock-mode fix
+  * dependency
+  * fix comment to 80-columns
+  * fix BC -- declare first.
+  * fix BC -- first 2
+  * spaces
+  * url: format
+  * url: document functions
+  * fboundp: fix BC
+  * typo ?
+  * fix BC?
+  * no. eval-when-compile for those running-xemacs is wrong
+  * declare the problematic var.
+  * stock ibuffer-visit-buffer  is now acceptabe.
+  * document todo
+
+ -- Michal Maruska <mmaruska@gmail.com>  Sun, 03 Jun 2012 18:39:10 +0200
+
 mmc-emacs (1.12) release; urgency=low
 
   * with-keymaps-switched as a function (not macro).
