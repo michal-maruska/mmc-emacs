@@ -50,7 +50,9 @@
 (require 'mmc-paren)
 
 
-(require 'mmc-ring)
+;; Maybe not used:
+;; (require 'mmc-ring)
+
 
 ;; todo:  move to mmc-emacs-config!
 
