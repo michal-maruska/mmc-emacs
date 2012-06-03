@@ -26,7 +26,7 @@
     (erase-buffer)
     (mapcar
      (lambda (item)
-       (widget-create 'sf-window 
+       (widget-create 'sf-window
 		      :value item)
        (widget-insert "\n"))
      info))
@@ -66,7 +66,7 @@
 	(goto-char (point-min))))
     (unless (eq old-buffer buffer)
       (switch-to-buffer-other-window buffer 't)
-      (bury-buffer buffer)		;fixme 
+      (bury-buffer buffer)		;fixme
       )))
 
 
@@ -121,7 +121,7 @@
 
 
 (defun sf-add-window-to-space (w space)
-  (interactive  
+  (interactive
    (list (sf-window-on-the-line)
          (string-to-number (read-string "space: ")))) ; fixme
   (sawfish-eval `(ws-add-window-to-space (get-window-by-id ,w) ,space)))
@@ -134,7 +134,7 @@
 (let ((map sf-menu-mode-map))
   (define-key map "\C-m" 'sf-switch-to-window)
   (define-key map "\C-o" 'sf-switch-to-window)
-  
+
   (define-key map "i" 'sf-info-on-window)
   (mapc
    (lambda (item)
@@ -142,11 +142,11 @@
    '(1 2 3 4 5 6 7 8 9 0))
   (define-key map "w" 'sf-limit-to-workspace)
   (define-key map "a" 'sf-add-window-to-space)
-  
+
 
   (define-key map "v" 'Process-menu-select)
   (define-key map "f" 'Process-menu-this-window)
-  
+
   (define-key map "o" 'Process-menu-other-window)
   (define-key map "q" 'quit-window)
   (define-key map "d" 'Process-menu-delete)
@@ -162,8 +162,8 @@
 			     (interactive)
 			     (switch-to-buffer "*inferior-lisp*")))
 
-  
-  
+
+
   (define-key map "W" 'Process-menu-send-buffer)
   (define-key map "e" 'Process-menu-send-eof)
   (define-key map " " 'next-line)
@@ -186,7 +186,7 @@
   (goto-char (point-max))
   (backward-delete-char 1))
 
-;(read-string 
+;(read-string
 
 (defun sf-info-on-window (id)
   "Get a page with info on the WINDOW (given by id)"
@@ -211,7 +211,7 @@
 
 
 
-  
+
 
 (defun sf-menu-mode ()
   "Major mode for editing a list of processes.
@@ -240,7 +240,6 @@ The buffer is named `*Process List*'."
       (setq buffer-read-only nil)
       (erase-buffer)
 
-      
       (setq standard-output (current-buffer))
       (princ "\
  S ID    Process      Buffer         Tty         Command
@@ -250,11 +249,11 @@ The buffer is named `*Process List*'."
       (setq Process-menu-process-column 9)
       (let ((pl (process-list)))
 	(Process-menu-mode)
-      ;; DESIRED-POINT doesn't have to be set; it is not when the
-      ;; current buffer is not displayed for some reason.
-      (and desired-point
-           (goto-char desired-point))
-      (current-buffer)))))
+	;; DESIRED-POINT doesn't have to be set; it is not when the
+	;; current buffer is not displayed for some reason.
+	(and desired-point
+	     (goto-char desired-point))
+	(current-buffer)))))
 
 
 
@@ -266,7 +265,7 @@ The buffer is named `*Process List*'."
     (with-output-to-temp-buffer-bury buffer-name
       (princ
        (sawfish-code
-	 (apply concat 
+	 (apply concat
 		(mapcar
 		 (lambda (hook)
 		   (condition-case data
