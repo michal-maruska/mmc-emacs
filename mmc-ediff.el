@@ -65,7 +65,7 @@
   ;(define-key map "b" 'ebuffers)
   (define-key map "f" 'ediff))
 
-(global-set-key [(control ?E)] 'ediff-map)
+(global-set-key [(control ?E)] ediff-keymap)
 
 
 ;(frame-first-window
