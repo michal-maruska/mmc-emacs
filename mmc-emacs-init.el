@@ -1,3 +1,5 @@
+;; -*-no-byte-compile: t; -*-
+
 ;; mmc:
 (require 'mmc-cli-options)
 ;; attention: this requires  url from w3. Gentoo declared it dead, and masks it!
