@@ -24,7 +24,7 @@
 ;;  defined-colors
 ;;  color-values
 
-;; d/ ok, this is a _valid_ notation for a color: "#XXXYYYZZZ"    
+;; d/ ok, this is a _valid_ notation for a color: "#XXXYYYZZZ"
 
 ;; now i would have the entire space, and want to avoid certain 'holes'
 ;; (around background, and a set of known faces: friends ...)
@@ -88,7 +88,7 @@
 
 (defun color-distance (rgb-a rgb-b)
   "(square of) euclidean distince in the RGB space."
-  ;(sqrt   ... 
+  ;(sqrt   ...
   (+
    (expt (- (car rgb-b)
            (car rgb-a)) 2)
@@ -221,9 +221,9 @@ which is a lower approximation"
   (let ((colors-available (length color-name-rgb-alist)))
     ; (message "color-grid-init: for bg: %s or %s"
     ;      (frame-parameter (selected-frame) 'background-color) (aget default-frame-alist 'background-color))
-    
 
-    
+
+
     ;;    size is the # of nodes on edge(s)
     ;;  o-----o-----o-----o ...
     ;;  |\    |\
@@ -309,15 +309,15 @@ Just a specification, which is *legal* for text properties !"
 
                                             (if (gethash string string->color-hash 'nil)
                                                 (gethash string string->color-hash 'nil)
-    
+
                                               (let* ((index (mod (sxhash string) new-color-grid-volume))
-                                                     ;; car cadr 
+                                                     ;; car cadr
                                                      (color (list (mod index new-color-grid-size)
                                                                   (mod (/ index new-color-grid-size) new-color-grid-size)
                                                                   (/ index new-color-grid-size  new-color-grid-size)))
                                                      (good (find-free-point color)))
                                                 (reserver-color-point good)
-                                                (puthash string good string->color-hash) 
+                                                (puthash string good string->color-hash)
                                                 good))))))
 ;;(put-text-property (point) (+ 10 (point)) 'face '(:foreground "RGB:68/42/10"))
 
@@ -439,7 +439,7 @@ Just a specification, which is *legal* for text properties !"
   ""
   (interactive)
   (let ((current-color
-         (plist-get 
+         (plist-get
           (plist-get (text-properties-at (point)) 'face)
           :foreground)))
     (message (format "|%s - %s| = %d" last-color-measured current-color
