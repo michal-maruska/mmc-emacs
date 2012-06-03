@@ -1,5 +1,6 @@
 
-;;; This is to enter the URL for an `own' file. File-opening-completion is used to find
+;;; This is to enter the URL for an `own' file.
+;;; File-opening-completion is used to find
 ;;  the file on local FS, and URL is then created by rewriting.
 
 (require 'url nil 'NOERROR)
@@ -53,8 +54,10 @@
 
 ;;; Is this copied from somewhere?
 
-;; (w3-download-url "http://linux1/embperl/tex/indirizzi/proposte.tex?uomo=12394&tipo=1200" "hello")
-;; (www-url-find-file-noselect "http://linux1/embperl/tex/indirizzi/proposte.tex?uomo=12394&tipo=1200")
+;; (w3-download-url
+;; "http://linux1/embperl/tex/indirizzi/proposte.tex?uomo=12394&tipo=1200" "hello")
+;; (www-url-find-file-noselect
+;;  "http://linux1/embperl/tex/indirizzi/proposte.tex?uomo=12394&tipo=1200")
 
 (defun www-url-find-file-noselect (path &rest args)
   "Find PATH without selecting its buffer.  Handle http urls."
@@ -78,7 +81,8 @@
 
 (when nil
   (let ((url
-	 (url-generic-parse-url "http://linux1/embperl/tex/indirizzi/proposte.tex?uomo=12394&tipo=1200"))
+	 (url-generic-parse-url
+	  "http://linux1/embperl/tex/indirizzi/proposte.tex?uomo=12394&tipo=1200"))
 	(url-http-asynchronous-p nil))
     (url-http  url 'insert-the-http-download (list (point-marker)))))
 
