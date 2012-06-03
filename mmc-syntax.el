@@ -10,6 +10,23 @@
 
 ;; (syntax-table-p  (standard-syntax-table))
 ;; text-mode-syntax-table
+(defconst syntax-alist
+  '(
+    (?\ . "whitespace")
+    (?-  . "whitespace")
+    (?w . "word")
+    (?_ . "symbol")
+    (?. . "punctuation")
+    (?\( . "open parenthesis")
+    (?\) . "close parenthesis")
+    (?\" . "string quote")
+    (?\\ . "escape")
+    (?/ . "quote")
+    (?$ . "paired delimiter")
+    (?' . "expression"))
+  "")
+
+
 
 '(with-syntax-table (standard-syntax-table)
   (let* ((char ?\ )
@@ -55,21 +72,6 @@
       (let ((code (char-syntax char)))
 	(message "%c -> %s (%c)" char (aget syntax-alist code) code)))))
 
-(defconst syntax-alist
-  '(
-    (?\ . "whitespace")
-    (?-  . "whitespace")
-    (?w . "word")
-    (?_ . "symbol")
-    (?. . "punctuation")
-    (?\( . "open parenthesis")
-    (?\) . "close parenthesis")
-    (?\" . "string quote")
-    (?\\ . "escape")
-    (?/ . "quote")
-    (?$ . "paired delimiter")
-    (?' . "expression"))
-  "")
 
 ;(with-syntax-table message-mode-syntax-table (char-syntax ?.))
 (eval-after-load
