@@ -7,9 +7,8 @@
 
 ;; fixme:
 (defun rename-buffer-to (old new)
-  "renam buffer OLD to NEW"
-  (save-excursion
-    (set-buffer old)
+  "rename buffer OLD to NEW"
+  (with-current-buffer old
     (rename-buffer new)))
 
 
