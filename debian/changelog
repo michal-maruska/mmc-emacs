@@ -1,3 +1,11 @@
+mmc-emacs (1.15) release; urgency=low
+
+  * find-library-name:  even if looking for /.../*.el, first check MY source trees.
+  * bind/give back  bury-buffer
+  * bugfix: cannot bind a Symbol, only the map itself
+
+ -- Michal Maruska <mmaruska@gmail.com>  Mon, 04 Jun 2012 16:17:30 +0200
+
 mmc-emacs (1.14) release; urgency=low
 
   * update mic-paren
