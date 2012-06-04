@@ -272,4 +272,48 @@ LIBRARY should be a string (the name of the library)."
    (error "Can't find library %s" library)))
 
 
+
+;; Fix ffap-URL to ignore <> in the c-mode.
+;;  #include <stdio>  would mailto:stdio.
+(defun ffap-url-at-point ()
+  "Return URL from around point if it exists, or nil."
+  ;; Could use w3's url-get-url-at-point instead.  Both handle "URL:",
+  ;; ignore non-relative links, trim punctuation.  The other will
+  ;; actually look back if point is in whitespace, but I would rather
+  ;; ffap be less aggressive in such situations.
+  (and
+   ffap-url-regexp
+   (or
+    ;; In a w3 buffer button?
+    (and (eq major-mode 'w3-mode)
+	 ;; interface recommended by wmperry:
+	 (w3-view-this-url t))
+    ;; Is there a reason not to strip trailing colon?
+    (let ((name (ffap-string-at-point 'url)))
+      (cond
+       ((string-match "^url:" name) (setq name (substring name 4)))
+       ((and (string-match "\\`[^:</>@]+@[^:</>@]+[[:alnum:]]\\'" name)
+	     ;; "foo@bar": could be "mailto" or "news" (a Message-ID).
+	     ;; Without "<>" it must be "mailto".  Otherwise could be
+	     ;; either, so consult `ffap-foo-at-bar-prefix'.
+	     (let ((prefix (if (and (equal (ffap-string-around) "<>")
+				    ;; Expect some odd characters:
+				    (string-match "[$.0-9].*[$.0-9].*@" name))
+			       ;; Could be news:
+			       ffap-foo-at-bar-prefix
+			     "mailto")))
+	       (and prefix (setq name (concat prefix ":" name))))))
+       ((ffap-newsgroup-p name) (setq name (concat "news:" name)))
+       ((and (string-match "\\`[[:alnum:]]+\\'" name) ; <mic> <root> <nobody>
+	     (not (member major-mode
+			  '(c-mode
+			    c++-mode)))
+	     (equal (ffap-string-around) "<>")
+	     ;;	(ffap-user-p name):
+	     (not (string-match "~" (expand-file-name (concat "~" name))))
+	     )
+	(setq name (concat "mailto:" name)))
+       )
+      (and (ffap-url-p name) name)
+      ))))
 (provide 'mmc-patches)
