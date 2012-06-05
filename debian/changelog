@@ -1,3 +1,10 @@
+mmc-emacs (1.16) release; urgency=low
+
+  * ffap vs C-mode <stdio>
+  * hide the dependency on dircolors, behind autoload
+
+ -- Michal Maruska <mmaruska@gmail.com>  Tue, 05 Jun 2012 03:09:51 +0200
+
 mmc-emacs (1.15) release; urgency=low
 
   * find-library-name:  even if looking for /.../*.el, first check MY source trees.
