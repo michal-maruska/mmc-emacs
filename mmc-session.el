@@ -1,8 +1,9 @@
-(defun maybe-open-rest (other-files)
+(defun maybe-open-rest (other-files force)
   ""
   ;; (message "maybe-open-rest %s" other-files)
   (if other-files
-      (if (y-or-n-p "open also the other --clean-- files? ")
+      (if (or force
+	      (y-or-n-p "open also the other --clean-- files? "))
 	  (mapc
 	   (lambda (file)
 	     (find-file-noselect file t))
@@ -101,7 +102,7 @@ This command is used in the special Dired buffer created by
 			       '("file" "files" "recover"))
 	      (message "No files can be recovered from this session now"))
 
-	    (maybe-open-rest other-files)))
+	    (maybe-open-rest other-files (= 1 force))))
       (kill-buffer buffer))))
 
 ;;
