@@ -21,7 +21,7 @@ If optional argument SINGLE is non-nil, then also ensure there is only"
       (delete-other-windows))))
 
 
-(require 'dircolors)
+(autoload 'dircolors "dircolors")
 (add-hook 'ibuffer-mode-hooks   'dircolors)
 ;;(remove-hook 'ibuffer-mode-hooks   'dircolors)
 
