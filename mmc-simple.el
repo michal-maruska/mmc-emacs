@@ -292,6 +292,8 @@ move to with the same argument."
 (defalias 'alist 'list)
 
 
+(require 'mmc-ring)
+
 ;; fixme: ring !!!
 (defun my-completing-read (prompt table &optional predicate require-match init
 				  hist def inherit-input-method ring)
