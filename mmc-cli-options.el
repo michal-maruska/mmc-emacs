@@ -11,7 +11,14 @@
 
 
 (defvar mmc-nodesktop () "toggle from the CLI")
-(setq mmc-nodesktop (member "-nodesktop" command-line-args))
+
+;; at the beginning.
+(add-hook 'before-init-hook
+  (lambda ()
+    (message "looking at CLI args")
+    (setq mmc-nodesktop (member "-nodesktop" command-line-args)))
+  nil)
+
 
 
 (provide 'mmc-cli-options)
