@@ -34,7 +34,15 @@
   (interactive)
   (setq buffer-read-only 't))
 
-(defface diff-overlay-face nil "")
+(defgroup mmc-config nil
+  "various items."
+  :prefix "mmc-"
+  :group 'misc)
+
+(defface diff-overlay-face nil ""
+  :group 'faces
+  :group 'mmc-config)
+
 
 (defun diff-post-command-hook ()
   ;(magit-correct-point-after-command)
