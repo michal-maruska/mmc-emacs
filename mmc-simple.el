@@ -7,8 +7,11 @@
     (string-match "XEmacs\\|Lucid" emacs-version))
   (if running-xemacs
       ;;"21.2.b37" ;emacs-version
-      (defvar xemacs-version (construct-emacs-version-name) ""))
-
+      (defvar xemacs-version
+	(if (fboundp 'construct-emacs-version-name)
+	    (construct-emacs-version-name)
+	  nil)
+	""))
 
   (defconst emacs-21
     (string-match "^2[124]\.*" emacs-version))
