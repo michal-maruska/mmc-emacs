@@ -3,6 +3,7 @@
 
 (require 'ibuffer)
 (require 'mmc-simple)
+(require 'mmc-kill-buffer)
 
 
 ;;; I don't want to bury the  *Ibuffer* buffer.
