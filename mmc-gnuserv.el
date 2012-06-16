@@ -1,36 +1,39 @@
 
-;;; Note: this used to be in `my'  patched  gnuserv package. Now experimenting w/ stock gnuserv, and therefore
+;;; Note: this used to be in `my'  patched  gnuserv package.
+;;; Now experimenting w/ stock gnuserv, and therefore
 ;;; including this file in `mmc-emacs' package!
 
 
 ;;; i had to:
-;; * change the ./confgure flags (in ebuild) to *disable* unix-domain sockets (which take precedence)..
-;; autothority ? i have a file
+;; * change the ./confgure flags (in ebuild) to *disable* unix-domain sockets
+;; (which take precedence)..  autothority ? i have a file
 
 ;; Emacs CVS has problems w/o this. fixme!
-(defun define-obsolete-variable-alias (&rest rest)
-  ""
-  1
-  )
+;;(defun define-obsolete-variable-alias (&rest rest)
+;;  ""
+;;  t)
+
 
 (defvar gnuserv-authority-file "~/.gnuserv.trust" "")
 
 (defvar gnuserv-port
   (+ 21490 (user-uid)
      (if running-xemacs 1000 0)
-     1
-     )
-  "run gnuserv w/ this port.  i run both emacs/xemacs and want to contact them both.")
+     1)
+  "run gnuserv w/ this port.
+ I run both emacs/xemacs and want to contact them both.")
 
 
 
-(when t; nil    ... in emacs-22 I need this, since gnuserv-compat define `temp-directory'  !
+(when t	            ; nil ... in emacs-22 I need this, since gnuserv-compat define
+					; `temp-directory' !
   (unless running-xemacs
                                         ;(unless emacs-22
-    ;; 
-    (require 'gnuserv-compat)		;"/usr/share/emacs/site-lisp/gnuserv/gnuserv-compat.el"
+    (require 'gnuserv-compat)
+    ;;"/usr/share/emacs/site-lisp/gnuserv/gnuserv-compat.el"
     ;; emacs-22 needs source !
-    (require 'gnuserv )			;"/usr/share/emacs/site-lisp/gnuserv/gnuserv.el"
+    (require 'gnuserv )
+    ;;"/usr/share/emacs/site-lisp/gnuserv/gnuserv.el"
     ))
 
 ;;; I don't run gnuserv in some cases?
@@ -64,8 +67,8 @@
 
 ;(setq gnuserv-session 3)
 (defun my-gnuserv-start (session)      ;&optional
-
-  "run gnuserv w/ this port.  i run both emacs/xemacs and want to contact them both."
+  "run gnuserv w/ this port.
+I run both emacs/xemacs and want to contact them both."
   (interactive "nsession: \n")
   (unless session
     (setq session 0))
