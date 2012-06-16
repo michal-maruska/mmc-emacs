@@ -94,14 +94,14 @@ I run both emacs/xemacs and want to contact them both."
   (setenv "GNU_SECURE" (expand-file-name gnuserv-authority-file))
   (gnuserv-start))
 
-;; hack:
-(defvar mmc-nodesktop nil "")
+(require 'mmc-cli-options)
 
+;; register this at init time:
 
-(run-wo-fail
- (my-gnuserv-start (if mmc-nodesktop 1 0))
- )
-
-
+(add-hook
+     'after-init-hook
+   (lambda ()
+     (run-wo-fail (my-gnuserv-start (if mmc-nodesktop 1 0)))
+     ))
 
 (provide 'mmc-gnuserv)
