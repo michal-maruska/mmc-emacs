@@ -92,11 +92,11 @@
   (gnuserv-start))
 
 ;; hack:
-(defvar nodesktop nil "")
+(defvar mmc-nodesktop nil "")
 
 
 (run-wo-fail
- (my-gnuserv-start (if nodesktop 1 0))
+ (my-gnuserv-start (if mmc-nodesktop 1 0))
  )
 
 

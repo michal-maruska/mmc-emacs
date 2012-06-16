@@ -10,8 +10,8 @@
 	     (cons "-gnus" 'relax))
 
 
-(defvar nodesktop () "toggle from the CLI")
-(setq nodesktop (member "-nodesktop" command-line-args))
+(defvar mmc-nodesktop () "toggle from the CLI")
+(setq mmc-nodesktop (member "-nodesktop" command-line-args))
 
 
 (provide 'mmc-cli-options)
