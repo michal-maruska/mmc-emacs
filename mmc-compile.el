@@ -99,7 +99,9 @@ When editing the Grep command line, \M-m invokes selection of directory where to
 ;;(setq compilation-ask-about-save 't)
 (eval-after-load 'compile
   '(progn
-     (defvar compile-wo-saving nil "if 't do not save buffers (interactively) before compile")
+     (defvar compile-wo-saving nil
+       "if 't do not save buffers (interactively) before compile")
+     (setq compile-wo-saving 't)
      (defun compile (command)
        "Compile the program including the current buffer.  Default: run `make'.
 Runs COMMAND, a shell command, in a separate process asynchronously
@@ -132,5 +134,4 @@ to a function that generates a unique name."
      ))
 
 
-(setq compile-wo-saving 't)
 (provide 'mmc-compile)
