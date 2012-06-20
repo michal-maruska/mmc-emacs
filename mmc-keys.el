@@ -563,5 +563,20 @@ Leave one space or none, according to the context."
 (define-key global-map [(control ?m)] 'newline-and-indent)
 
 
+;;; emacs-24 `yanking:'
+(setq mouse-yank-at-point t)
+
+(defun yank-primary (arg)
+  "yank, from the X `primary' selection."
+  ;; prefix -> stay at the
+  (interactive "P")
+  (push-mark (point))
+  (if arg
+      (save-excursion
+	(mouse-yank-primary t))
+    (mouse-yank-primary t)))
+
+(global-set-key [(control ?c) (control ?y)] 'yank-primary)
+
 ;;; end
 (provide 'mmc-keys)
