@@ -35,8 +35,16 @@
 (autoload 'css-mode "css-mode")
 (autoload 'perl-mode "perl-mode")
 
+(add-to-list 'auto-mode-alist
+	     '("\\.qml$" . java-mode))
 
-
+(add-to-list 'auto-mode-alist
+	     '("\\.pro$" . makefile-mode))
+; auto-mode-alist
+(add-to-list 'auto-mode-alist
+	     '("\\.adb$" . sh-mode))
+(add-to-list 'auto-mode-alist
+	     '("\\.sls$" . scheme-mode))
 
 
 ;;;  Global MODE-HOOKS 
