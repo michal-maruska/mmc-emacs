@@ -1,3 +1,21 @@
+mmc-emacs (1.17) release; urgency=low
+
+  * by default open all files w/o asking. Unless a prefix is given.
+  * fix dependency
+  * rename nodesktop variable
+  * fix BC warning (compile-wo-saving)
+  * reformat
+  * avoid running code. Register an after-init hook!
+  * don't run code. register a hook!
+  * defface inside a group: mmc-config
+  * BC: fboundp to fix xemacs.
+  * adapt to emacs24 yanking vs X Primary selection
+  * clean some (x)emacs nonsense in outline
+  * delete trailing spaces ... by default the whole buffer
+  * additions to  auto-mode-alist
+
+ -- Michal Maruska <mmaruska@gmail.com>  Sun, 24 Jun 2012 11:37:49 +0200
+
 mmc-emacs (1.16) release; urgency=low
 
   * ffap vs C-mode <stdio>
