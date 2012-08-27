@@ -282,9 +282,8 @@
 
 
 
-;; i want letters-> buffers
+;; I want letters-> buffers
 
-;; (defvar my-global-buffer-keymap (make-sparse-keymap) "my special ops on buffers")
 (defvar my-global-buffer-keymap
   (let ((map (make-sparse-keymap)))
     (define-key map [?k] 'kill-buffers-with-minor-mode)
@@ -292,9 +291,15 @@
     map))
 
 
-;; this does not define when loading it byte-compiled.
+
+;; This does not define when loading it byte-compiled.
 ;;(eval-and-compile
 ;;  (defconst my-global-keymap (make-sparse-keymap) ""))
+;; fixme: If I eval this-buffer, I will lose what is bound
+;; in other files, say mmc-ring.el !
+;;(eval-and-compile
+;;  (defconst my-global-keymap (make-sparse-keymap) ""))
+
 
 ;; (defconst my-global-keymap (make-sparse-keymap) "")
 ;;(defvar my-distinct-input-methods-map (make-sparse-keymap) "")
@@ -303,7 +308,7 @@
   (let ((map (make-sparse-keymap)))	; my-global-keymap
     (define-key map [?b] my-global-buffer-keymap)
     (define-key map [?c] 'rename-buffer) ;adviced !
-					;(define-key map [?d] 'calibrate-current-directory)
+    ;;(define-key map [?d] 'calibrate-current-directory)
 
     ;; see my-desktop.el##my-desktop-keymap
 
@@ -323,17 +328,21 @@
     (define-key map [?j] 'list-jobs)
 
     (define-key map [?/] 'set-default-directory)
+    (define-key map [(meta ? )] 'set-default-directory)
 
     (define-key map [?.] 'normal-mode)
     (define-key map [?v] 'switch-to-alternate-buffer)
     (define-key map [(control ?v)] 'switch-to-alternate-buffer)
 
-    (define-key map [(meta ? )] 'set-default-directory)
     ;; Finally:
     (global-set-key [(control ?X) ] map)
     map))
 
 (define-key ctl-x-map [?x ] my-global-keymap)
+(define-key ctl-x-map [?x ] map)
+(define-key my-global-keymap [?u] 'my-bury-buffer)
+
+(autoload 'my-bury-buffer "mmc-ring")
 
 
 (defconst my-distinct-input-methods-alist
