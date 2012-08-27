@@ -1,6 +1,17 @@
+;;; mmc's customization of major modes   --- the tiny bits!
 
-;; mmc's customization of major modes   --- the tiny bits!
 
+;;; Detecting major mode
+;; see mmc-outline.el
+(add-to-list 'magic-fallback-mode-alist
+	     ;;magic-mode-alist
+	     '(detect-makefile . makefile-mode))
+
+
+(defun detect-makefile ()
+  (or
+   (string-match "\.mk\." (buffer-file-name))
+   (string-match "makefile" (buffer-file-name))))
 
 ;;; TeX
 (setq tex-default-mode 'latex-mode)
@@ -47,7 +58,7 @@
 	     '("\\.sls$" . scheme-mode))
 
 
-;;;  Global MODE-HOOKS 
+;;;  Global MODE-HOOKS
 (setq c-tab-always-indent nil)
 (unless (string-match "XEmacs" emacs-version)
   (global-font-lock-mode t)
