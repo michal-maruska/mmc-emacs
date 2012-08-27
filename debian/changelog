@@ -1,3 +1,10 @@
+mmc-emacs (1.18) release; urgency=low
+
+  * detect Makefiles (more aggresively).
+  * my-global-buffer-keymap:  recover lost keybindings. And maybe fix issues due to BC?
+
+ -- Michal Maruska <mmaruska@gmail.com>  Mon, 27 Aug 2012 13:12:37 +0200
+
 mmc-emacs (1.17) release; urgency=low
 
   * by default open all files w/o asking. Unless a prefix is given.
