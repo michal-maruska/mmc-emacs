@@ -1,4 +1,4 @@
-mmc-emacs (1.18) release; urgency=low
+mmc-emacs (1.18.1) release; urgency=low
 
   * sf:  quote a regexp
 
