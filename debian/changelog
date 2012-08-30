@@ -1,9 +1,11 @@
-mmc-emacs (1.18) release; urgency=low
+mmc-emacs (1.17.1) release; urgency=low
 
   * detect Makefiles (more aggresively).
   * my-global-buffer-keymap:  recover lost keybindings. And maybe fix issues due to BC?
+  * grep don't descend into the .git directory
+  * bugfix
 
- -- Michal Maruska <mmaruska@gmail.com>  Mon, 27 Aug 2012 13:12:37 +0200
+ -- Michal Maruska <mmaruska@gmail.com>  Thu, 30 Aug 2012 18:37:01 +0200
 
 mmc-emacs (1.17) release; urgency=low
 
