@@ -1,3 +1,9 @@
+mmc-emacs (1.18) release; urgency=low
+
+  * sf:  quote a regexp
+
+ -- Michal Maruska <mmaruska@gmail.com>  Thu, 30 Aug 2012 21:14:02 +0200
+
 mmc-emacs (1.17.1) release; urgency=low
 
   * detect Makefiles (more aggresively).
