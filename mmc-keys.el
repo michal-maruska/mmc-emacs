@@ -339,7 +339,6 @@
     map))
 
 (define-key ctl-x-map [?x ] my-global-keymap)
-(define-key ctl-x-map [?x ] map)
 (define-key my-global-keymap [?u] 'my-bury-buffer)
 
 (autoload 'my-bury-buffer "mmc-ring")
