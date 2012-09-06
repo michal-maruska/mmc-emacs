@@ -83,11 +83,11 @@
   ;; Keep everyone quiet.
   (defvar sawfish-mode-map)
   (defvar sawfish-mode-menu)
-  
+
   ;; Things to keep XEmacs quiet.
   (unless (boundp 'font-lock-defaults-alist)
     (defvar font-lock-defaults-alist))
-  
+
   ;; Things to keep GNU Emacs quiet.
   (unless (boundp 'delete-menu-item)
     (defun delete-menu-item (path)
@@ -183,7 +183,7 @@ This is a list of lists. Each entry in the list is of the format:
   :group 'sawfish)
 
 (defcustom sawfish-extra-keyword-list
-  '("add-frame-style" "call-after-load" "call-after-property-changed" 
+  '("add-frame-style" "call-after-load" "call-after-property-changed"
     "call-after-state-changed" "custom-set-property")
   "List of extra keywords for Sawfish used in highlighting.
 Highlight these expressions with `font-lock-keyword-face'."
@@ -194,7 +194,7 @@ Highlight these expressions with `font-lock-keyword-face'."
 ;; should be before ? must be!
 (defconst sawfish-defines-regexp
     (concat "(\\("
-            (regexp-opt 
+            (regexp-opt
              ;; A cute way to obtain the list below would be:
              ;; (sawfish-code (mapcar symbol-name (apropos "^define")))
              ;;
@@ -202,7 +202,7 @@ Highlight these expressions with `font-lock-keyword-face'."
              ;; define in your running instance of sawfish. It would also
              ;; mean that you'd have to have sawfish running at the time
              ;; that this constant is defined.
-             (list 
+             (list
               "define" "define-command-args" "define-command-to-screen"
               "define-command"          ;mmc
               "define-custom-deserializer" "define-custom-serializer"
@@ -237,8 +237,8 @@ Highlight these expressions with `font-lock-keyword-face'."
   (setq
    sawfish-additional-keywords
    (append lisp-font-lock-keywords-2
-	   (list 
-	    ;; highlight define-* 
+	   (list
+	    ;; highlight define-*
 	    (list
 	     sawfish-defines-regexp
 	     '(1 font-lock-keyword-face)
@@ -246,14 +246,14 @@ Highlight these expressions with `font-lock-keyword-face'."
 	       font-lock-variable-name-face nil t))
 	    ;; extra keywords
 	    (if sawfish-extra-keyword-list
-		(list (concat "\\<" 
-			      `,(regexp-opt sawfish-extra-keyword-list) 
+		(list (concat "\\<"
+			      `,(regexp-opt sawfish-extra-keyword-list)
 			      "\\>")
 		      '(0 font-lock-keyword-face)))
 	    ;; highlight warnings
 	    (if value			;sawfish-warning-keyword-list
-		(list (concat "\\<" 
-			      `,(regexp-opt value) 
+		(list (concat "\\<"
+			      `,(regexp-opt value)
 			      "\\>")
 		      '(0 font-lock-warning-face prepend)))))))
 
@@ -342,7 +342,7 @@ Special commands:
   ;; need to drag those settings down to us in different ways (hmm)....
   (if (and (boundp 'running-xemacs) (symbol-value 'running-xemacs))
       ;; XEmacs appears to do something like this...
-      (put 'sawfish-mode 'font-lock-defaults 
+      (put 'sawfish-mode 'font-lock-defaults
            (get 'emacs-lisp-mode 'font-lock-defaults))
     ;; ...with GNU Emacs we need to pull it from `font-lock-defaults-alist'.
     (unless font-lock-defaults
@@ -353,7 +353,7 @@ Special commands:
     (unless (memq 'sawfish-additional-keywords (car font-lock-defaults))
       (setq font-lock-defaults (copy-alist font-lock-defaults))	; why ??
       (setcar font-lock-defaults 	; acting on KEYWORDS
-	      (append (car font-lock-defaults) 
+	      (append (car font-lock-defaults)
 		      '(sawfish-additional-keywords))))); (setcdr (nthcdr 12 sawfish-additional-keywords) nil)
   ;; Menu stuff.
   (if (and (boundp 'running-xemacs) (symbol-value 'running-xemacs))
@@ -530,7 +530,7 @@ set by the variable `sawfish-result-buffer'"
   (if (sawfish-string-readable-p string)
       (pp (read string) (current-buffer))
     (insert string)))
-          
+
 (defun sawfish-eval-last-sexp (to-buffer)
   "Version of `eval-last-sexp' that interacts with sawfish."
   (interactive "P")
@@ -557,7 +557,7 @@ set by the variable `sawfish-result-buffer'"
   "Pass BODY to sawfish for evaluation."
   `(sawfish-eval-read (cons 'progn (quote ,body))))
 
-;;; ask sawfish for help (on symbols) 
+;;; ask sawfish for help (on symbols)
 
 (defun sawfish-load-helpers ()
   "Load modules that help us work with sawfish."
@@ -680,7 +680,7 @@ variable `sawfish-info-files'."
 (defun sawfish-describe-variable (variable)
   "Display the doc-string for VARIABLE."
   (interactive (list (sawfish-describe-ask-variable)))
-  (sawfish-load-helpers)  
+  (sawfish-load-helpers)
   (sawfish-describe-show variable t))
 
 (defun sawfish-find-info-entry (info-file node symbol)
@@ -877,7 +877,7 @@ returned."
                                              (and sawfish-apropos-searches-info-files
                                                   (sawfish-remove-info-one-liner-intro
                                                    (sawfish-search-and-grab-info
-                                                    (sawfish-info-index-function 
+                                                    (sawfish-info-index-function
                                                      (sawfish-apropos-variable-p sym))
                                                     (sawfish-apropos-symbol sym))))))
           "\n"))
@@ -937,7 +937,7 @@ returned."
 	   (setq completions
 		 (sawfish-eval-read
 		  `(mapcar symbol-name (apropos ,sym-re)))))
-	  ((eq op nil)			; try-completion 
+	  ((eq op nil)			; try-completion
 	   (setq completions
 		 (sawfish-eval-read
 		  `(complete-string ,start (mapcar symbol-name (apropos ,sym-re))))))
@@ -1061,7 +1061,7 @@ returned."
 	  'region-exists-p)))
        ;'region-exists-p))
     (symbol-value 'mark-active)))
-  
+
 (easy-menu-define sawfish-mode-menu sawfish-mode-map "sawfish commands"
   '("Sawfish"
     ["Indent Line"                     lisp-indent-line          t]
@@ -1101,7 +1101,7 @@ returned."
       ;; Restore the emacs-lisp-mode keymap.
       (setq emacs-lisp-mode-map (copy-keymap old-emacs-lisp-mode-map)))
     (setq sawfish-gnu-emacs-menu-kludged t)))
-  
+
 (provide 'sawfish)
 
 ;;; sawfish.el ends here
