@@ -3,7 +3,7 @@
 ;;; File-opening-completion is used to find
 ;;  the file on local FS, and URL is then created by rewriting.
 
-(require 'url nil 'NOERROR)
+(require 'url) ;; nil 'NOERROR)
 
 ;; todo:
 ;; have a `root' + read-root
