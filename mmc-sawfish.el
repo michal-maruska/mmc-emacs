@@ -78,7 +78,8 @@
 (defun ffap-sawfish-mode (name)
   "Given string/name of sawfish/rep module: XXX.YYY.ZZZ.module,
 find and return its path in the filesystem"
-  (let ((relative (add-suffix-optionally (translate-module-to-filename name ".") ".jl"))
+  (let ((relative (add-suffix-optionally
+		   (translate-module-to-filename name "\\.") ".jl"))
         path found)
     ;; take the first...
     (setq found

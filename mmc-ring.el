@@ -1,4 +1,9 @@
 ;;; Ring of LRU buffers:
+
+;; Fixme:  frame-local- is now broken.
+;; and is this used at all?
+
+
 ;(defvar buffer-standing
 ;  (make-ring 20)
 ;  "LRU  buffers")
@@ -153,6 +158,7 @@
    'frame-inherit-rings))
 ;; FIXME: should inherit !!!
 
+
 (defun frame-inherit-rings (frame)
   ""
   (modify-frame-parameters
@@ -160,8 +166,10 @@
    (list (cons 'recent-buffer-ring
 	       (clone-ring
 		(frame-parameter previous-frame 'recent-buffer-ring)))))
-  (unless running-xemacs
-    (make-variable-frame-local 'recent-buffer-ring))
+  ;;(unless running-xemacs
+
+  ;;(modify-frame-parameters (selected-frame) 'recent-buffer-ring)
+  ;;  (make-variable-frame-local))
   )
 
 

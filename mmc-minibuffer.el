@@ -105,6 +105,7 @@
 (defvar initial)
 (defvar post-command)
 (defvar def)
+
 (defun get-filename-of-buffer ()
   "Called form mb, while reading filename.  We read a _buffer-name_ and substitute in minibuffer its filename
 I would need  these `fluid' variables: `guess' `dir' `initial'   see: `' "
@@ -333,6 +334,7 @@ I would need  these `fluid' variables: `guess' `dir' `initial'   see: `' "
 					;(define-key map "C-p" 'read-number-decrement)
   )
 
+;;fixme: use `def-advice'!
 (defun read-number (prompt &optional init def history)
   ""
   (with-keymaps-switched 'minibuffer-local-map read-number-map

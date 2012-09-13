@@ -11,7 +11,13 @@
   (with-current-buffer old
     (rename-buffer new)))
 
-
+(when nil
+  (defun my-rename-buffer (newname)
+    "when reading the new name, INITIAL-CONTENTS is the current name"
+    (interactive
+     (list
+      (read-string "Rename buffer (to new name): " (buffer-name)) ))
+    (rename-buffer newname)))
 
 ;;;  renaming `interactively' buffer. Some improvements:
 

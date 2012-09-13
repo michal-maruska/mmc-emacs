@@ -472,10 +472,12 @@ Leave one space or none, according to the context."
 ;(global-set-key [(control meta ?f)] 'forward-sexp)
 ;(global-set-key [(control meta ?g)] 'backward-sexp)
 
+;;(eval-when-compile
 (if running-xemacs
-                                        ;(defalias 'lisp-mode-shared-map 'shared-lisp-mode-map)
+    ;;(defalias 'lisp-mode-shared-map 'shared-lisp-mode-map)
     (setq lisp-mode-shared-map shared-lisp-mode-map)
   )
+;;)
 
 ;;; testing SEXPs vs WORDS
 ;(unless running-xemacs
