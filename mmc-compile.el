@@ -6,7 +6,10 @@
 
 (require 'compile)                      ;grep
 ;; fixme: how to test if the GREP supports this...?
-(setq grep-command "grep --directories=recurse --no-recurse-symlinks --exclude='*~' --exclude-dir=.git -i -n -e ")
+
+;; todo: --no-recurse-symlinks
+(setq grep-command "grep --directories=recurse --exclude='*~' --exclude-dir=.git -i -n -e ")
+
 (setq grep-program  (if emacs-22
                         "grep"
 		      "grep --directories=recurse --exclude='*~' --exclude=semantic.cache -i "))
