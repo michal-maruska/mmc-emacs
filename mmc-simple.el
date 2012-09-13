@@ -34,6 +34,7 @@
   "do nothing")
 
 ;; fixme:  more standard name?
+;; eval-dont-fail
 (defmacro run-wo-fail (&rest body)
   (let ((error-var (make-symbol "error-var")))
   `(condition-case ,error-var
@@ -41,11 +42,11 @@
 	'progn
 	body)
     (error
-     ;;"Font `-*-lucidatypewriter-medium-r-normal-*-20-*-*-*-*-*-fontset-1' is not defined"
+     ;;"Font `-*-lucidatypewriter-medium-r-normal-*-20-*-*-*-*-*-fontset-1'
+     ;; is not defined"
      (message "error occured while loading %s, avoiding FAIL! %s"
 	      ,load-file-name
 	      ,error-var) 't))))
-
 
 ;;
 ;;
@@ -867,6 +868,7 @@ dots(...) get processed:
 
 
 (require 'ffap)
+
 ;;; [07 Oct 01]
 (defun insert-filename (&optional filename)
   "insert at point a filename, possibly a completion of a gem"

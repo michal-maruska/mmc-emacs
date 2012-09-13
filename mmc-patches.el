@@ -4,9 +4,9 @@
 
 (defun ibuffer-limit-by-mode (mode)
   "Toggle current view to buffers with major mode MODE.
-To disable the limit, call this function again." 
+To disable the limit, call this function again."
   (interactive
-   (cons 
+   (cons
     (if (ibuffer-get-qualifier 'mode)
 	nil
     (read-mode "Limit by major mode: "))
