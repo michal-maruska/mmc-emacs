@@ -115,3 +115,6 @@
 (iswitchb-mode 1)
 
 (require 'mmc-session)
+
+
+(require 'mmc-quail)
