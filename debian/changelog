@@ -1,3 +1,16 @@
+mmc-emacs (1.19) release; urgency=low
+
+  * spaces
+  * format + comment
+  * grep: temporarily no --recurse ...
+  * my-rename-buffer. unsubstianted fear ...
+  * I really need 'url
+  * basically style
+  * frame-local broken
+  * Fix: (auto)load mmc-quail, to have  F2-russo.
+
+ -- Michal Maruska <mmaruska@gmail.com>  Wed, 10 Oct 2012 16:45:09 +0200
+
 mmc-emacs (1.18.1) release; urgency=low
 
   * sf:  quote a regexp
