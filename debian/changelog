@@ -1,3 +1,10 @@
+mmc-emacs (1.20) release; urgency=low
+
+  * once again fix  set-fill-column binding
+  * Shell function outlining.
+
+ -- Michal Maruska <mmaruska@gmail.com>  Wed, 07 Nov 2012 17:08:14 +0100
+
 mmc-emacs (1.19) release; urgency=low
 
   * spaces
