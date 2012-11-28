@@ -184,7 +184,6 @@ C-u --> standard info, C-u C-u --> select 1 of the *info buffers, otherwise mode
 		   info-book)
 					;(length info-buffers))
 	  (let (
-		       
 		;;(info-book-name (string-match "-?[0-9]*\\.info" info-book))
 		(info-buffer (list-search-positive
 			      (lambda (item)
@@ -226,7 +225,6 @@ C-u --> standard info, C-u C-u --> select 1 of the *info buffers, otherwise mode
 
 
 (defun my-current-info-node-name (&optional insert)
-  ;; 
   (interactive "*P")
   (let ((node ""))
     (with-current-buffer (get-buffer "*info*")
