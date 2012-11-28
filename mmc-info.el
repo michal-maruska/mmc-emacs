@@ -92,10 +92,17 @@ function is used to access the lists in `sawfish-info-files'."
 
 ;(equal "elisp" (Info-locate-book "elisp"))
 
+(defun determine-shell-info ()
+  ""
+  (if (string= sh-shell "zsh")
+      "zsh"
+    "bash"))
+
 (defconst major-mode-info-mapping
   '(
     (gud-mode . "gdb")
-    (sh-mode . "zsh")
+    ;; no. this depends on sh-shell zsh vs bash!
+    (sh-mode . determine-shell-info)
     (emacs-lisp-mode . "elisp")
     (scheme-mode . "gauche-refe")       ;scheme
     (sawfish-mode . "sawfish")
@@ -145,7 +152,11 @@ C-u --> standard info, C-u C-u --> select 1 of the *info buffers, otherwise mode
 	;(prefix
 	; (switch-to-buffer (my-get-buffer-find-file "info buffer"  nil nil 't "*info-")))
 	(t
-	 (let ((info-book (my-aget major-mode-info-mapping major-mode))) ;return nil (not key)
+	 (let ((info-book (my-aget major-mode-info-mapping major-mode)))
+	   (if (functionp info-book)
+	       ;; if function -> call it, it should return the symbol/name.
+	       (setq info-book (apply info-book ())))
+	   ;; return nil (not key)
 	   (message "%s -> %s" major-mode info-book)
 	   (if info-book
 	       (visit-info-at info-book)
