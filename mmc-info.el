@@ -38,9 +38,9 @@ function is used to access the lists in `sawfish-info-files'."
 		  (if (file-exists-p file)
 		      file nil))
 		 (list
-		  "/usr/share/info/" 
-		  "/usr/info/Emacs/" 
-		  "/usr/info/xemacs/" 
+		  "/usr/share/info/"
+		  "/usr/info/Emacs/"
+		  "/usr/info/xemacs/"
 		  "/usr/info/TeX"
 		  "/usr/info/"
 		  "/usr/info/GCC"
@@ -52,7 +52,7 @@ function is used to access the lists in `sawfish-info-files'."
 
 
 ;;; some handy keys:
-(eval-after-load 
+(eval-after-load
     "info"
   '(progn
      (if running-xemacs
@@ -69,7 +69,7 @@ function is used to access the lists in `sawfish-info-files'."
                                         ;(buffers-in-mode 'Info-mode)
 (defun switch-to-info-buffer (buffer)
   "switch to one of those buffers which are in the Info mode."
-  (interactive 
+  (interactive
    (let ((buffers (buffers-in-mode 'Info-mode 'names-please))
 	 info-list name); note name is declared here but used in the inner lambda-function, dynamic scope!
      (list (my-completing-read "Info buffer: " buffers nil 't "*info"))))
@@ -191,7 +191,7 @@ C-u --> standard info, C-u C-u --> select 1 of the *info buffers, otherwise mode
 					 (variable-in-buffer item 'Info-current-file)
 					 info-file)
 				(if (file=
-				     ;; fixme: ;(file-name-nondirectory 
+				     ;; fixme: ;(file-name-nondirectory
 				     (variable-in-buffer item 'Info-current-file)
 				     info-file)
 				    item))
@@ -211,7 +211,7 @@ C-u --> standard info, C-u C-u --> select 1 of the *info buffers, otherwise mode
 ;; keys: (overload:)
 ;; batch does not like it:
 ;(unless (batch-
-;(substitute-key-definition 'info 'my-info help-map);global-map) 
+;(substitute-key-definition 'info 'my-info help-map);global-map)
 (define-key help-map [?i] 'my-info)
 
 
