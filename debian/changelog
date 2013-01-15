@@ -1,3 +1,13 @@
+mmc-emacs (1.21) release; urgency=low
+
+  * turn iswitch-buffer patch into a (simple) hook!
+  * my-info: for sh-mode distinguish to open bash & zsh manuals.
+  * format
+  * rpm-mode registration
+  * sh-mode: beg-of-defun via outline-regexp
+
+ -- Michal Maruska <mmaruska@gmail.com>  Tue, 15 Jan 2013 14:50:43 +0100
+
 mmc-emacs (1.20) release; urgency=low
 
   * once again fix  set-fill-column binding
