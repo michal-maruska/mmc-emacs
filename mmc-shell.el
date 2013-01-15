@@ -40,7 +40,7 @@
 (setenv "INSIDE_EMACS" (number-to-string (emacs-pid)))
 
 
-(defadvice  sh-set-shell (before default-shell first nil activate)
+(defadvice sh-set-shell (before default-shell first nil activate)
   "offer DEFAULT value in interactive: `completing-read'
 why did they forget it ?"
   (interactive
@@ -74,19 +74,23 @@ why did they forget it ?"
 
 
 
+(require 'mmc-outline)
+
+(defun mmc-shell-hook ()
+  ""
+  ;; make-variable-buffer-local
+  (set (make-local-variable 'outline-regexp)
+   ;;"\\(#*\\)"
+   ;; "##+"
+   ;; "[^ 	]+\\(\\) ?{"
+   "\\(\\(function +\\)?[a-z_-]+\\(()\\)? *{?$\\)")
+  (set (make-local-variable 'beginning-of-defun-function)
+       'beginning-of-def-as-outline))
 
 ;(setq sh-mode-hook '())
-;;; Shell:
-(add-hook
-    'sh-mode-hook
-  (lambda ()
-    (set
-     ;; make-variable-buffer-local
-     (make-local-variable 'outline-regexp)
-     ;;"\\(#*\\)"
-     ;; "##+"
-     ;; "[^ 	]+\\(\\) ?{"
-     "\\(\\(function +\\)?[a-z_-]+\\(()\\)? *{?$\\)")))
+(add-hook 'sh-mode-hook 'mmc-shell-hook)
+
+
 
 
 ; (modify-syntax-entry ?-  "_"  shell-mode-syntax-table)

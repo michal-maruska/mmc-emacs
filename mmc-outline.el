@@ -43,13 +43,15 @@ See the command `outline-mode' for more information on this mode."
 ; (define-minor-mode MODE DOC &optional INIT-VALUE LIGHTER KEYMAP)
 
 
-;;(defmacro emacs-define-minor-mode (mode doc &optional init-value lighter keymap &rest body)
+;;(defmacro emacs-define-minor-mode (mode doc &optional init-value lighter
+;;                                            keymap &rest body)
 ;;  (list 'define-minor-mode mode doc init-value lighter keymap))
 
 (require 'advice)
-'(defadvice define-minor-mode (before emacs-compatible
-                              (MODE DOC &optional INIT-VALUE LIGHTER KEYMAP &rest body)
-                              activate)
+'(defadvice define-minor-mode
+   (before emacs-compatible
+	   (MODE DOC &optional INIT-VALUE LIGHTER KEYMAP &rest body)
+	   activate)
   ad-do-it)
 
 
@@ -419,7 +421,12 @@ If FLAG is nil then text is shown, while if FLAG is t the text is hidden."
 	 (search-forward-regexp "^\\*\\([^/]|*+\\)" 1000 t))))
 
 
+(defun beginning-of-def-as-outline ()
+  "Easy way to make `beginning-of-defun' work in modes with outline support"
+  (interactive)
+  (outline-back-to-heading t))
 
 
 (provide 'mmc-outline)
 ;;; my-outline.el ends here
+
