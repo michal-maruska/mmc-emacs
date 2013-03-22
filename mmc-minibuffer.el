@@ -134,19 +134,17 @@ I would need  these `fluid' variables: `guess' `dir' `initial'   see: `' "
       (setq my-continue-command nil)
       ;; (setq default (my-resolve-default table)
       ;; my-buffer-alist (buffer-name-list))
-      (with-keymaps-switched 'minibuffer-local-completion-map mmc-minibuffer-local-filename-map
+      (with-keymaps-switched
+	'minibuffer-local-completion-map
+	mmc-minibuffer-local-filename-map
 	(lambda ()
-	  ;;minibuffer-local-completion-map
 	  (setq filename
 		(progn
 		  ;;prompt dir default-filename mustmatch initial))
-		  ad-do-it))
-	  ))
-
+		  ad-do-it))))
       ;; upon exit we can have some requested command to run:
       (if post-command
-	  (eval-command-or-form post-command)) ; (eval (bury-buffer))
-      )
+	  (eval-command-or-form post-command)))
     filename))
 
 
@@ -301,7 +299,7 @@ I would need  these `fluid' variables: `guess' `dir' `initial'   see: `' "
   ;; 2010-05-15
   minibuffer-local-filename-completion-map
   ))
- 
+
 
 
 
@@ -330,8 +328,8 @@ I would need  these `fluid' variables: `guess' `dir' `initial'   see: `' "
   (define-key map "<" 'read-number-decrement) ;"C-n"
   (define-key map ">" 'read-number-increment)
   ;;(define-key map [(control ?n)] 'read-number-decrement) ;"C-n"
-					;(define-key map [(control ?p)] 'read-number-increment) ;"C-n"
-					;(define-key map "C-p" 'read-number-decrement)
+  ;;(define-key map [(control ?p)] 'read-number-increment) ;"C-n"
+  ;;(define-key map "C-p" 'read-number-decrement)
   )
 
 ;;fixme: use `def-advice'!
@@ -358,14 +356,15 @@ I would need  these `fluid' variables: `guess' `dir' `initial'   see: `' "
 ;;; i want a visual feedback:
 (defun add-minibuffer-sign ()
   ""
-  (auto-fill-mode -1)                  ; dunno why it leaked there (auto-fill into the minibuffer)
+  (auto-fill-mode -1)
+  ;; dunno why it leaked there (auto-fill into the minibuffer)
   (setq
-    ;fill-column (screen-width)
+					;fill-column (screen-width)
    debug-on-error-outside-minibuffer debug-on-error
    debug-on-error nil)
   (setq global-mode-string
-		  (cons "|" global-mode-string)))
-;(setq minibuffer-setup-hook (cdr minibuffer-setup-hook))
+	(cons "|" global-mode-string)))
+;;(setq minibuffer-setup-hook (cdr minibuffer-setup-hook))
 (add-hook 'minibuffer-setup-hook 'add-minibuffer-sign)
 
 (defun remove-minibuffer-sign ()
