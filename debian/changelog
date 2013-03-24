@@ -1,3 +1,16 @@
+mmc-emacs (1.22) release; urgency=low
+
+  * turn iswitch-buffer patch into a (simple) hook!
+  * my-info: for sh-mode distinguish to open bash & zsh manuals.
+  * format
+  * rpm-mode registration
+  * spaces
+  * format
+  * [Fix] read-number api change: the init-state is cons, not number.
+  * clean comments
+
+ -- Michal Maruska <mmaruska@gmail.com>  Sun, 24 Mar 2013 22:20:26 +0100
+
 mmc-emacs (1.20) release; urgency=low
 
   * once again fix  set-fill-column binding
