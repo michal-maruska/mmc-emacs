@@ -124,8 +124,11 @@ I would need  these `fluid' variables: `guess' `dir' `initial'   see: `' "
    )
 
 
-;;;  TODO     bookmarks  syntax-table, but see `my-syntax.el'
-;;; i want to NEST various read-*   to arrive at the filename
+;;; TODO     bookmarks  syntax-table, but see `my-syntax.el'
+;;; I want to NEST various read-*   to arrive at the filename
+
+;; Activate the `mmc-minibuffer-local-filename-map' while reading
+;; filenames. And also allow executing commands afterwards.
 (defadvice read-file-name (around my-read-file-name activate)
   (let ((my-continue-command 't)
         post-command
@@ -146,7 +149,6 @@ I would need  these `fluid' variables: `guess' `dir' `initial'   see: `' "
       (if post-command
 	  (eval-command-or-form post-command)))
     filename))
-
 
 ;; useless
 '(defun my-read-file-name (prompt &optional dir default-filename mustmatch initial)
@@ -288,7 +290,8 @@ I would need  these `fluid' variables: `guess' `dir' `initial'   see: `' "
 
 
 ;; <SPC> is really an important key:
-;; fixme: (unless (string-equal user-login-name "beta")	; but beta does not like it (she prefers `insert-backslash')
+;; fixme: (unless (string-equal user-login-name "beta")
+;; but beta does not like it (she prefers `insert-backslash')
 (mapc
  (lambda (item)
    (define-key item [(meta ? )] 'minibuffer-complete-word)
