@@ -412,10 +412,10 @@ If FLAG is nil then text is shown, while if FLAG is t the text is hidden."
 ;; magic-fallback-mode-alist
 ;; (setq magic-mode-alist ())
 (defun detect-outline ()
-  ""
-  (and (eq major-mode 'text-mode)
+  (and (memq major-mode '(fundamental-mode text-mode))
        (save-excursion
 	 (goto-char (point-min))
+	 ;; (search (append "^" outline-regexp))))
 	 (search-forward-regexp "^\\*\\([^/]|*+\\)" 1000 t))))
 
 
