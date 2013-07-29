@@ -14,10 +14,11 @@
 
 ;; when i change this ^^, i have to toggle on/off !!!
 
-(unless running-xemacs
+(unless (or running-xemacs
+	    (not (under-x)))
   (scroll-bar-mode 1)
-;(scroll-bar-mode 1)
-; (setq scrollbars-visible-p 't)
+					;(scroll-bar-mode 1)
+					; (setq scrollbars-visible-p 't)
   )
 
 
