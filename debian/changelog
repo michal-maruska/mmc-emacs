@@ -1,3 +1,11 @@
+mmc-emacs (1.23) release; urgency=low
+
+  * Fix: detect outline mode in Fundamental/not only text.
+  * Clean
+  * scroll-mode vs  non-X
+
+ -- Michal Maruska <mmaruska@gmail.com>  Tue, 30 Jul 2013 00:55:45 +0200
+
 mmc-emacs (1.22) release; urgency=low
 
   * turn iswitch-buffer patch into a (simple) hook!
