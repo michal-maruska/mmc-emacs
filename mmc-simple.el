@@ -886,7 +886,7 @@ dots(...) get processed:
 	  (setq filename
 		(if emacs-22
 		    (ffap-read-file-or-url "Insert filename: " guess)
-		  (read-file-name "Insert filename: " dir base nil base))))
+		  (read-file-name "Insert filename: " dir nil nil base))))
 	;; (interactive "finsert filename: ")
 	(message "inserting %s" filename)
 	(if (setq overlay ffap-highlight-overlay)
