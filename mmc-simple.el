@@ -1099,12 +1099,32 @@ If the current buffer now contains an empty file that you just visited
 ;(list-non-nil 1 nil 2 3 )
 
 
+(defun ffap-prompter-custom (&optional guess prompt)
+  "patched version of `ffap-prompter'.
+@prompt"
+  ;; Does guess and prompt step for find-file-at-point.
+  ;; Extra complication for the temporary highlighting.
+  (unwind-protect
+      ;; This catch will let ffap-alist entries do their own prompting
+      ;; and then maybe skip over this prompt (ff-paths, for example).
+      (catch 'ffap-prompter
+	(ffap-read-file-or-url
+	 ;; mmc: only this line:
+	 (or prompt (if ffap-url-regexp "Find file or URL: " "Find file: "))
+	 (prog1
+             (let ((mark-active nil))
+               ;; Don't use the region here, since it can be something
+               ;; completely unwieldy.  If the user wants that, she could
+               ;; use M-w before and then C-y.  --Stef
+               (setq guess (or guess (ffap-guesser)))) ; using ffap-alist here
+	   (and guess (ffap-highlight))
+	   )))
+    (ffap-highlight t)))
 
 (defun set-default-directory (dir)
-  ""
   (interactive
-					;"Ddefault-directory: "
-   (list (ffap-prompter)))
+   ;;"Ddefault-directory: "
+   (list (ffap-prompter-custom nil "default-directory to:")))
   (setq default-directory dir))
 
 
