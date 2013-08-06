@@ -1130,7 +1130,7 @@ If the current buffer now contains an empty file that you just visited
 
 
 
-
+;; todo: obsolete? non-used!
 (defun maybe-int-to-string (i)
   ""
   (if (integerp i)
