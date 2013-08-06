@@ -1281,6 +1281,11 @@ The search is done in the source for library LIBRARY."
     (find-function-search-for-symbol-1 symbol type library)))
 
 
+(defun file-under-p (path root)
+  "return nil otherwise"
+  (string-match (concat "^" (regexp-quote (expand-file-name root)))
+		(expand-file-name path)))
+
 
 ;;; end
 (provide 'mmc-simple)
