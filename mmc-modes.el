@@ -5,13 +5,15 @@
 ;; see mmc-outline.el
 (add-to-list 'magic-fallback-mode-alist
 	     ;;magic-mode-alist
+	     '(detect-makefile . makefile-mode)
 	     '(detect-makefile . makefile-mode))
-
 
 (defun detect-makefile ()
   (or
    (string-match "\.mk\." (buffer-file-name))
    (string-match "makefile" (buffer-file-name))))
+
+
 
 ;;; TeX
 (setq tex-default-mode 'latex-mode)
@@ -28,9 +30,6 @@
 
 
 ;;  hooks
-(add-hook 'Tex-mode-hook '(lambda() (auto-fill-mode 1)))
-					; (setq Tex-mode-hook '(lambda() (abbrev-mode 1)))
-(add-hook 'Tex-mode-hook 'turn-on-auto-fill)
 (setq text-mode-hook
       '(lambda () (auto-fill-mode 1) (abbrev-mode 1) (setq fill-column 130)  ))
 
@@ -122,6 +121,9 @@
 
 
 
+
+;;; Major modes for which I have little code & thus no separate mmc-MODE.el file
+;;  have the relevent code here:
 ;; Makefile
 (setq makefile-electric-keys 't
       tags-revert-without-query 't )

@@ -1,3 +1,20 @@
+mmc-emacs (1.23) release; urgency=low
+
+  * Fix: detect outline mode in Fundamental/not only text.
+  * Clean
+  * scroll-mode vs  non-X
+
+ -- Michal Maruska <mmaruska@gmail.com>  Tue, 30 Jul 2013 00:55:45 +0200
+
+mmc-emacs (1.22) release; urgency=low
+
+  * spaces
+  * format
+  * [Fix] read-number api change: the init-state is cons, not number.
+  * clean comments
+
+ -- Michal Maruska <mmaruska@gmail.com>  Sun, 24 Mar 2013 22:20:26 +0100
+
 mmc-emacs (1.21) release; urgency=low
 
   * turn iswitch-buffer patch into a (simple) hook!

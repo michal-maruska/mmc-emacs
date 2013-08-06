@@ -124,8 +124,11 @@ I would need  these `fluid' variables: `guess' `dir' `initial'   see: `' "
    )
 
 
-;;;  TODO     bookmarks  syntax-table, but see `my-syntax.el'
-;;; i want to NEST various read-*   to arrive at the filename
+;;; TODO     bookmarks  syntax-table, but see `my-syntax.el'
+;;; I want to NEST various read-*   to arrive at the filename
+
+;; Activate the `mmc-minibuffer-local-filename-map' while reading
+;; filenames. And also allow executing commands afterwards.
 (defadvice read-file-name (around my-read-file-name activate)
   (let ((my-continue-command 't)
         post-command
@@ -134,21 +137,18 @@ I would need  these `fluid' variables: `guess' `dir' `initial'   see: `' "
       (setq my-continue-command nil)
       ;; (setq default (my-resolve-default table)
       ;; my-buffer-alist (buffer-name-list))
-      (with-keymaps-switched 'minibuffer-local-completion-map mmc-minibuffer-local-filename-map
+      (with-keymaps-switched
+	'minibuffer-local-completion-map
+	mmc-minibuffer-local-filename-map
 	(lambda ()
-	  ;;minibuffer-local-completion-map
 	  (setq filename
 		(progn
 		  ;;prompt dir default-filename mustmatch initial))
-		  ad-do-it))
-	  ))
-
+		  ad-do-it))))
       ;; upon exit we can have some requested command to run:
       (if post-command
-	  (eval-command-or-form post-command)) ; (eval (bury-buffer))
-      )
+	  (eval-command-or-form post-command)))
     filename))
-
 
 ;; useless
 '(defun my-read-file-name (prompt &optional dir default-filename mustmatch initial)
@@ -290,7 +290,8 @@ I would need  these `fluid' variables: `guess' `dir' `initial'   see: `' "
 
 
 ;; <SPC> is really an important key:
-;; fixme: (unless (string-equal user-login-name "beta")	; but beta does not like it (she prefers `insert-backslash')
+;; fixme: (unless (string-equal user-login-name "beta")
+;; but beta does not like it (she prefers `insert-backslash')
 (mapc
  (lambda (item)
    (define-key item [(meta ? )] 'minibuffer-complete-word)
@@ -301,7 +302,7 @@ I would need  these `fluid' variables: `guess' `dir' `initial'   see: `' "
   ;; 2010-05-15
   minibuffer-local-filename-completion-map
   ))
- 
+
 
 
 
@@ -330,19 +331,21 @@ I would need  these `fluid' variables: `guess' `dir' `initial'   see: `' "
   (define-key map "<" 'read-number-decrement) ;"C-n"
   (define-key map ">" 'read-number-increment)
   ;;(define-key map [(control ?n)] 'read-number-decrement) ;"C-n"
-					;(define-key map [(control ?p)] 'read-number-increment) ;"C-n"
-					;(define-key map "C-p" 'read-number-decrement)
+  ;;(define-key map [(control ?p)] 'read-number-increment) ;"C-n"
+  ;;(define-key map "C-p" 'read-number-decrement)
   )
 
 ;;fixme: use `def-advice'!
-(defun read-number (prompt &optional init def history)
+(defun read-number (prompt &optional init-state def history)
   ""
   (with-keymaps-switched 'minibuffer-local-map read-number-map
     (lambda ()
-      (string-to-number
-       (read-string (format "%s (%s) " prompt def)
-		    (if (numberp init) (int-to-string init) init)
-		    history def)))))
+      (let ((init (cadr init-state)))
+	(string-to-number
+	 (read-string (format "%s (%s) " prompt def)
+		      ;; initial?
+		      "" ;(if (numberp init) (int-to-string init) init)
+		      history def))))))
 
 
 ;(current-local-map)
@@ -358,14 +361,15 @@ I would need  these `fluid' variables: `guess' `dir' `initial'   see: `' "
 ;;; i want a visual feedback:
 (defun add-minibuffer-sign ()
   ""
-  (auto-fill-mode -1)                  ; dunno why it leaked there (auto-fill into the minibuffer)
+  (auto-fill-mode -1)
+  ;; dunno why it leaked there (auto-fill into the minibuffer)
   (setq
-    ;fill-column (screen-width)
+					;fill-column (screen-width)
    debug-on-error-outside-minibuffer debug-on-error
    debug-on-error nil)
   (setq global-mode-string
-		  (cons "|" global-mode-string)))
-;(setq minibuffer-setup-hook (cdr minibuffer-setup-hook))
+	(cons "|" global-mode-string)))
+;;(setq minibuffer-setup-hook (cdr minibuffer-setup-hook))
 (add-hook 'minibuffer-setup-hook 'add-minibuffer-sign)
 
 (defun remove-minibuffer-sign ()

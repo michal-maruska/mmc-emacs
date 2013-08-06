@@ -13,7 +13,6 @@ See the command `outline-mode' for more information on this mode."
 			      outline-mode-prefix-map))
       )))
 
-
 ;; http://ruska.dyndns.org/comp/emacs/local/my-outline.el
 ;; allout.el
 (when nil
@@ -52,8 +51,7 @@ See the command `outline-mode' for more information on this mode."
    (before emacs-compatible
 	   (MODE DOC &optional INIT-VALUE LIGHTER KEYMAP &rest body)
 	   activate)
-  ad-do-it)
-
+   ad-do-it)
 
 ;(keymapp outline-minor-mode-map)
 
@@ -114,8 +112,8 @@ See the command `outline-mode' for more information on this mode."
   (global-set-key [(meta ?S)] 'show-subtree) ; not so good:
   (global-set-key [(meta ?_)] 'show-entry)
 
-					;(lookup-key outline-mode-map  [(meta ?S)])
-					;(define-key outline-mode-map  [(meta ?S)] nil)
+  ;;(lookup-key outline-mode-map  [(meta ?S)])
+  ;;(define-key outline-mode-map  [(meta ?S)] nil)
 
   (global-set-key [(meta ?O)] 'hide-other)
   (global-set-key [(meta ?Q)] (lambda ()
@@ -344,8 +342,9 @@ Show the heading too, if it is currently invisible."
 
 
 ;;; comments
-;; For _years_ i wanted to modify outline-minor-mode, so that comments starting at the beginnin of line
-;; were left visible.  Now i add the codition that they don't get marked as headers. Here's the code:
+;; For _years_ i wanted to modify outline-minor-mode, so that comments starting at
+;; the beginnin of line were left visible.  Now i add the codition that they don't
+;; get marked as headers. Here's the code:
 (defun outline-flag-region-make-overlay (from to) ;mmc
   (let ((o (make-overlay from to)))
     (overlay-put o 'invisible 'outline)
@@ -414,10 +413,10 @@ If FLAG is nil then text is shown, while if FLAG is t the text is hidden."
 ;; magic-fallback-mode-alist
 ;; (setq magic-mode-alist ())
 (defun detect-outline ()
-  ""
-  (and (eq major-mode 'text-mode)
+  (and (memq major-mode '(fundamental-mode text-mode))
        (save-excursion
 	 (goto-char (point-min))
+	 ;; (search (append "^" outline-regexp))))
 	 (search-forward-regexp "^\\*\\([^/]|*+\\)" 1000 t))))
 
 
