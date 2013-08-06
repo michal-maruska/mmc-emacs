@@ -319,7 +319,7 @@
     (define-key map [?n] 'rename-uniquely)
     (define-key map [?#] 'comment-region)
     (define-key map [?r] 'toggle-read-only)
-    (define-key map [?h] 'highlight-current-line-toggle)
+    ;; (define-key map [?h] 'highlight-current-line-toggle)
     (define-key map [?s] 'hscroll-mode)
     (define-key map [?S] 'screen-lines-mode)
     (define-key map [?\\] 'set-my-distinct-input-methods-map)
