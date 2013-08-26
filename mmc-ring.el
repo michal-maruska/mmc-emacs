@@ -13,34 +13,22 @@
 
 
 ;;;  Some more ring ops
-;; Better not to know the structure !!!
-(defun ring-empty-p (ring); must be a ring !!
-  "is it empty?  (my improver version!)"
-  (= (ring-length ring) 0))
 
-(defun ring-assoc (ring element)
-  "find the position of eq element"
-  (let ((index 0)
-	found)
-    (while (< index (ring-length ring))
-      (if (equal (ring-ref ring index) element)
-	  (setq found index))
-      (setq index (1+ index)))
-    found))
+;; ring-assoc obsoleted by ring-member
+
 
 ;; remove by element (not index):
-(defun ring-remq (ring element)
-  "remove element eq ELEMENT in the ring"
-  (let ((index (ring-assoc ring element)))
-    (if index
-	(ring-remove ring index))
-    index))
+(defun ring-remq (ring item)
+  "remove element eq ITEM in the ring"
+  (let (ind)
+    (while (setq ind (ring-member ring item))
+      (ring-remove ring ind))))
 
-(defun ring-to-head (ring element)
+
+;; ring-remove+insert+extend
+(defun ring-to-head (ring item)
   "add the element to the head (possibly removing it first)"
-  (let ((index (ring-remq ring element)))
-    (ring-insert ring element) 	    ;  -at-beginning
-    index))
+  (ring-remove+insert+extend ring item 'grow))
 
 
 ;; We keep 2 positions:
@@ -107,8 +95,7 @@
      (ring-insert current-ring atom)
      )
    '("a" "b" "c" "d"))
-  (ring-remove current-ring 2)
-  )
+  (ring-remove current-ring 2))
 
 
 
