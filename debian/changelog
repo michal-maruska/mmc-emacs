@@ -1,3 +1,10 @@
+mmc-emacs (1.25) release; urgency=low
+
+  * insert-filename: don't use "default" & initial together.
+  * adapt to changed Ring API
+
+ -- Michal Maruska <mmaruska@gmail.com>  Wed, 11 Sep 2013 18:01:10 +0200
+
 mmc-emacs (1.24) release; urgency=low
 
   * merge of 1.21 & 1.23
