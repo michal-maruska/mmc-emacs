@@ -105,35 +105,50 @@ When editing the Grep command line, \M-m invokes selection of directory where to
      (defvar compile-wo-saving nil
        "if 't do not save buffers (interactively) before compile")
      (setq compile-wo-saving 't)
-     (defun compile (command)
-       "Compile the program including the current buffer.  Default: run `make'.
+
+     (defun compile (command &optional comint)
+  "Compile the program including the current buffer.  Default: run `make'.
 Runs COMMAND, a shell command, in a separate process asynchronously
 with output going to the buffer `*compilation*'.
 
 You can then use the command \\[next-error] to find the next error message
 and move to the source code that caused it.
 
-Interactively, prompts for the command if `compilation-read-command' is
-non-nil; otherwise uses `compile-command'.  With prefix arg, always prompts.
+If optional second arg COMINT is t the buffer will be in Comint mode with
+`compilation-shell-minor-mode'.
 
-To run more than one compilation at once, start one and rename the
-\`*compilation*' buffer to some other name with \\[rename-buffer].
-Then start the next one.
+Interactively, prompts for the command if the variable
+`compilation-read-command' is non-nil; otherwise uses`compile-command'.
+With prefix arg, always prompts.
+Additionally, with universal prefix arg, compilation buffer will be in
+comint mode, i.e. interactive.
+
+To run more than one compilation at once, start one then rename
+the \`*compilation*' buffer to some other name with
+\\[rename-buffer].  Then _switch buffers_ and start the new compilation.
+It will create a new \`*compilation*' buffer.
+
+On most systems, termination of the main compilation process
+kills its subprocesses.
 
 The name used for the buffer is actually whatever is returned by
 the function in `compilation-buffer-name-function', so you can set that
 to a function that generates a unique name."
-       (interactive
-	(if (or compilation-read-command current-prefix-arg)
-	    (list (read-from-minibuffer "Compile command: "
-					compile-command nil nil
-					'(compile-history . 1)))
-	  (list compile-command)))
-       (require 'compile)
-       (setq compile-command command)
-       (unless compile-wo-saving
-	 (save-some-buffers (not compilation-ask-about-save) nil))
-       (compile-internal compile-command "No more errors"))
+  (interactive
+   (list
+    (let ((command (eval compile-command)))
+      (if (or compilation-read-command current-prefix-arg)
+	  (compilation-read-command command)
+	command))
+    (consp current-prefix-arg)))
+  (unless (equal command (eval compile-command))
+    (setq compile-command command))
+  ;; mmc: make this conditional
+  (unless compile-wo-saving
+    (save-some-buffers (not compilation-ask-about-save)
+                     compilation-save-buffers-predicate))
+  (setq-default compilation-directory default-directory)
+  (compilation-start command comint))
      ))
 
 
