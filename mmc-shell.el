@@ -83,7 +83,7 @@ why did they forget it ?"
    ;;"\\(#*\\)"
    ;; "##+"
    ;; "[^ 	]+\\(\\) ?{"
-   "\\(\\(function +\\)?[a-z_-]+\\(()\\)? *{?$\\)")
+   "\\(\\(function +\\)?[a-z_-]+ *\\(()\\)? *{?$\\)")
   (set (make-local-variable 'beginning-of-defun-function)
        'beginning-of-def-as-outline))
 

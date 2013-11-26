@@ -423,6 +423,7 @@ If FLAG is nil then text is shown, while if FLAG is t the text is hidden."
 (defun beginning-of-def-as-outline ()
   "Easy way to make `beginning-of-defun' work in modes with outline support"
   (interactive)
+  (forward-line -1)
   (outline-back-to-heading t))
 
 
