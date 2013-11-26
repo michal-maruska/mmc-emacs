@@ -56,9 +56,9 @@
 ;; fixme: I should add to
 
 (overwrite-alist 'default-frame-alist
-  '((scroll-bar-background . "red")
+  '((scroll-bar-background . "black")
    ;;"blue"
-   (scroll-bar-foreground . "white")
+   (scroll-bar-foreground . "blue")
    ))
 
 ;; CVS Emacs:
@@ -66,7 +66,7 @@
  nil ;(selected-frame)
  `((scroll-bar-background . "red")
    ;;"blue"
-   (scroll-bar-foreground . "white")
+   (scroll-bar-foreground . "blue")
    ))
 
 
