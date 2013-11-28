@@ -1,3 +1,11 @@
+mmc-emacs (1.26) release; urgency=low
+
+  * adapt to missing compile-internal.
+  * outline in Shell: fixes
+  * more contrast on scrollbar
+
+ -- Michal Maruska <mmaruska@gmail.com>  Thu, 28 Nov 2013 14:57:08 +0100
+
 mmc-emacs (1.25) release; urgency=low
 
   * insert-filename: don't use "default" & initial together.
