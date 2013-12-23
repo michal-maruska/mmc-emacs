@@ -208,7 +208,7 @@ named on this line."
     (add-hook 'post-command-hook hook-function 't)
     ;;(make-local-variable 'post-command-hook)
     (set (make-local-variable 'dired-autoview-mode)
-	 (not arg))))
+	 (not dired-autoview-mode))))
 
 (define-key dired-mode-map [(control ?c) (control ?a)] 'dired-autoview-mode)
 ;;(remove-hook 'post-command-hook hook-function 't)
