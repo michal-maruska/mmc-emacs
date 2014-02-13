@@ -2,6 +2,9 @@
 (require 'desktop)
 (require 'timer)
 
+(error "this file is obsolete")
+(require 'mmc-simple)
+
 ;; why?
 (require 'thingatpt)
 
@@ -19,50 +22,30 @@
 
 
 
-;; fixme: evaluates twice the file.
-(defmacro add-existing-file! (file list)
-  "add to the list file, but only if it really exists."
-  ;; not hygienic:
-  `(let ((file ,file))
-     (if (and (file-exists-p file)
-	      (file-regular-p file))
-	 (add-to-list ,list file))))
-
-;; testing:
-(when nil
-  (setq file-list '())
-  (add-existing-file "my-tempo.el" 'file-list)
-  (add-existing-file "" 'file-list)
-  (add-existing-file "my-tempo.e" 'file-list))
-
-
-
-
-;;;
 (defun possible-filenames()
   "find filenames, which relate to the point, mark?, buffer (& major mod) ...."
   (let ((file-list '())
 	(file (thing-at-point 'filename)))
     ;; need a macro
-    (add-existing-file file 'file-list)
+    (if file
+	(add-existing-file file 'file-list))
     (when (eq major-mode 'dired-mode)
       ;(setq file (dired-get-filename nil 't))
       (add-existing-file (dired-get-filename nil 't) 'file-list))
     file-list))
 
-;(possible-filenames)
+;; (possible-filenames)
 
 (defun my-desktop-read (arg)
-  "i want the possibility to say explicitely from what file to take the data"
+  "I want the possibility to say explicitely from what file to take the data"
   ;; the problem is, that the desktop-read  is not flexible !
   (interactive "p")
-  (let ((orig-desktop-basefilename desktop-base-file-name) ; default filename
+  (let ((orig-desktop-base-file-name desktop-base-file-name)
 	default)
     (if arg
 	;; get the filename
 	(let ((default (or (car (possible-filenames))
-			   orig-desktop-base-file-name))
-	      )
+			   orig-desktop-base-file-name)))
 	      ;; get defaults:
 	  ;; (thing-at-point 'filename)
 	  (setq desktop-base-file-name
@@ -90,9 +73,9 @@
     (message "desktop loaded."))
 
 
-;;; read-in:
+  ;;; read-in:
   (defun desktop-read ()
-    "read the desktop file and the files it specifies.
+    "Read the desktop file and the files it specifies.
 this is a no-op when emacs is running in batch mode."
     (interactive)
     (if noninteractive
@@ -105,7 +88,8 @@ this is a no-op when emacs is running in batch mode."
 	  (setq dirs (cdr dirs)))
 	(setq desktop-dirname (and dirs (expand-file-name (car dirs))))
 	(if desktop-dirname
-	    (desktop-read-from (expand-file-name desktop-base-file-name desktop-dirname))
+	    (desktop-read-from
+	     (expand-file-name desktop-base-file-name desktop-dirname))
 	  (desktop-clear)))))
   )
 
@@ -134,12 +118,12 @@ this is a no-op when emacs is running in batch mode."
      )))
 
 
-
-(setq desktop-base-file-name (concat ".emacs.desktop-" (number-to-string (emacs-pid))))
+(setq desktop-base-file-name
+      (concat ".emacs.desktop-" (number-to-string (emacs-pid))))
 
 ;;; this is timer:
 (defun my-desktop-save ()
-  "i keep the desktop of this session (read pid) separate. "
+  "I keep the desktop of this session (read pid) separate. "
   (interactive)
   ;; fixme:
   ;(message "my-desktop-save! idle start: [%s].." start-idle-time)
@@ -153,7 +137,8 @@ this is a no-op when emacs is running in batch mode."
 	(message "desktop buffer does not exist")
       (with-current-buffer d-buffer
 	(set-buffer-file-coding-system 'emacs-mule)))
-    (desktop-save (format "%s/" (getenv "HOME"))) ; (expand-file-name "~/"))  FIXME (de-save wants / end)
+    (desktop-save (format "%s/" (getenv "HOME")))
+    ;; (expand-file-name "~/"))  FIXME (de-save wants / end)
     (message "auto-saving! end:   [%s]" (current-time-string))))
 
 
@@ -167,7 +152,6 @@ this is a no-op when emacs is running in batch mode."
 ;; 'my-desktop-save)
   (setcdr (nth 4 timer-idle-list))
   )
-
 
 
 ;;;  I want to ...
