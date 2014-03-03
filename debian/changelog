@@ -1,3 +1,10 @@
+mmc-emacs (1.27) release; urgency=low
+
+  * dired-autoview-mode: make it toggling
+  * mmc-desktop:  last changes & declare it obsole
+
+ -- Michal Maruska <mmaruska@gmail.com>  Mon, 03 Mar 2014 14:37:56 +0100
+
 mmc-emacs (1.26) release; urgency=low
 
   * adapt to missing compile-internal.
