@@ -75,6 +75,7 @@ why did they forget it ?"
 
 
 (require 'mmc-outline)
+(require 'rx)
 
 (defun mmc-shell-hook ()
   ""
@@ -83,7 +84,19 @@ why did they forget it ?"
    ;;"\\(#*\\)"
    ;; "##+"
    ;; "[^ 	]+\\(\\) ?{"
-   "\\(\\(function +\\)?[a-z_-]+ *\\(()\\)? *{?$\\)")
+   ;; "\\(\\(function +\\)?[a-z_-]+ *\\(()\\)? *{?$\\)"
+   (rx
+    (or
+     (sequence "function"
+	       (1+ space)
+	       (1+ (or (syntax symbol) word)))
+     (sequence
+      (1+ (or (syntax symbol) word))
+      (0+ space)
+      "()")))
+   ;(0+ space)
+   ;(? "{")
+   )
   (set (make-local-variable 'beginning-of-defun-function)
        'beginning-of-def-as-outline))
 
