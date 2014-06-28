@@ -168,13 +168,12 @@ the various files."
 		      (setq buffer-read-only read-only)))
 		  (setq buffer-file-read-only read-only))
 
-		(when (and (not (eq (not (null rawfile))
-				    (not (null find-file-literally))))
-			   (not nonexistent)
-			   ;; It is confusing to ask whether to visit
-			   ;; non-literally if they have the file in
-			   ;; hexl-mode.
-			   (not (eq major-mode 'hexl-mode)))
+		(unless (or (eq (null rawfile) (null find-file-literally))
+			    nonexistent
+			    ;; It is confusing to ask whether to visit
+			    ;; non-literally if they have the file in
+			    ;; hexl-mode or image-mode.
+			    (memq major-mode '(hexl-mode image-mode)))
 		  (if (buffer-modified-p)
 		      (if (y-or-n-p
 			   (format
