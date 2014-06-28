@@ -235,8 +235,18 @@ Do you want to revisit the file normally now? ")
 	  (find-file-noselect-1 buf filename nowarn
 				rawfile truename number))))))
 
+;; pre 24.*
+(unless (boundp 'find-library--load-name)
+  (defun find-library--load-name (library)
+    (let ((name library))
+      (dolist (dir load-path)
+	(let ((rel (file-relative-name library dir)))
+	  (if (and (not (string-match "\\`\\.\\./" rel))
+		   (< (length rel) (length name)))
+	      (setq name rel))))
+      (unless (equal name library) name))))
 
-
+;; in git!
 (defun find-library-name (library)
   "Return the absolute file name of the Emacs Lisp source of LIBRARY.
 LIBRARY should be a string (the name of the library)."
