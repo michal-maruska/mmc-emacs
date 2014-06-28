@@ -52,31 +52,6 @@
   font-lock-defaults-alist)
 
 
-(defun font-lock-add-my-global()
-  (when font-lock-mode
-    (when nil
-      (message "adding for %s my keywords" major-mode)
-      (message "using %s" (get 'font-lock-number-face 'face-documentation)))
-    (when nil
-      (font-lock-add-keywords major-mode ; nil ...infinite recursion
-	;; nil -> current buffer major mode
-	'(
-	  ;("\\b\\([[:digit:]]+\\)\\b" 1 font-lock-number-face keep) ;; 't) ; keep prepend append
-	  ;; Numbers
-	  ;; keep ... exclusive !
-	  ;; append
-	  ;; prepend
-	  ;; `keywords'
-	  ("`\\(\\(\\s_\\|\\sw\\)+\\)'" 1 font-lock-important prepend) ;) 't)
-
-	  ;; ("\\*\\(\\(\\s_\\|\\sw\\)+\\)\\*" 1 font-lock-warning-face prepend)
-	  ;; fixed words:
-	  ("\\b\\(fixme\\|XXX\\|mmc\\|todo\\|bug\\|obsolete\\|note\\|new\\)[:!?]"
-	   1 font-lock-warning-face prepend) ; 't)
-	  )
-	'end
-	))))
-
 (defun font-lock-add-my-global-1()
   (when font-lock-mode
     (when nil
