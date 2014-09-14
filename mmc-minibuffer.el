@@ -355,35 +355,38 @@ I would need  these `fluid' variables: `guess' `dir' `initial'   see: `' "
 
 
 
+;;; I want to see in `modeline' when I use the minibuffer recursively
 
-
+;; And this turns off debug-on-error inside minibuffer:
+;; todo: seems buggy!
 (defvar debug-on-error-outside-minibuffer "")
-;;; i want a visual feedback:
+
 (defun add-minibuffer-sign ()
-  ""
+  "add into modeline another tick"
   (auto-fill-mode -1)
   ;; dunno why it leaked there (auto-fill into the minibuffer)
+  ;(if (not debug-on-error)
+   ;   (message "hm, it's false"))
   (setq
-					;fill-column (screen-width)
-   debug-on-error-outside-minibuffer debug-on-error
-   debug-on-error nil)
+   debug-on-error-outside-minibuffer debug-on-error)
+  (setq debug-on-error t)
   (setq global-mode-string
 	(cons "|" global-mode-string)))
-;;(setq minibuffer-setup-hook (cdr minibuffer-setup-hook))
+
 (add-hook 'minibuffer-setup-hook 'add-minibuffer-sign)
 
 (defun remove-minibuffer-sign ()
-  ""
+  "remove from modeline a tick about minibuffer recursion."
   (setq
    debug-on-error debug-on-error-outside-minibuffer)
   (if (member "|" global-mode-string)
       (setq global-mode-string (cdr global-mode-string))))
 
-
 (add-hook 'minibuffer-exit-hook 'remove-minibuffer-sign)
-;minibuffer-exit-hook
 
 (when nil
+  ;;(setq minibuffer-setup-hook (cdr minibuffer-setup-hook))
+  ;; minibuffer-exit-hook
   (setq global-mode-string
 	(cons "|" global-mode-string))
   (setq global-mode-string (cdr global-mode-string))
