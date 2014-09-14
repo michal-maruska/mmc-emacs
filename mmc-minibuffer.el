@@ -23,45 +23,29 @@
 ;;;  This is a hack, b/c we _cannot_ invoke completing-read w/ a custom keymap
 ;; 2003-05-24:  but, we can read-from-minibuffer !!
 
-(defun with-keymaps-switched (old new func)
-  (let ((old-map (symbol-value old)))
+(defmacro with-keymaps-switched* (keymap-symbol keymap-value &rest body)
+  `(with-keymaps-switched
+     ,keymap-symbol
+     ,keymap-value
+     (lambda ()
+       ,@body)))
+
+(defun with-keymaps-switched (keymap-symbol keymap-value func)
+  "call FUNC, while switching the values of the KEYMAP-SYMBOLS to VALUE."
+  (let ((original-map (symbol-value keymap-symbol)))
     (unwind-protect
 	(progn
-	  (set old new)		;(set old ,new)
+	  (set keymap-symbol keymap-value)
 	  (apply func ()))
       ;; And guarantee, that things get back again.
-      (set old old-map))
-    ))
+      (set keymap-symbol original-map))))
+
 (put 'with-keymaps-switched 'lisp-indent-function 'defun)
 
-;; (
-;;  (defvar a 1 "")
-;;  (setq a 1)
-;;  (with-keymaps-switched 'a 5
-;;    (lambda ()
-;;      (message "the value = %s" a)
-;;      6))
-;;  )
 
-
-
-;; (
-;;   (defmacro with-keymaps-switched (old new &rest body) ; not hygienic !!!
-;;     "eval BODY with OLD and NEW keymaps switched (given as symbols). Restore the original keymaps upon
-;; either local exit from BODY, or the successful termination."
-;;     (let ((old-map (make-symbol "old-map")))
-;;       `(let ((,old-map ,old))
-;; 	 (unwind-protect
-;; 	     (progn
-;; 	       (setq ,old ,new)	 ;(set old ,new)
-;; 	       ,@body)
-;; 	   ;; And guarantee, that things get back again.
-;; 	   (setq ,old ,old-map)))))
-;;   (put 'with-keymaps-switched 'lisp-indent-function 2)
-;;   )
-
-
-
+;; so I have >1 commands which call into 1 common emacs-core function which uses
+;; 1 keymap.  I want the commands to modify/customize that keymap.
+;; So I just redefine the keymap for the duration of the command.  Hmmm.
 
 ;;;   reading `filenames'
 ;; keymaps, which are used instead of the origianl ones:
@@ -137,14 +121,13 @@ I would need  these `fluid' variables: `guess' `dir' `initial'   see: `' "
       (setq my-continue-command nil)
       ;; (setq default (my-resolve-default table)
       ;; my-buffer-alist (buffer-name-list))
-      (with-keymaps-switched
-	'minibuffer-local-completion-map
-	mmc-minibuffer-local-filename-map
-	(lambda ()
-	  (setq filename
-		(progn
-		  ;;prompt dir default-filename mustmatch initial))
-		  ad-do-it))))
+      (with-keymaps-switched*
+       'minibuffer-local-completion-map
+       mmc-minibuffer-local-filename-map
+
+       (setq filename (progn
+			;;prompt dir default-filename mustmatch initial))
+			ad-do-it)))
       ;; upon exit we can have some requested command to run:
       (if post-command
 	  (eval-command-or-form post-command)))
@@ -193,19 +176,27 @@ I would need  these `fluid' variables: `guess' `dir' `initial'   see: `' "
 		    (setq dir (file-name-directory guess))))
 	      ;; (setq default (my-resolve-default table)
 	      ;; my-buffer-alist (buffer-name-list))
-	      (with-keymaps-switched 'minibuffer-local-completion-map mmc-minibuffer-local-filename-map
-		(lambda ()
-		  ;;minibuffer-local-completion-map
-					;(read-file-name prompt dir default-filename mustmatch initial))
-		  (setq guess
-			(completing-read
-			 prompt
-			 'ffap-read-file-or-url-internal
-			 dir
-			 nil
-			 (if dir (cons guess (length dir)) guess)
-			 (list 'file-name-history)))
-		  ))
+	      (with-keymaps-switched* 'minibuffer-local-completion-map
+		mmc-minibuffer-local-filename-map
+		;;minibuffer-local-completion-map
+		  ;;(read-file-name prompt dir default-filename mustmatch initial))
+		(setq guess
+		      (completing-read
+		       prompt
+		       ;; collection
+		       'ffap-read-file-or-url-internal
+		       ;; predicate
+		       nil
+		       ;; require-match
+		       nil
+		       ;; initial input:
+		       (if dir
+			   (cons guess (length dir))
+			 guess)
+		       ;; hist
+		       (list 'file-name-history)
+		       ;; default
+		       )))
 	      ;; upon exit we can have some requested command to run:
 	      (if post-command
 		  (eval-command-or-form post-command)) ; (eval (bury-buffer))
@@ -223,7 +214,7 @@ I would need  these `fluid' variables: `guess' `dir' `initial'   see: `' "
 ;(lookup-key my-minibuffer-local-completion-map "\M-m")
 
 ;; (read-file-name "filename: ")
-;; in e 21, the minibuffer concept changed: to keep using 
+;; in e 21, the minibuffer concept changed: to keep using
 (defun mb-backward-kill-sexp ()
   ""
   (interactive)
