@@ -112,8 +112,10 @@ I would need  these `fluid' variables: `guess' `dir' `initial'   see: `' "
 ;;; I want to NEST various read-*   to arrive at the filename
 
 ;; Activate the `mmc-minibuffer-local-filename-map' while reading
-;; filenames. And also allow executing commands afterwards.
+;; filenames.
+;; And also allow executing commands afterwards.
 (defadvice read-file-name (around my-read-file-name activate)
+  ;; how to use a lexical-scope variable?
   (let ((my-continue-command 't)
         post-command
         filename)
@@ -133,24 +135,6 @@ I would need  these `fluid' variables: `guess' `dir' `initial'   see: `' "
 	  (eval-command-or-form post-command)))
     filename))
 
-;; useless
-'(defun my-read-file-name (prompt &optional dir default-filename mustmatch initial)
-  ""
-  (let (continue-command)
-    (while (null continue-command)
-      ;; (setq default (my-resolve-default table)
-      ;; my-buffer-alist (buffer-name-list))
-      (with-keymaps-switched 'minibuffer-local-completion-map mmc-minibuffer-local-filename-map
-	;;minibuffer-local-completion-map
-	(lambda ()
-	  (read-file-name prompt dir default-filename mustmatch initial)))
-      ;; upon exit we can have some requested command to run:
-      (if post-command
-	  (eval-command-or-form post-command)) ; (eval (bury-buffer))
-      )))
-
-
-;minibuffer-local-completion-map
 
 ;;; FIXME:   should be updated !
 ;; redefine:  why ??
