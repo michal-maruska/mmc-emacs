@@ -73,14 +73,16 @@
 	(message "%c -> %s (%c)" char (aget syntax-alist code) code)))))
 
 
-;(with-syntax-table message-mode-syntax-table (char-syntax ?.))
-(eval-after-load
-    "message"
-  '(with-syntax-table message-mode-syntax-table
-     (let* ((char ?.)
-	    (code (char-syntax char))
-	    )
-       (message "%c -> %s (%c)" char (aget syntax-alist code) code))))
+;;(with-syntax-table message-mode-syntax-table (char-syntax ?.))
+(when nil
+  (eval-after-load
+      "message"
+    ;; show the syntax of "."
+    '(with-syntax-table message-mode-syntax-table
+       (let* ((char ?.)
+	      (code (char-syntax char)))
+	 ;; (aget syntax-alist (char-syntax ?.))
+	 (message "%c -> %s (%c)" char (aget syntax-alist code) code)))))
 
 
 ;(syntax-code ?-)
