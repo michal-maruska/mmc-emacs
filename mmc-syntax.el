@@ -92,9 +92,9 @@
 (modify-syntax-entry ?\   " " ;fundamental-mode)
 		     text-mode-syntax-table)
 
-
-(modify-syntax-entry ?   " " ;fundamental-mode
-		     c-mode-syntax-table)
+(eval-after-load "cc-mode"
+  '(modify-syntax-entry ?   " " ;fundamental-mode
+			c-mode-syntax-table))
 
 (eval-after-load "m4-mode"
   '(modify-syntax-entry ?   " " ;fundamental-mode
