@@ -148,9 +148,10 @@ I would need  these `fluid' variables: `guess' `dir' `initial'   see: `' "
 	;; or "w3/" or "../el/ffap.el" or "../../../"
 	;; ------------
 	(let ((minibuffer-completing-file-name t))
-	  (let (continue-command)
+	  (let (continue-command
+		post-command)
 	    (while (null continue-command)
-
+	      (setq continue-command t)
 	      (or (ffap-url-p guess)
 		  (progn
 		    (or (ffap-file-remote-p guess)
