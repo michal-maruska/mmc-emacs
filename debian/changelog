@@ -1,3 +1,19 @@
+mmc-emacs (2.0) release; urgency=medium
+
+  * improve Sh-mode outline regex (& use rx)
+  * provide find-library--load-name for emacs23
+  * include upstream change
+  * drop unused part of font-lock code
+  * adapt to cc-mode not always loaded at startup.
+  * don't print info on syntax-table ... useless & broken now.
+  * document my additions to minibuffer - enter/exit hook.
+  * macro with-keymaps-switched* & clean with-keymaps-switched
+  * Clean read-file-name advice.
+  * cdbs->dh
+  * fix mess -- continue-command post-command
+
+ -- Michal Maruska <mmaruska@gmail.com>  Thu, 18 Sep 2014 23:54:26 +0200
+
 mmc-emacs (1.27) release; urgency=low
 
   * dired-autoview-mode: make it toggling
