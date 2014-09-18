@@ -1,18 +1,8 @@
 #!/usr/bin/make -f
 
-# Let's use CDBS!
-include /usr/share/cdbs/1/rules/debhelper.mk
-
-
-clean::
-	-$(MAKE) clean
-
-install/mmc-emacs::
-	-$(MAKE) install DESTDIR=$(DEB_DESTDIR)
+%:
+	dh $@
 
 #DEB_EMACS_PRIORITY := 55
 #DEB_INSTALL_DOCS_ALL := README RELEASE_NOTES
 #DEB_INSTALL_CHANGELOGS_ALL := NEWS
-
-
-#build:
