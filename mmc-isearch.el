@@ -145,7 +145,8 @@
       );
 
 ;; hm, so the correct way to remove binding from isearch-mode-map is
-(define-key isearch-mode-map "\M-\C-y" 'isearch-other-control-char)
+(if (boundp 'isearch-other-control-char)
+    (define-key isearch-mode-map "\M-\C-y" 'isearch-other-control-char))
 
 ;; (length isearch-mode-hook)
 ;; (setq isearch-mode-hook (cdr isearch-mode-hook))
