@@ -272,10 +272,12 @@ named on this line."
   (cond
    ((eq major-mode 'dired-mode)
     (let ((message (current-message)))
+      ;; will this display it temporarily?
       (shell-command
        (format
 	"if [ -e MANIFEST ]; then grep  %s MANIFEST|head --lines=1; fi"
-	(file-name-nondirectory (dired-get-filename)))
+	(dired-get-filename 't 't))
+
        (get-buffer-create " eldoc-shell"))
       (message message)
       ;;(shell-command (format "grep --count 1 Description %s"
