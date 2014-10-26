@@ -1,3 +1,10 @@
+mmc-emacs (2.1) release; urgency=medium
+
+  * isearch-other-control-char is gone -- use conditionally.
+  * Don't err when eldoc invoked in dired, but non-file line.
+
+ -- Michal Maruska <mmaruska@gmail.com>  Sun, 26 Oct 2014 14:01:15 +0100
+
 mmc-emacs (2.0) release; urgency=medium
 
   * improve Sh-mode outline regex (& use rx)
