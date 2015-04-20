@@ -1324,5 +1324,17 @@ Then call @body or @else based on @condition, and make @var available to them."
   )
 
 
+(defun find-line-by-string (string filename)
+  "return a line from FILENAME, which first contains the STRING"
+  (with-current-buffer (find-file-noselect filename 'nowarn 'rawfile)
+    (let ((case-fold-search nil))
+      (goto-char (point-min))
+      ;; at end of line
+      (if (search-forward string nil t)
+	  ;; buffer-substring-no-properties
+	  (erase-text-properties (line-string))
+	nil))))
+
+
 ;;; end
 (provide 'mmc-simple)
