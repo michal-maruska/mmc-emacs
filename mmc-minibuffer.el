@@ -314,14 +314,17 @@ I would need  these `fluid' variables: `guess' `dir' `initial'   see: `' "
 ;;fixme: use `def-advice'!
 (defun read-number (prompt &optional init-state def history)
   ""
-  (with-keymaps-switched 'minibuffer-local-map read-number-map
-    (lambda ()
-      (let ((init (cadr init-state)))
+  (with-keymaps-switched* 'minibuffer-local-map read-number-map
+					;(lambda ()
+      (let ((init
+	     (if (consp init-state)
+		 (cadr init-state)
+	       init-state)))
 	(string-to-number
 	 (read-string (format "%s (%s) " prompt def)
 		      ;; initial?
 		      "" ;(if (numberp init) (int-to-string init) init)
-		      history def))))))
+		      history def)))))
 
 
 ;(current-local-map)
