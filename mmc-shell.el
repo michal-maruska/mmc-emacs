@@ -39,26 +39,6 @@
 
 (setenv "INSIDE_EMACS" (number-to-string (emacs-pid)))
 
-
-(defadvice sh-set-shell (before default-shell first nil activate)
-  "offer DEFAULT value in interactive: `completing-read'
-why did they forget it ?"
-  (interactive
-   (list
-    ;; But in /etc/rc.d i would prefer /bin/sh
-    (my-completing-read
-     "Name or path of shell: "
-     interpreter-mode-alist
-     (lambda (x) (eq (cdr x) 'sh-mode))
-     't
-     ""
-     nil; hist
-     "bash")
-    (eq executable-query 'function)
-    t)))
-
-
-
 (font-lock-add-keywords 'sh-mode
   '(("`\\(\\(\\s_\\|\\sw\\)+\\)'" 1 font-lock-important prepend)))
 
