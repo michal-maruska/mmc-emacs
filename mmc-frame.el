@@ -1,4 +1,4 @@
-(require 'assoc)
+;; (require 'assoc)
 (require 'mmc-simple)
 ;; sawfish:
 ;; (multiple-frames "%b" ("" invocation-name "@" system-name))
@@ -240,8 +240,8 @@
 
 (mapc
  (lambda (frame)
-   (aput 'frame-width-alist
-         frame (frame-width frame)))
+   (setf
+    (cdr (assoc frame frame-width-alist)) (frame-width frame)))
  (frames-on-display-list))
 
 ;; (setq window-configuration-change-hook (cdr window-configuration-change-hook))
@@ -249,11 +249,13 @@
  'window-configuration-change-hook
  (lambda ()
    (let* ((frame (selected-frame))
-          (previous-width (aget frame-width-alist frame))
-          )
+          (previous-width  (cdr (assoc frame frame-width-alist)))
+	  )
      (unless (eq previous-width (frame-width frame))
        (message "window-configuration-change-hook: frame resized")
-       (aput 'frame-width-alist frame (frame-width frame))
+       (setf
+	(cdr (assoc frame frame-width-alist)) (frame-width frame))
+       ;; (aput 'frame-width-alist frame (frame-width frame))
        ))))
 
 
