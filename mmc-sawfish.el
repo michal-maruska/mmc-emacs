@@ -101,13 +101,17 @@ find and return its path in the filesystem"
 	      (find-subpath-in-paths basename sawfish-src-path))))
     found))
 
-(require 'assoc)
-
 ;; fixme:   (eval-after-load "ffap" '(....)) !!
 (require  'ffap)
 ;; register:
-(aput 'ffap-alist 'sawfish-mode 'ffap-sawfish-mode)
-(aput 'ffap-alist ' inferior-lisp-mode 'ffap-sawfish-mode)
+(setf
+ (cdr (assoc 'sawfish-mode ffap-alist))
+ 'ffap-sawfish-mode)
+
+(setf
+ (cdr (assoc 'inferior-lisp-mode ffap-alist))
+   'ffap-sawfish-mode)
+
 ;ffap-alist
 ;;; keys
 ;; not used

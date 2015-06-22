@@ -82,13 +82,13 @@ I run both emacs/xemacs and want to contact them both."
            ))
 
   ;(setq default-frame-alist
-  (aput 'default-frame-alist
-        'background-color
-        ;; "black"
-        ;"gray7"
-        ;)
-        (nth session
-             '("black" "gray10")))      ;   `'gray3  during night
+  (setf
+   (cdr (assoc 'background-color default-frame-alist))
+   ;; "black"
+					;"gray7"
+					;)
+   (nth session
+	'("black" "gray10")))		;   `'gray3  during night
 
   (setenv "GNU_PORT" (int-to-string   gnuserv-port))
   (setenv "GNU_SECURE" (expand-file-name gnuserv-authority-file))

@@ -20,10 +20,10 @@
      (setcdr
       (car ediff-control-frame-parameters) nil)
 
-     (setq
-      ediff-control-frame-parameters
-      (aput
-       'ediff-control-frame-parameters 'auto-raise ))))
+     (setf
+      (cdr (assoc 'auto-raise
+		  ediff-control-frame-parameters))
+      nil)))
 
 
 
