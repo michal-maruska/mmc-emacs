@@ -238,11 +238,22 @@
 
 (setq frame-width-alist '())
 
-(mapc
- (lambda (frame)
-   (setf
-    (cdr (assoc frame frame-width-alist)) (frame-width frame)))
- (frames-on-display-list))
+;; fixme:
+(setq frame-width-alist
+      (mapcar
+       (lambda (frame)
+	 (cons
+	  frame ;(assoc frame frame-width-alist)
+	  (frame-width frame)))
+       (frames-on-display-list)
+       ))
+
+(when nil
+  (mapc
+   (lambda (frame)
+     (setf
+      (cdr (assoc frame frame-width-alist)) (frame-width frame)))
+   (frames-on-display-list)))
 
 ;; (setq window-configuration-change-hook (cdr window-configuration-change-hook))
 (add-hook

@@ -271,9 +271,18 @@ move to with the same argument."
       (setq pair (car new-values)
             new-values (cdr new-values))
                                         ;(set alist-symbol
-      (setf
-       (cdr (assoc (car pair) (symbol-value alist-symbol)))
-       (cdr pair)))
+      (let ((orig-pair (assoc (car pair) (symbol-value alist-symbol)))
+	    )
+	(if (null orig-pair)
+	    (set alist-symbol
+		 (cons
+		  (cons (car pair)
+			(cdr pair))
+		  (symbol-value alist-symbol)))
+	  (setf
+	   ;; stop using assoc?
+	   (cdr (assoc (car pair) (symbol-value alist-symbol)))
+	   (cdr pair)))))
     (symbol-value alist-symbol)))
 
 (put 'overwrite-alist 'lisp-indent-hook 1)

@@ -104,13 +104,22 @@ find and return its path in the filesystem"
 ;; fixme:   (eval-after-load "ffap" '(....)) !!
 (require  'ffap)
 ;; register:
-(setf
- (cdr (assoc 'sawfish-mode ffap-alist))
- 'ffap-sawfish-mode)
+(if nil
+    (progn
+      (setf
+       (cdr (assoc 'sawfish-mode ffap-alist))
+       'ffap-sawfish-mode)
 
-(setf
- (cdr (assoc 'inferior-lisp-mode ffap-alist))
-   'ffap-sawfish-mode)
+      (setf
+       (cdr (assoc 'inferior-lisp-mode ffap-alist))
+       'ffap-sawfish-mode)
+      )
+  ;;
+  (push (cons 'sawfish-mode 'ffap-sawfish-mode)
+	ffap-alist)
+  (push (cons 'inferior-lisp-mode 'ffap-sawfish-mode)
+	ffap-alist)
+  )
 
 ;ffap-alist
 ;;; keys

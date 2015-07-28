@@ -443,11 +443,13 @@ get a name of (an open) dired buffer. taking the basename of the current path as
 
 ;;; Font lock:
 (unless running-xemacs
-  (setf
-   (cdr (assoc
-	 dired-re-exe
-	 dired-font-lock-keywords))
-   '(".+" (dired-move-to-filename) nil (0 'font-lock-important))))
+  (when nil
+    ;; fixme:
+    (setf
+     (cdr (assoc
+	   dired-re-exe
+	   dired-font-lock-keywords))
+     '(".+" (dired-move-to-filename) nil (0 'font-lock-important)))))
 ;; font-lock-lemma-face
 
 
