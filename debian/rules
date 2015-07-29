@@ -1,9 +1,10 @@
 #!/usr/bin/make -f
 
+DEB_EMACS_PRIORITY := 49
+
 %:
 	dh $@
 
 # before my other packages.
-DEB_EMACS_PRIORITY := 49
 #DEB_INSTALL_DOCS_ALL := README RELEASE_NOTES
 #DEB_INSTALL_CHANGELOGS_ALL := NEWS
