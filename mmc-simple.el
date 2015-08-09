@@ -313,7 +313,8 @@ move to with the same argument."
 (defalias 'alist 'list)
 
 
-(require 'mmc-ring)
+;; (require 'mmc-ring)
+(require 'mmc-minibuffer-history)
 
 ;; fixme: ring !!!
 (defun my-completing-read (prompt table &optional predicate require-match init
