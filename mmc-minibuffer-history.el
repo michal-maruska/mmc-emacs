@@ -69,23 +69,12 @@
 
 
 ;;; switching buffers
-(defvar previous-frame nil "")
+(defvar previous-frame nil "variable to carry over/between frame switch, the previous one")
 
-;;; Hooks
-(add-hook
- 'before-make-frame-hook
- (lambda ()
-   (message "leaving frame")
-   (setq previous-frame (selected-frame))))
-
-(if running-xemacs
-    (add-hook 'create-frame-hook 'frame-inherit-rings)
-  ;; after-make-frame-functions
-  (add-hook
-   'after-make-frame-functions
-   'frame-inherit-rings))
-;; FIXME: should inherit !!!
-
+(defun mark-previous-frame ()
+  ""
+  (message "leaving frame -- saving in a variable")
+  (setq previous-frame (selected-frame)))
 
 (defun frame-inherit-rings (frame)
   ""
@@ -99,6 +88,27 @@
   ;;(modify-frame-parameters (selected-frame) 'recent-buffer-ring)
   ;;  (make-variable-frame-local))
   )
+
+
+;; (remove-hook 'before-make-frame-hook 'mark-previous-frame)
+;; (remove-hook 'create-frame-hook 'frame-inherit-rings)
+;; (remove-hook 'after-make-frame-functions 'frame-inherit-rings)
+
+
+;;; Hooks
+(add-hook
+    'before-make-frame-hook
+  'mark-previous-frame)
+
+(if running-xemacs
+    (add-hook 'create-frame-hook 'frame-inherit-rings)
+  ;; after-make-frame-functions
+  (add-hook
+      'after-make-frame-functions
+    'frame-inherit-rings))
+;; FIXME: should inherit !!!
+
+
 
 
 (when running-xemacs
