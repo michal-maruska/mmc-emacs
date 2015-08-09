@@ -256,19 +256,28 @@
    (frames-on-display-list)))
 
 ;; (setq window-configuration-change-hook (cdr window-configuration-change-hook))
-(add-hook
- 'window-configuration-change-hook
- (lambda ()
-   (let* ((frame (selected-frame))
-          (previous-width  (cdr (assoc frame frame-width-alist)))
-	  )
-     (unless (eq previous-width (frame-width frame))
-       (message "window-configuration-change-hook: frame resized")
-       (setf
-	(cdr (assoc frame frame-width-alist)) (frame-width frame))
-       ;; (aput 'frame-width-alist frame (frame-width frame))
-       ))))
+(add-hook 'window-configuration-change-hook 'keep-frame-widths)
+;(remove-hook 'window-configuration-change-hook 'keep-frame-widths)
 
+(defun keep-frame-widths ()
+  ""
+  (let* ((frame (selected-frame))
+	 (info (assoc frame frame-width-alist))
+	 ;; previous-width  (cdr ))
+	 )
+    (cond
+     ((null info)
+      (push (cons frame (frame-width frame)) frame-width-alist))
+
+     ((not (= (cdr info) (frame-width frame)))
+
+      (message "window-configuration-change-hook: frame resized")
+      (setf
+       (cdr info) (frame-width frame))
+      ;; (aput 'frame-width-alist frame (frame-width frame))
+      ))))
+
+; (keep-frame-widths)
 
 (provide 'mmc-frame)
 
