@@ -1,3 +1,10 @@
+mmc-emacs (2.2) release; urgency=medium
+
+  * mmc-line: ops to read filename:XX, and skip to line XX.
+  * aif: handy macro.
+
+ -- Michal Maruska <michal@ubuntu>  Wed, 23 Dec 2015 16:29:17 +0100
+
 mmc-emacs (2.1) release; urgency=medium
 
   * isearch-other-control-char is gone -- use conditionally.
