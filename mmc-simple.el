@@ -1307,5 +1307,22 @@ The search is done in the source for library LIBRARY."
 		(expand-file-name path)))
 
 
+
+(defmacro aif (var condition body &rest else)
+  "evaluate @condition, assign the result to @var.
+Then call @body or @else based on @condition, and make @var available to them."
+  `(let ((,var ,condition))
+     (if ,var
+	 ,body
+       ,@else)))
+
+(when nil
+  (aif a (cdr '(a . b))
+       (cons a nil)
+       1
+       )
+  )
+
+
 ;;; end
 (provide 'mmc-simple)
