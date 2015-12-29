@@ -1,3 +1,25 @@
+mmc-emacs (2.3) release; urgency=medium
+
+  * find-line-by-string: from mmc-cscope.
+  * adapt to change: with-keymaps-switched -> with-keymaps-switched*
+  * stop using obsolete flet: use cl-flet.
+  * Drop workaround for missing zsh in sh-set-shell.
+  * emacsen-compat ?
+  * Enable debug-on-error.
+  * down with assoc, aget
+  * [assoc] stop using aput
+  * [assoc] scary
+  * [assoc] more to avoid assoc.el
+  * Fix mic-paren cl-flet & ding-maybe
+  * drop mmc-desktop.el
+  * test
+  * new file: split from mmc-ring the buffer-history part.
+  * Investigate the frame hooks
+  * fix aget breakage
+  * invoke-on-display: formalized (from mmc-xterm) how to invoke X subprograms
+
+ -- Michal Maruska <mmaruska@gmail.com>  Tue, 29 Dec 2015 14:35:15 +0100
+
 mmc-emacs (2.2) release; urgency=medium
 
   * mmc-line: ops to read filename:XX, and skip to line XX.
