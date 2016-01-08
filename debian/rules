@@ -4,6 +4,10 @@
 DEB_EMACS_PRIORITY := 51
 export DEB_EMACS_PRIORITY
 
+#
+
+override_dh_installemacsen:
+	dh_installemacsen --priority=51
 %:
 	dh $@
 
