@@ -1,6 +1,8 @@
 #!/usr/bin/make -f
 
-DEB_EMACS_PRIORITY := 49
+# after debian!
+DEB_EMACS_PRIORITY := 51
+export DEB_EMACS_PRIORITY
 
 %:
 	dh $@
