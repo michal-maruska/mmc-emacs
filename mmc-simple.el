@@ -8,10 +8,10 @@
   (if running-xemacs
       ;;"21.2.b37" ;emacs-version
       (defvar xemacs-version
-	(if (fboundp 'construct-emacs-version-name)
-	    (construct-emacs-version-name)
-	  nil)
-	""))
+        (if (fboundp 'construct-emacs-version-name)
+            (construct-emacs-version-name)
+          nil)
+        ""))
 
   (defconst emacs-21
     (string-match "^2[124]\.*" emacs-version))
@@ -39,14 +39,14 @@
   (let ((error-var (make-symbol "error-var")))
   `(condition-case ,error-var
       ,(cons
-	'progn
-	body)
+        'progn
+        body)
     (error
      ;;"Font `-*-lucidatypewriter-medium-r-normal-*-20-*-*-*-*-*-fontset-1'
      ;; is not defined"
      (message "error occured while loading %s, avoiding FAIL! %s"
-	      ,load-file-name
-	      ,error-var) 't))))
+              ,load-file-name
+              ,error-var) 't))))
 
 ;;
 ;;
@@ -66,10 +66,10 @@ seems to be a frequent operation"
   (let (found)
     ;; fixme:  catch/throw !!
     (while (and (not found)
-		(consp list))
+                (consp list))
       (setq found (funcall function (car list))
-	    ;; serial?
-	    list (cdr list)))
+            ;; serial?
+            list (cdr list)))
     found))
 
 ;;; 23 Jun 2001:  how many times have I used this?
@@ -171,8 +171,8 @@ seems to be a frequent operation"
   ""
   (let ((function-or-keymap (lookup-key map key)))
     (if (and function-or-keymap
-	     (not (lookup-key map new-key)))
-	(define-key map new-key function-or-keymap)
+             (not (lookup-key map new-key)))
+        (define-key map new-key function-or-keymap)
       (message "cannot substitue"))))
 
 
@@ -198,16 +198,16 @@ move to with the same argument."
   (interactive ;;"r"
    (if (equal current-prefix-arg '(4))
        (list (point-min)
-	     (point-max))
+             (point-max))
      (if (region-active-p)
-	 (list (region-beginning) (region-end)))))
+         (list (region-beginning) (region-end)))))
   ;; (unless transpose)
   (save-excursion
-    (let ((regexp "[ 	]+$")
-	  (to-string ""))
+    (let ((regexp "[    ]+$")
+          (to-string ""))
       (goto-char start)
       (while (re-search-forward regexp end t)
-	(replace-match to-string nil nil))
+        (replace-match to-string nil nil))
       ;;(replace-regexp regexp to-string nil start end)
       )))
 
@@ -229,8 +229,8 @@ move to with the same argument."
 (defun delete-head-from-region (start end)
   (interactive "r")
   (save-excursion
-    (let ((regexp "^[ 	]+")
-	  (to-string ""))
+    (let ((regexp "^[   ]+")
+          (to-string ""))
     (goto-char start)
     (while (re-search-forward regexp end t)
       (replace-match to-string nil nil)) )))
@@ -272,17 +272,17 @@ move to with the same argument."
             new-values (cdr new-values))
                                         ;(set alist-symbol
       (let ((orig-pair (assoc (car pair) (symbol-value alist-symbol)))
-	    )
-	(if (null orig-pair)
-	    (set alist-symbol
-		 (cons
-		  (cons (car pair)
-			(cdr pair))
-		  (symbol-value alist-symbol)))
-	  (setf
-	   ;; stop using assoc?
-	   (cdr (assoc (car pair) (symbol-value alist-symbol)))
-	   (cdr pair)))))
+            )
+        (if (null orig-pair)
+            (set alist-symbol
+                 (cons
+                  (cons (car pair)
+                        (cdr pair))
+                  (symbol-value alist-symbol)))
+          (setf
+           ;; stop using assoc?
+           (cdr (assoc (car pair) (symbol-value alist-symbol)))
+           (cdr pair)))))
     (symbol-value alist-symbol)))
 
 (put 'overwrite-alist 'lisp-indent-hook 1)
@@ -318,38 +318,38 @@ move to with the same argument."
 
 ;; fixme: ring !!!
 (defun my-completing-read (prompt table &optional predicate require-match init
-				  hist def inherit-input-method ring)
+                                  hist def inherit-input-method ring)
   "I often have only a list ....(not Alist)
 ;; i want to accept symbols !!"
   ;; ??? we have to
   (if (and (fboundp 'history-clos-p)
-	   (history-clos-p hist))
+           (history-clos-p hist))
       ;; so oref is from eieieo ?
       (setq ring (oref hist ring)
-	    hist (oref hist e-history))) ;fixme: what is that?
+            hist (oref hist e-history))) ;fixme: what is that?
   (let* ((my-table (cond ((vectorp table) table)
-			 ((alistp table) table)
-			 ((listp table)
-			  (message "my-completing-read: plain list...converting")
-			  (alist-from-list table))))
-	 (current-ring ring)
-	 (current-ring-position 0)
-	 ;; (if (and
-	 ;;(> (ring-length current-ring) 1)
-	 ;; (string= default-buffer (ring-ref current-ring 1)))
-	 ;;   1 0))
-	 (default (or def (car-safe (car-safe my-table))))
-	 (my-prompt
-	  (if default (format "%s (default %s) " prompt default) prompt))
-	 (result
-	  (if running-xemacs
-	      (completing-read my-prompt my-table predicate require-match
-			       init hist default)
-	    (completing-read my-prompt my-table predicate require-match
-			     init hist default
-			     inherit-input-method))))
+                         ((alistp table) table)
+                         ((listp table)
+                          (message "my-completing-read: plain list...converting")
+                          (alist-from-list table))))
+         (current-ring ring)
+         (current-ring-position 0)
+         ;; (if (and
+         ;;(> (ring-length current-ring) 1)
+         ;; (string= default-buffer (ring-ref current-ring 1)))
+         ;;   1 0))
+         (default (or def (car-safe (car-safe my-table))))
+         (my-prompt
+          (if default (format "%s (default %s) " prompt default) prompt))
+         (result
+          (if running-xemacs
+              (completing-read my-prompt my-table predicate require-match
+                               init hist default)
+            (completing-read my-prompt my-table predicate require-match
+                             init hist default
+                             inherit-input-method))))
     (if ring
-	(ring-to-head ring result))
+        (ring-to-head ring result))
     result))
 
 
@@ -361,7 +361,7 @@ move to with the same argument."
    (mapcar
    (lambda (item)
      (if (member item set)
-	 item nil))
+         item nil))
    list)))
 
 ;;(my-intersection (list "a" "b" "c") (list "x" "y" "c") )
@@ -371,10 +371,10 @@ move to with the same argument."
   (let (item (yes 't))
     (while list
     (setq item (car list)
-	  list (cdr list))
+          list (cdr list))
     (unless (member item set)
       (setq yes nil
-	    list nil)))
+            list nil)))
     yes))
 
 
@@ -394,10 +394,10 @@ move to with the same argument."
   (interactive)
   (let ((a last-command-event))		;last-command-char
     (cond ((symbolp a)
-	   a)
-	  ((char-or-string-p a)
-	   ;;(insert (logand  255))
-	   (logand last-command-event 255))))) ;char
+           a)
+          ((char-or-string-p a)
+           ;;(insert (logand  255))
+           (logand last-command-event 255))))) ;char
 
 ;; Debugger entered--Lisp error: (wrong-type-argument listp "'")
 ;;   copy-alist("'")
@@ -411,7 +411,7 @@ move to with the same argument."
 (defun quote-region (start end &optional delimiter)
   (interactive "r")
   (message "quote-region alist: %s %s" quote-region-delimiters-alist
-	   delimiter)
+           delimiter)
   (save-excursion
     (let ((last  (or delimiter (decode-last-key)))
           (start-char "'")
@@ -444,15 +444,15 @@ move to with the same argument."
 (defun symbols-matching-re (re &optional dont-split)
   "Get a list of all symbols whose name matches RE, moreover, only the matched part (group 1)"
   (let (name
-	(symbol-list '()))
+        (symbol-list '()))
     (mapatoms
      (lambda (atom)
        (setq name (symbol-name atom))
        (if (string-match re name)
-	   (push
-	    (if dont-split name (match-string 1 name))
-	    symbol-list)
-	 nil))
+           (push
+            (if dont-split name (match-string 1 name))
+            symbol-list)
+         nil))
      obarray)
     symbol-list))
 
@@ -529,11 +529,11 @@ dots(...) get processed:
   "return as list the string-lines"
   (let ((collected-lines '()))
     (map-lines start end
-	       (lambda (end)
-		 (push
-		  (erase-text-properties
-		   (buffer-substring (point)  end))
-		  collected-lines)))
+               (lambda (end)
+                 (push
+                  (erase-text-properties
+                   (buffer-substring (point)  end))
+                  collected-lines)))
     (reverse collected-lines)))
 
 ; (lines->list (point-min) (point-max))
@@ -547,7 +547,7 @@ dots(...) get processed:
   (let ((position 0))
     (while (and (consp list)(< (car list) number))
       (setq list (cdr list)
-	    position (1+ position)))
+            position (1+ position)))
     position))
 
 
@@ -559,8 +559,8 @@ dots(...) get processed:
   (defun hscroll-mode (&optional arg)
     (interactive)
     (setq truncate-lines
-	  (or arg
-	      (not truncate-lines))))
+          (or arg
+              (not truncate-lines))))
   (defalias 'hscroll-mode 'toggle-truncate-lines))
 
 (global-set-key [(control ?x) ?x ?|] 'hscroll-mode)
@@ -576,7 +576,7 @@ dots(...) get processed:
     (mapcar-nonil
      (lambda (item)
        (add-to-list 'major-modes-used
-		    (major-mode-of item)))
+                    (major-mode-of item)))
      buffer-list)
     major-modes-used))
 
@@ -586,7 +586,7 @@ dots(...) get processed:
   (mapcar-nonil
    (lambda (item)
      (if (equal (major-mode-of item) mode);; (eval mode)
-	 (if names? (buffer-name item) item)
+         (if names? (buffer-name item) item)
        nil))
    (buffer-list)))
 (defalias 'buffers-in-major-mode 'buffers-in-mode)
@@ -614,7 +614,7 @@ dots(...) get processed:
     (mapcar
      (lambda (item)
        (when (string-match name-regexp (buffer-name item))
-	 (kill-buffer item)))
+         (kill-buffer item)))
      buffers)))
 
 
@@ -643,12 +643,12 @@ dots(...) get processed:
 
 ; (setq lisp-font-lock-keywords
 ;       (nconc lisp-font-lock-keywords
-; 	     (list
-; 	      ;; (list "michal")
-; 	      ;; (list "\\<foo\\>"  (list 0 font-lock-section-face 't nil))
-; 	      ;; (list "michal")
+;            (list
+;             ;; (list "michal")
+;             ;; (list "\\<foo\\>"  (list 0 font-lock-section-face 't nil))
+;             ;; (list "michal")
 
-; 	      )))
+;             )))
 
 
 ;; font-lock-warning-face
@@ -661,8 +661,8 @@ dots(...) get processed:
   ""
   (interactive)
   (let ((original-color
-	 (frame-parameter (selected-frame) 'cursor-color))
-	(u-sec 50))
+         (frame-parameter (selected-frame) 'cursor-color))
+        (u-sec 50))
   (set-cursor-color "Magenta") (sleep-for 0 u-sec)
   (set-cursor-color "Firebrick")(sleep-for 0 u-sec)
   (set-cursor-color "Blue")(sleep-for 0 u-sec)
@@ -680,7 +680,7 @@ dots(...) get processed:
   ""
   (interactive "p")
   (cond ((= prefix 0)
-	 (kill-region (point) (mark)))
+         (kill-region (point) (mark)))
   ((= prefix 1)
    ;; word
    (kill-region (point) (mark)))
@@ -706,7 +706,7 @@ dots(...) get processed:
   "if not modified,"
   (interactive)
   (let* ((buffer (current-buffer))
-	 (name (buffer-name buffer)))
+         (name (buffer-name buffer)))
   (rename-buffer (concat " " name))	; buffer
   (bury-buffer)
   (setq zombie-buffers (cons buffer zombie-buffers))))
@@ -750,8 +750,8 @@ dots(...) get processed:
 (defun read-hostname ()
   "Read a hostname"
   (my-completing-read "hostname: "
-		      hostname-list nil nil ""
-		      hostname-history nil nil hostname-ring))
+                      hostname-list nil nil ""
+                      hostname-history nil nil hostname-ring))
 
 
 
@@ -845,7 +845,7 @@ dots(...) get processed:
     (mapc
      (lambda (buffer)
        (if (variable-in-buffer buffer mode)
-	   (setq buffers (cons buffer buffers))))
+           (setq buffers (cons buffer buffers))))
      (buffer-list))
     buffers))
 
@@ -860,19 +860,19 @@ dots(...) get processed:
   ""
   (intern
    (completing-read (or prompt "minor mode: ")
-		    (alist-from-list
-		     (mapcar
-		      (lambda (item)
-			(symbol-name (car item)))
-		      minor-mode-alist)
-		     )nil 't "" read-minor-mode-history)))
+                    (alist-from-list
+                     (mapcar
+                      (lambda (item)
+                        (symbol-name (car item)))
+                      minor-mode-alist)
+                     )nil 't "" read-minor-mode-history)))
 
 (defun kill-buffers-with-minor-mode (mode)
   "kill all buffers with the minor mode, but the current one"
   (interactive
    (list (read-minor-mode)))
   (let ((current-buffer (current-buffer))
-	(killed-buffers (buffers-with-minor-mode mode)))
+        (killed-buffers (buffers-with-minor-mode mode)))
     ;;(not (eq current-buffer buffer))
     ;;(not (string= current-buffer (buffer-name buffer)))); ???
     (mapcar 'kill-buffer  killed-buffers)))
@@ -885,27 +885,27 @@ dots(...) get processed:
 (defun insert-filename (&optional filename)
   "insert at point a filename, possibly a completion of a gem"
   (interactive)
-					;(ffap-file-finder "prompt: ")
+                                        ;(ffap-file-finder "prompt: ")
   (unwind-protect
       (let* ((guess (ffap-guesser))
-	     (dir (if (and guess (stringp guess))	;could be `nil'
-		      (file-name-directory guess)))
-	     (base (if (and guess (stringp guess))
-		       (file-name-nondirectory guess)))
-	     overlay)
-	(ffap-highlight)
-	(unless filename 	;without this, message will use base
-	  (setq filename
-		(if emacs-22
-		    (ffap-read-file-or-url "Insert filename: " guess)
-		  (read-file-name "Insert filename: " dir nil nil base))))
-	;; (interactive "finsert filename: ")
-	(message "inserting %s" filename)
-	(if (setq overlay ffap-highlight-overlay)
-	    (delete-region (overlay-start overlay) ;;kill-region
-			   (overlay-end overlay)))
-	(ffap-highlight t)
-	(insert filename))
+             (dir (if (and guess (stringp guess))	;could be `nil'
+                      (file-name-directory guess)))
+             (base (if (and guess (stringp guess))
+                       (file-name-nondirectory guess)))
+             overlay)
+        (ffap-highlight)
+        (unless filename        ;without this, message will use base
+          (setq filename
+                (if emacs-22
+                    (ffap-read-file-or-url "Insert filename: " guess)
+                  (read-file-name "Insert filename: " dir nil nil base))))
+        ;; (interactive "finsert filename: ")
+        (message "inserting %s" filename)
+        (if (setq overlay ffap-highlight-overlay)
+            (delete-region (overlay-start overlay) ;;kill-region
+                           (overlay-end overlay)))
+        (ffap-highlight t)
+        (insert filename))
     (ffap-highlight t)))
 
 
@@ -940,9 +940,9 @@ Case is ignored if `case-fold-search' is non-nil in the current buffer.
 Goes backward if ARG is negative; error if CHAR not found."
   (interactive "p\ncZap to char: ")
   (kill-region (point) (progn
-			 (search-forward (char-to-string char) nil nil arg)
+                         (search-forward (char-to-string char) nil nil arg)
 ;			 (goto-char (if (> arg 0) (1- (point)) (1+ (point))))
-			 (1- (point)))))
+                         (1- (point)))))
 
 (global-set-key [(control meta ?z)]   'zap-upto-char)
 
@@ -966,7 +966,7 @@ Goes backward if ARG is negative; error if CHAR not found."
   "like [replace-string] but not for interactive, and does not support DELIMITED"
   (save-excursion
     (if start
-	(goto-char start))
+        (goto-char start))
     (while (search-forward from end 'noerror)
       (delete-region (- (point) (length from)) (point))
       (insert to))))
@@ -996,23 +996,23 @@ Goes backward if ARG is negative; error if CHAR not found."
 (defmacro with-display (x-display &rest body)
   "run BODY with the DISPLAY env-var set to X-DISPLAY, 't ->frame's one"
   (let ((old-display (make-symbol "old-display"))
-	(this-display (make-symbol "this-display"))
-	(the-display (make-symbol "the-display")))
+        (this-display (make-symbol "this-display"))
+        (the-display (make-symbol "the-display")))
     `(let* ((,old-display (getenv "DISPLAY"))
-	    (,the-display ,x-display)
-	    (,this-display (if (eq ,the-display t)
-			       (if running-xemacs
-				   (frame-property (selected-frame) 'display  "0:0")
-				 (frame-parameter (selected-frame) 'display))
-			     ,the-display)))
+            (,the-display ,x-display)
+            (,this-display (if (eq ,the-display t)
+                               (if running-xemacs
+                                   (frame-property (selected-frame) 'display  "0:0")
+                                 (frame-parameter (selected-frame) 'display))
+                             ,the-display)))
        (if (string= ,this-display (concat (hostname) ":0"))
-	   (setq ,this-display ":0"))
+           (setq ,this-display ":0"))
        (unwind-protect
-	   (progn
-	     (setenv "DISPLAY" ,this-display)
-	     ;; ((command (format "guardafotoz %s >/dev/null 2&>1 &" id)))
-	     ,@body)
-	 (setenv "DISPLAY" ,old-display)))))
+           (progn
+             (setenv "DISPLAY" ,this-display)
+             ;; ((command (format "guardafotoz %s >/dev/null 2&>1 &" id)))
+             ,@body)
+         (setenv "DISPLAY" ,old-display)))))
 ;; (frame-property (selected-frame) 'display  "0:0")
 ;;  (frame-properties (selected-frame)) 'display  "0:0")
 (put 'with-display 'lisp-indent-function 1)
@@ -1023,8 +1023,8 @@ Goes backward if ARG is negative; error if CHAR not found."
   (let (unique current last)
     (while (setq current (car list))
       (unless (string= current last)	;
-	(setq unique (cons current unique)
-	      last current))
+        (setq unique (cons current unique)
+              last current))
       (setq list (cdr list)))
     (reverse unique)))
 
@@ -1042,19 +1042,19 @@ If the current buffer now contains an empty file that you just visited
   (and (buffer-modified-p) (buffer-file-name)
        ;; (not buffer-read-only)
        (not (yes-or-no-p (format "Buffer %s is modified; kill anyway? "
-				 (buffer-name))))
+                                 (buffer-name))))
        (error "Aborted"))
   (let ((obuf (current-buffer)))
     (switch-to-buffer buffer)
     (or (eq (current-buffer) obuf)
-	(kill-buffer obuf))))
+        (kill-buffer obuf))))
 
 
 
 (defun last-key()
   ""
   (aref (this-command-keys-vector)
-	(1- (length (this-command-keys-vector)))))
+        (1- (length (this-command-keys-vector)))))
 
 
 
@@ -1086,12 +1086,12 @@ If the current buffer now contains an empty file that you just visited
 (defun multi-princ (&rest args)
   ""
   (mapcar 'princ
-	  args))
+          args))
 
 
 
 (defun append-buffer-to-file (file)
-  (interactive "F") 
+  (interactive "F")
   (append-to-file (point-min) (point-max) file))
 
 (global-set-key "\C-x\M-w" 'append-buffer-to-file)
@@ -1120,17 +1120,17 @@ If the current buffer now contains an empty file that you just visited
       ;; This catch will let ffap-alist entries do their own prompting
       ;; and then maybe skip over this prompt (ff-paths, for example).
       (catch 'ffap-prompter
-	(ffap-read-file-or-url
-	 ;; mmc: only this line:
-	 (or prompt (if ffap-url-regexp "Find file or URL: " "Find file: "))
-	 (prog1
+        (ffap-read-file-or-url
+         ;; mmc: only this line:
+         (or prompt (if ffap-url-regexp "Find file or URL: " "Find file: "))
+         (prog1
              (let ((mark-active nil))
                ;; Don't use the region here, since it can be something
                ;; completely unwieldy.  If the user wants that, she could
                ;; use M-w before and then C-y.  --Stef
                (setq guess (or guess (ffap-guesser)))) ; using ffap-alist here
-	   (and guess (ffap-highlight))
-	   )))
+           (and guess (ffap-highlight))
+           )))
     (ffap-highlight t)))
 
 (defun set-default-directory (dir)
@@ -1203,7 +1203,7 @@ If the current buffer now contains an empty file that you just visited
   "display the buffer with last messages, with prefix, position at the end (of the buffer)"
   (interactive "P")
   (let* ((bufname (emacs-message-buffer-name))
-	 (window (display-buffer bufname)))
+         (window (display-buffer bufname)))
     (unless prefix
       (set-window-point window (with-current-buffer bufname (point-max))))))
 
@@ -1230,42 +1230,42 @@ If the current buffer now contains an empty file that you just visited
   (defun find-function-search-for-symbol-1 (symbol type library)
     "see `find-function-search-for-symbol'"
     (let* ((filename (find-library-name library))
-	   (regexp-symbol (cdr (assq type find-function-regexp-alist))))
+           (regexp-symbol (cdr (assq type find-function-regexp-alist))))
       ;; (message " filename: %s symbol: %s" filename symbol)
       (with-current-buffer (find-file-noselect filename)
-	;; (message "regexp-symbol for %s -> %s; see %s" type
-		 ;; (symbol-value regexp-symbol)
-		 ;; find-function-regexp-alist)
-	(let ((regexp (format (symbol-value regexp-symbol)
-			      ;; Entry for ` (backquote) macro in loaddefs.el,
-			      ;; (defalias (quote \`)..., has a \ but
-			      ;; (symbol-name symbol) doesn't.  Add an
-			      ;; optional \ to catch this.
-			      (concat "\\\\?"
-				      (regexp-quote (symbol-name symbol)))))
-	      (case-fold-search))
-	  (with-syntax-table emacs-lisp-mode-syntax-table
-	    (goto-char (point-min))
-	    ;;(message "searching in the buffer for %s\n to find %s"
-	    ;;  regexp (symbol-name symbol))
-	    (if (or (re-search-forward regexp nil t)
-		    ;; `regexp' matches definitions using known forms like
-		    ;; `defun', or `defvar'.  But some functions/variables
-		    ;; are defined using special macros (or functions), so
-		    ;; if `regexp' can't find the definition, we look for
-		    ;; something of the form "(SOMETHING <symbol> ...)".
-		    ;; This fails to distinguish function definitions from
-		    ;; variable declarations (or even uses thereof), but is
-		    ;; a good pragmatic fallback.
-		    (re-search-forward
-		     (concat "^([^ ]+" find-function-space-re "['(]?"
-			     (regexp-quote (symbol-name symbol))
-			     "\\_>")
-		     nil t))
-		(progn
-		  (beginning-of-line)
-		  (cons (current-buffer) (point)))
-	      (cons (current-buffer) nil)))))))
+        ;; (message "regexp-symbol for %s -> %s; see %s" type
+                 ;; (symbol-value regexp-symbol)
+                 ;; find-function-regexp-alist)
+        (let ((regexp (format (symbol-value regexp-symbol)
+                              ;; Entry for ` (backquote) macro in loaddefs.el,
+                              ;; (defalias (quote \`)..., has a \ but
+                              ;; (symbol-name symbol) doesn't.  Add an
+                              ;; optional \ to catch this.
+                              (concat "\\\\?"
+                                      (regexp-quote (symbol-name symbol)))))
+              (case-fold-search))
+          (with-syntax-table emacs-lisp-mode-syntax-table
+            (goto-char (point-min))
+            ;;(message "searching in the buffer for %s\n to find %s"
+            ;;  regexp (symbol-name symbol))
+            (if (or (re-search-forward regexp nil t)
+                    ;; `regexp' matches definitions using known forms like
+                    ;; `defun', or `defvar'.  But some functions/variables
+                    ;; are defined using special macros (or functions), so
+                    ;; if `regexp' can't find the definition, we look for
+                    ;; something of the form "(SOMETHING <symbol> ...)".
+                    ;; This fails to distinguish function definitions from
+                    ;; variable declarations (or even uses thereof), but is
+                    ;; a good pragmatic fallback.
+                    (re-search-forward
+                     (concat "^([^ ]+" find-function-space-re "['(]?"
+                             (regexp-quote (symbol-name symbol))
+                             "\\_>")
+                     nil t))
+                (progn
+                  (beginning-of-line)
+                  (cons (current-buffer) (point)))
+              (cons (current-buffer) nil)))))))
   )
 
 ;;; find-in  debian
@@ -1296,14 +1296,14 @@ The search is done in the source for library LIBRARY."
       ;; mmc:  maybe do this text ops inside a temp. buffer...
       (setq library (substring library 0 (match-beginning 1)))
       (if (string-match
-	   (regexp-opt (list (concat "/"
-				     (symbol-name debian-emacs-flavor)
-				     "/"))
-		       t) library)
-	  (setq library (concat
-			 (substring library 0 (match-beginning 1))
-			 "/emacs/"
-			 (substring library (match-end 1))))))
+           (regexp-opt (list (concat "/"
+                                     (symbol-name debian-emacs-flavor)
+                                     "/"))
+                       t) library)
+          (setq library (concat
+                         (substring library 0 (match-beginning 1))
+                         "/emacs/"
+                         (substring library (match-end 1))))))
     ;; Strip extension from .emacs.el to make sure symbol is searched in
     ;; .emacs too.
     (when (string-match "\\.emacs\\(.el\\)" library)
@@ -1316,7 +1316,7 @@ The search is done in the source for library LIBRARY."
 (defun file-under-p (path root)
   "return nil otherwise"
   (string-match (concat "^" (regexp-quote (expand-file-name root)))
-		(expand-file-name path)))
+                (expand-file-name path)))
 
 
 
@@ -1325,7 +1325,7 @@ The search is done in the source for library LIBRARY."
 Then call @body or @else based on @condition, and make @var available to them."
   `(let ((,var ,condition))
      (if ,var
-	 ,body
+         ,body
        ,@else)))
 
 (when nil
@@ -1343,9 +1343,9 @@ Then call @body or @else based on @condition, and make @var available to them."
       (goto-char (point-min))
       ;; at end of line
       (if (search-forward string nil t)
-	  ;; buffer-substring-no-properties
-	  (erase-text-properties (line-string))
-	nil))))
+          ;; buffer-substring-no-properties
+          (erase-text-properties (line-string))
+        nil))))
 
 
 ;;; end
