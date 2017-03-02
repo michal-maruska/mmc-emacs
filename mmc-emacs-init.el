@@ -117,5 +117,5 @@
 
 (require 'mmc-session)
 
-
+(autoload 'crontab-mode "crontab-mode" "" 't)
 (require 'mmc-quail)
