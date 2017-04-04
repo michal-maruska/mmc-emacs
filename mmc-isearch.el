@@ -15,17 +15,17 @@
   (goto-char (point-min))
   (unwind-protect
       (isearch-forward)			;call-interactively
-					; we should remove a mark !!!
+                                        ; we should remove a mark !!!
     (pop-mark)
     (pop-mark)
     (print mark-ring)))
 
 ; (kbd "C-S")  (kbd "C-s")
 (global-set-key
-					;not in Xemacs: (kbd "C-S-s")
+                                        ;not in Xemacs: (kbd "C-S-s")
     [(control ?S)]
-					;(kbd "C-Sh-s")
-					;[(control ?S)]
+                                        ;(kbd "C-Sh-s")
+                                        ;[(control ?S)]
   'isearch-outline)
 
 (global-set-key [(meta ?R)] 'isearch-outline-backward)
@@ -38,10 +38,10 @@
   (let ((original-value (make-symbol "original-value")))
     `(let ((,original-value ,variable))
        (unwind-protect
-	   (progn
-	     (setq ,variable ,value)
-	     ,@body)
-	 (setq ,variable ,original-value)))))
+           (progn
+             (setq ,variable ,value)
+             ,@body)
+         (setq ,variable ,original-value)))))
 
 (put 'with-variable-overloaded 'lisp-indent-function 2)
 
@@ -70,9 +70,9 @@
   (interactive)
   (let ((original-search-invisible search-invisible))
     (unwind-protect
-	(progn
-	  (setq search-invisible nil)
-	  (isearch-forward))
+        (progn
+          (setq search-invisible nil)
+          (isearch-forward))
       (message "returning search-invisible")
       (setq search-invisible original-search-invisible))))
 
@@ -88,9 +88,9 @@
 
 '(let ((original-search-invisible search-invisible))
     (unwind-protect
-	(progn
-	  (setq search-invisible nil)
-	  (isearch-backward))
+        (progn
+          (setq search-invisible nil)
+          (isearch-backward))
       (setq search-invisible original-search-invisible)))
 
 
@@ -108,19 +108,19 @@
    (save-excursion
      ;; (message "%s %s" isearch-forward isearch-other-end)
      (if (and (not isearch-forward)
-	      isearch-other-end)
-	 ;; fixme: somehow this is needed, so that byte-compiled
-	 ;; stuff works. otherwise we alway go to isearch-other-end
-	 ;;(message "going at the END %s" isearch-other-end)
-	 (goto-char isearch-other-end))
+              isearch-other-end)
+         ;; fixme: somehow this is needed, so that byte-compiled
+         ;; stuff works. otherwise we alway go to isearch-other-end
+         ;;(message "going at the END %s" isearch-other-end)
+         (goto-char isearch-other-end))
      (let ((text (buffer-substring
-		  (point)
-		  (progn (forward-sexp 1)
-			 (point)))))
-					;(message "yanking %s" text)
+                  (point)
+                  (progn (forward-sexp 1)
+                         (point)))))
+                                        ;(message "yanking %s" text)
        text))))
 
-					;(lookup-key isearch-mode-map (kbd "\C-s"))
+                                        ;(lookup-key isearch-mode-map (kbd "\C-s"))
 (define-key isearch-mode-map [(control ?z)] 'isearch-yank-sexp)
 (define-key isearch-mode-map [backspace] 'isearch-delete-char)
 
@@ -133,10 +133,10 @@
 
 
 (add-hook 'text-mode-hook
-	  (lambda ()
-	    (setq isearch-case-fold-search 't
-		  case-fold-search 't)))
-	    
+          (lambda ()
+            (setq isearch-case-fold-search 't
+                  case-fold-search 't)))
+
 (setq isearch-case-fold-search 't
       case-fold-search 't
       ;isearch-toggle-case-fold
@@ -168,7 +168,7 @@
     (lambda ()
 
       (if (zerop isearch-level)
-          ;; Save: 
+          ;; Save:
           (setq isearch-mode-hook-cursor-background
                 (face-background 'cursor)))
 
@@ -199,8 +199,8 @@
   (when (zerop isearch-level)
     ;(message "2 %s" (functionp 'set-face-background))
     (if (functionp 'set-face-background)
-	(set-face-background 'cursor
-			     isearch-mode-hook-cursor-background)
+        (set-face-background 'cursor
+                             isearch-mode-hook-cursor-background)
       (message "set-face-background not a function!"))))
 
 
