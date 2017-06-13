@@ -8,15 +8,15 @@ To disable the limit, call this function again."
   (interactive
    (cons
     (if (ibuffer-get-qualifier 'mode)
-	nil
+        nil
     (read-mode "Limit by major mode: "))
     nil))
   (cond (mode
-	 (ibuffer-add-qualifier 'mode mode)
-	 (message "View limited by major mode: %s" mode))
-	(t
-	 (ibuffer-remove-qualifier 'mode)
-	 (message "Limiting by major mode disabled.")))
+         (ibuffer-add-qualifier 'mode mode)
+         (message "View limited by major mode: %s" mode))
+        (t
+         (ibuffer-remove-qualifier 'mode)
+         (message "Limiting by major mode disabled.")))
   (ibuffer-update-mode-name)
   (ibuffer-update nil t))
 
@@ -68,181 +68,181 @@ and visit all the matching files.  When wildcards are actually
 used and expanded, return a list of buffers that are visiting
 the various files."
   (setq filename
-	(abbreviate-file-name
-	 (expand-file-name filename)))
+        (abbreviate-file-name
+         (expand-file-name filename)))
   (if (file-directory-p filename)
       (or (and find-file-run-dired
-	       (run-hook-with-args-until-success
-		'find-directory-functions
-		(if find-file-visit-truename
-		    (abbreviate-file-name (file-truename filename))
-		  filename)))
-	  (error "%s is a directory" filename))
+               (run-hook-with-args-until-success
+                'find-directory-functions
+                (if find-file-visit-truename
+                    (abbreviate-file-name (file-truename filename))
+                  filename)))
+          (error "%s is a directory" filename))
     (if (and wildcards
-	     find-file-wildcards
-	     (not (string-match "\\`/:" filename))
-	     (string-match "[[*?]" filename))
-	(let ((files (condition-case nil
-			 (file-expand-wildcards filename t)
-		       (error (list filename))))
-	      (find-file-wildcards nil))
-	  (if (null files)
-	      (find-file-noselect filename)
-	    (mapcar #'find-file-noselect files)))
+             find-file-wildcards
+             (not (string-match "\\`/:" filename))
+             (string-match "[[*?]" filename))
+        (let ((files (condition-case nil
+                         (file-expand-wildcards filename t)
+                       (error (list filename))))
+              (find-file-wildcards nil))
+          (if (null files)
+              (find-file-noselect filename)
+            (mapcar #'find-file-noselect files)))
       (let* ((buf (get-file-buffer filename))
-	     (truename (abbreviate-file-name (file-truename filename)))
-	     (attributes (file-attributes truename))
-	     (number (nthcdr 10 attributes))
-	     ;; Find any buffer for a file which has same truename.
-	     (other (and (not buf) (find-buffer-visiting filename))))
-	;; Let user know if there is a buffer with the same truename.
-	(if other
-	    (progn
-	      (or nowarn
-		  find-file-suppress-same-file-warnings
-		  (string-equal filename (buffer-file-name other))
-		  (message "%s and %s are the same file"
-			   filename (buffer-file-name other)))
-	      ;; Optionally also find that buffer.
-	      (if (or find-file-existing-other-name find-file-visit-truename)
-		  (setq buf other))))
-	;; Check to see if the file looks uncommonly large.
-	(when (not (or buf nowarn))
-	;;
-	  (abort-if-file-too-large (nth 7 attributes) "open" filename))
-	(if buf
-	    ;; We are using an existing buffer.
-	    (let (nonexistent)
-	      (or nowarn
-		  (verify-visited-file-modtime buf)
-		  (cond ((not (file-exists-p filename))
-			 (setq nonexistent t)
-			 (message "File %s no longer exists!" filename))
-			;; Certain files should be reverted automatically
-			;; if they have changed on disk and not in the buffer.
-			((and (not (buffer-modified-p buf))
-			      (let ((tail revert-without-query)
-				    (found nil))
-				(while tail
-				  (if (string-match (car tail) filename)
-				      (setq found t))
-				  (setq tail (cdr tail)))
-				found))
-			 (with-current-buffer buf
-			   (message "Reverting file %s..." filename)
-			   (revert-buffer t t)
-			   (message "Reverting file %s...done" filename)))
-			((progn
-			   (display-buffer buf)
-			   (yes-or-no-p
-			    (if (string= (file-name-nondirectory filename)
-					 (buffer-name buf))
-				(format
-				 (if (buffer-modified-p buf)
-				     "File %s changed on disk.  Discard your edits? "
-				   "File %s changed on disk.  Reread from disk? ")
-				 (file-name-nondirectory filename))
-			      (format
-			       (if (buffer-modified-p buf)
-				   "File %s changed on disk.  Discard your edits in %s? "
-				 "File %s changed on disk.  Reread from disk into %s? ")
-			       (file-name-nondirectory filename)
-			       (buffer-name buf)))))
-			 (with-current-buffer buf
-			   (revert-buffer t t)))))
-	      (with-current-buffer buf
+             (truename (abbreviate-file-name (file-truename filename)))
+             (attributes (file-attributes truename))
+             (number (nthcdr 10 attributes))
+             ;; Find any buffer for a file which has same truename.
+             (other (and (not buf) (find-buffer-visiting filename))))
+        ;; Let user know if there is a buffer with the same truename.
+        (if other
+            (progn
+              (or nowarn
+                  find-file-suppress-same-file-warnings
+                  (string-equal filename (buffer-file-name other))
+                  (message "%s and %s are the same file"
+                           filename (buffer-file-name other)))
+              ;; Optionally also find that buffer.
+              (if (or find-file-existing-other-name find-file-visit-truename)
+                  (setq buf other))))
+        ;; Check to see if the file looks uncommonly large.
+        (when (not (or buf nowarn))
+        ;;
+          (abort-if-file-too-large (nth 7 attributes) "open" filename))
+        (if buf
+            ;; We are using an existing buffer.
+            (let (nonexistent)
+              (or nowarn
+                  (verify-visited-file-modtime buf)
+                  (cond ((not (file-exists-p filename))
+                         (setq nonexistent t)
+                         (message "File %s no longer exists!" filename))
+                        ;; Certain files should be reverted automatically
+                        ;; if they have changed on disk and not in the buffer.
+                        ((and (not (buffer-modified-p buf))
+                              (let ((tail revert-without-query)
+                                    (found nil))
+                                (while tail
+                                  (if (string-match (car tail) filename)
+                                      (setq found t))
+                                  (setq tail (cdr tail)))
+                                found))
+                         (with-current-buffer buf
+                           (message "Reverting file %s..." filename)
+                           (revert-buffer t t)
+                           (message "Reverting file %s...done" filename)))
+                        ((progn
+                           (display-buffer buf)
+                           (yes-or-no-p
+                            (if (string= (file-name-nondirectory filename)
+                                         (buffer-name buf))
+                                (format
+                                 (if (buffer-modified-p buf)
+                                     "File %s changed on disk.  Discard your edits? "
+                                   "File %s changed on disk.  Reread from disk? ")
+                                 (file-name-nondirectory filename))
+                              (format
+                               (if (buffer-modified-p buf)
+                                   "File %s changed on disk.  Discard your edits in %s? "
+                                 "File %s changed on disk.  Reread from disk into %s? ")
+                               (file-name-nondirectory filename)
+                               (buffer-name buf)))))
+                         (with-current-buffer buf
+                           (revert-buffer t t)))))
+              (with-current-buffer buf
 
-		;; Check if a formerly read-only file has become
-		;; writable and vice versa, but if the buffer agrees
-		;; with the new state of the file, that is ok too.
-		(let ((read-only (not (file-writable-p buffer-file-name))))
-		  (unless (or nonexistent
-			      (eq read-only buffer-file-read-only)
-			      (eq read-only buffer-read-only))
-		    (when (or nowarn
-			      (let ((question
-				     (format "File %s is %s on disk.  Change buffer mode? "
-					     buffer-file-name
-					     (if read-only "read-only" "writable"))))
-				(y-or-n-p question)))
-		      (setq buffer-read-only read-only)))
-		  (setq buffer-file-read-only read-only))
+                ;; Check if a formerly read-only file has become
+                ;; writable and vice versa, but if the buffer agrees
+                ;; with the new state of the file, that is ok too.
+                (let ((read-only (not (file-writable-p buffer-file-name))))
+                  (unless (or nonexistent
+                              (eq read-only buffer-file-read-only)
+                              (eq read-only buffer-read-only))
+                    (when (or nowarn
+                              (let ((question
+                                     (format "File %s is %s on disk.  Change buffer mode? "
+                                             buffer-file-name
+                                             (if read-only "read-only" "writable"))))
+                                (y-or-n-p question)))
+                      (setq buffer-read-only read-only)))
+                  (setq buffer-file-read-only read-only))
 
-		(unless (or (eq (null rawfile) (null find-file-literally))
-			    nonexistent
-			    ;; It is confusing to ask whether to visit
-			    ;; non-literally if they have the file in
-			    ;; hexl-mode or image-mode.
-			    (memq major-mode '(hexl-mode image-mode)))
-		  (if (buffer-modified-p)
-		      (if (y-or-n-p
-			   (format
-			    (if rawfile
-				"The file %s is already visited normally,
+                (unless (or (eq (null rawfile) (null find-file-literally))
+                            nonexistent
+                            ;; It is confusing to ask whether to visit
+                            ;; non-literally if they have the file in
+                            ;; hexl-mode or image-mode.
+                            (memq major-mode '(hexl-mode image-mode)))
+                  (if (buffer-modified-p)
+                      (if (y-or-n-p
+                           (format
+                            (if rawfile
+                                "The file %s is already visited normally,
 and you have edited the buffer.  Now you have asked to visit it literally,
 meaning no coding system handling, format conversion, or local variables.
 Emacs can only visit a file in one way at a time.
 
 Do you want to save the file, and visit it literally instead? "
-				"The file %s is already visited literally,
+                                "The file %s is already visited literally,
 meaning no coding system handling, format conversion, or local variables.
 You have edited the buffer.  Now you have asked to visit the file normally,
 but Emacs can only visit a file in one way at a time.
 
 Do you want to save the file, and visit it normally instead? ")
-			    (file-name-nondirectory filename)))
-			  (progn
-			    (save-buffer)
-			    (find-file-noselect-1 buf filename nowarn
-						  rawfile truename number))
-			(if (y-or-n-p
-			     (format
-			      (if rawfile
-				  "\
+                            (file-name-nondirectory filename)))
+                          (progn
+                            (save-buffer)
+                            (find-file-noselect-1 buf filename nowarn
+                                                  rawfile truename number))
+                        (if (y-or-n-p
+                             (format
+                              (if rawfile
+                                  "\
 Do you want to discard your changes, and visit the file literally now? "
-				"\
+                                "\
 Do you want to discard your changes, and visit the file normally now? ")))
-			    (find-file-noselect-1 buf filename nowarn
-						  rawfile truename number)
-			  (error (if rawfile "File already visited non-literally"
-				   "File already visited literally"))))
-		    (if (y-or-n-p
-			 (format
-			  (if rawfile
-			      "The file %s is already visited normally.
+                            (find-file-noselect-1 buf filename nowarn
+                                                  rawfile truename number)
+                          (error (if rawfile "File already visited non-literally"
+                                   "File already visited literally"))))
+                    (if (y-or-n-p
+                         (format
+                          (if rawfile
+                              "The file %s is already visited normally.
 You have asked to visit it literally,
 meaning no coding system decoding, format conversion, or local variables.
 But Emacs can only visit a file in one way at a time.
 
 Do you want to revisit the file literally now? "
-			    "The file %s is already visited literally,
+                            "The file %s is already visited literally,
 meaning no coding system decoding, format conversion, or local variables.
 You have asked to visit it normally,
 but Emacs can only visit a file in one way at a time.
 
 Do you want to revisit the file normally now? ")
-			  (file-name-nondirectory filename)))
-			(find-file-noselect-1 buf filename nowarn
-					      rawfile truename number)
-		      (error (if rawfile "File already visited non-literally"
-			       "File already visited literally"))))))
-	      ;; Return the buffer we are using.
-	      buf)
-	  ;; Create a new buffer.
-	  (setq buf (create-file-buffer filename))
-	  ;; find-file-noselect-1 may use a different buffer.
-	  (find-file-noselect-1 buf filename nowarn
-				rawfile truename number))))))
+                          (file-name-nondirectory filename)))
+                        (find-file-noselect-1 buf filename nowarn
+                                              rawfile truename number)
+                      (error (if rawfile "File already visited non-literally"
+                               "File already visited literally"))))))
+              ;; Return the buffer we are using.
+              buf)
+          ;; Create a new buffer.
+          (setq buf (create-file-buffer filename))
+          ;; find-file-noselect-1 may use a different buffer.
+          (find-file-noselect-1 buf filename nowarn
+                                rawfile truename number))))))
 
 ;; pre 24.*
 (unless (boundp 'find-library--load-name)
   (defun find-library--load-name (library)
     (let ((name library))
       (dolist (dir load-path)
-	(let ((rel (file-relative-name library dir)))
-	  (if (and (not (string-match "\\`\\.\\./" rel))
-		   (< (length rel) (length name)))
-	      (setq name rel))))
+        (let ((rel (file-relative-name library dir)))
+          (if (and (not (string-match "\\`\\.\\./" rel))
+                   (< (length rel) (length name)))
+              (setq name rel))))
       (unless (equal name library) name))))
 
 ;; in git!
@@ -266,11 +266,11 @@ LIBRARY should be a string (the name of the library)."
                        load-file-rep-suffixes)))))
 
    (locate-file library
-		(or find-function-source-path load-path)
-		(find-library-suffixes))
+                (or find-function-source-path load-path)
+                (find-library-suffixes))
    (locate-file library
-		(or find-function-source-path load-path)
-		load-file-rep-suffixes)
+                (or find-function-source-path load-path)
+                load-file-rep-suffixes)
 
    (error "Can't find library %s" library)))
 
@@ -289,33 +289,33 @@ LIBRARY should be a string (the name of the library)."
    (or
     ;; In a w3 buffer button?
     (and (eq major-mode 'w3-mode)
-	 ;; interface recommended by wmperry:
-	 (w3-view-this-url t))
+         ;; interface recommended by wmperry:
+         (w3-view-this-url t))
     ;; Is there a reason not to strip trailing colon?
     (let ((name (ffap-string-at-point 'url)))
       (cond
        ((string-match "^url:" name) (setq name (substring name 4)))
        ((and (string-match "\\`[^:</>@]+@[^:</>@]+[[:alnum:]]\\'" name)
-	     ;; "foo@bar": could be "mailto" or "news" (a Message-ID).
-	     ;; Without "<>" it must be "mailto".  Otherwise could be
-	     ;; either, so consult `ffap-foo-at-bar-prefix'.
-	     (let ((prefix (if (and (equal (ffap-string-around) "<>")
-				    ;; Expect some odd characters:
-				    (string-match "[$.0-9].*[$.0-9].*@" name))
-			       ;; Could be news:
-			       ffap-foo-at-bar-prefix
-			     "mailto")))
-	       (and prefix (setq name (concat prefix ":" name))))))
+             ;; "foo@bar": could be "mailto" or "news" (a Message-ID).
+             ;; Without "<>" it must be "mailto".  Otherwise could be
+             ;; either, so consult `ffap-foo-at-bar-prefix'.
+             (let ((prefix (if (and (equal (ffap-string-around) "<>")
+                                    ;; Expect some odd characters:
+                                    (string-match "[$.0-9].*[$.0-9].*@" name))
+                               ;; Could be news:
+                               ffap-foo-at-bar-prefix
+                             "mailto")))
+               (and prefix (setq name (concat prefix ":" name))))))
        ((ffap-newsgroup-p name) (setq name (concat "news:" name)))
        ((and (string-match "\\`[[:alnum:]]+\\'" name) ; <mic> <root> <nobody>
-	     (not (member major-mode
-			  '(c-mode
-			    c++-mode)))
-	     (equal (ffap-string-around) "<>")
-	     ;;	(ffap-user-p name):
-	     (not (string-match "~" (expand-file-name (concat "~" name))))
-	     )
-	(setq name (concat "mailto:" name)))
+             (not (member major-mode
+                          '(c-mode
+                            c++-mode)))
+             (equal (ffap-string-around) "<>")
+             ;; (ffap-user-p name):
+             (not (string-match "~" (expand-file-name (concat "~" name))))
+             )
+        (setq name (concat "mailto:" name)))
        )
       (and (ffap-url-p name) name)
       ))))
