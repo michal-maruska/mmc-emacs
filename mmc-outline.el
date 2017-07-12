@@ -9,8 +9,8 @@
 With arg, turn Outline minor mode on if arg is positive, off otherwise.
 See the command `outline-mode' for more information on this mode."
       nil " Outl" (list (cons [menu-bar] outline-mode-menu-bar-map)
-			(cons outline-minor-mode-prefix
-			      outline-mode-prefix-map))
+                        (cons outline-minor-mode-prefix
+                              outline-mode-prefix-map))
       )))
 
 ;; http://ruska.dyndns.org/comp/emacs/local/my-outline.el
@@ -49,8 +49,8 @@ See the command `outline-mode' for more information on this mode."
 (require 'advice)
 '(defadvice define-minor-mode
    (before emacs-compatible
-	   (MODE DOC &optional INIT-VALUE LIGHTER KEYMAP &rest body)
-	   activate)
+           (MODE DOC &optional INIT-VALUE LIGHTER KEYMAP &rest body)
+           activate)
    ad-do-it)
 
 ;(keymapp outline-minor-mode-map)
@@ -117,7 +117,7 @@ See the command `outline-mode' for more information on this mode."
 
   (global-set-key [(meta ?O)] 'hide-other)
   (global-set-key [(meta ?Q)] (lambda ()
-				(hide-sublevels 1))))
+                                (hide-sublevels 1))))
 
 
 
@@ -190,24 +190,24 @@ See the command `outline-mode' for more information on this mode."
 (defun event-is-not-intended (event)
   (or
    (and (listp event)
-	(eq (car event) 'switch-frame))))
+        (eq (car event) 'switch-frame))))
 
 
 (defun my-outline-exit ()
   ""
   (interactive)
   (let ((this-event last-input-event)
-	)
+        )
     (if (event-is-not-intended this-event)
-	(funcall (lookup-key global-map this-event))
+        (funcall (lookup-key global-map this-event))
       (progn
-	  (my-outline-mode nil)
-	  (setq my-outline-mode nil)
-	  (if nil
-	      (setq unread-command-events
-		    (cons			;(listify-key-sequence
-		     this-event			;)
-		     unread-command-events)))))))
+          (my-outline-mode nil)
+          (setq my-outline-mode nil)
+          (if nil
+              (setq unread-command-events
+                    (cons			;(listify-key-sequence
+                     this-event			;)
+                     unread-command-events)))))))
 
 
 
@@ -219,45 +219,45 @@ See the command `outline-mode' for more information on this mode."
   (let (c)
     (catch 'done
       (while t
-	(message
-	 ;; arg
-	 "n,p,f,b,u   aLL, /t body, s/d subtree, /q sublevels, /oTHER, /lEAVES, k/ branches, i/ chIldren, e/c NTRY")
-	(setq c (read-char))
-	(condition-case ()
-	    (cond
-	     ((eq c ?\^G) (throw 'done t)) ; (keyboard-quit)
-	     ((eq c ?\^m) (throw 'done t))
+        (message
+         ;; arg
+         "n,p,f,b,u   aLL, /t body, s/d subtree, /q sublevels, /oTHER, /lEAVES, k/ branches, i/ chIldren, e/c NTRY")
+        (setq c (read-char))
+        (condition-case ()
+            (cond
+             ((eq c ?\^G) (throw 'done t)) ; (keyboard-quit)
+             ((eq c ?\^m) (throw 'done t))
 
-	     ((eq c ?f) (outline-forward-same-level arg))
-	     ((eq c ?b) (outline-backward-same-level arg))
+             ((eq c ?f) (outline-forward-same-level arg))
+             ((eq c ?b) (outline-backward-same-level arg))
 
-	     ((eq c ?p) (outline-previous-visible-heading arg))
-	     ((eq c ?n) (outline-next-visible-heading arg))
-	     ((eq c ?u) (outline-up-heading arg))
-
-
-	     ((eq c ?i) (show-children))
-	     ((eq c ?k) (show-branches))
-
-	     ((eq c ?a) (show-all))
-	     ((eq c ?t) (hide-body))
-	     ((eq c ?l) (hide-leaves))
-
-	     ((eq c ?c) (hide-entry))
-	     ((eq c ?e) (show-entry))
-
-	     ((eq c ?d) (hide-subtree))
-	     ((eq c ?s) (show-subtree))
+             ((eq c ?p) (outline-previous-visible-heading arg))
+             ((eq c ?n) (outline-next-visible-heading arg))
+             ((eq c ?u) (outline-up-heading arg))
 
 
-	     ((eq c ?q) (hide-sublevels 1))
-	     ((eq c ?o) (hide-other))
+             ((eq c ?i) (show-children))
+             ((eq c ?k) (show-branches))
 
-	     ((eq c ? ) (throw 'done t))
+             ((eq c ?a) (show-all))
+             ((eq c ?t) (hide-body))
+             ((eq c ?l) (hide-leaves))
 
-	     ((and (> c ?0) (<= c ?9)) (setq arg (- c ?0)))
-	     (t (beep)))
-	  (error (beep)))))
+             ((eq c ?c) (hide-entry))
+             ((eq c ?e) (show-entry))
+
+             ((eq c ?d) (hide-subtree))
+             ((eq c ?s) (show-subtree))
+
+
+             ((eq c ?q) (hide-sublevels 1))
+             ((eq c ?o) (hide-other))
+
+             ((eq c ? ) (throw 'done t))
+
+             ((and (> c ?0) (<= c ?9)) (setq arg (- c ?0)))
+             (t (beep)))
+          (error (beep)))))
     (message "Finished outline commands")) )
 
 
@@ -286,11 +286,11 @@ Show the heading too, if it is currently invisible."
   (interactive)
   (save-excursion
     (condition-case nil
-	(outline-back-to-heading t)
+        (outline-back-to-heading t)
       (error
        (beginning-of-buffer)))
     (outline-flag-region (1- (point))
-			 (progn (outline-next-preface) (point)) nil)))
+                         (progn (outline-next-preface) (point)) nil)))
 
 
 
@@ -300,17 +300,17 @@ Only visible heading lines are considered, unless INVISIBLE-OK is non-nil."
   (beginning-of-line)
   (or (outline-on-heading-p invisible-ok)
       (let (found)
-	(save-excursion
-	  (while (not found)
-	    (or (re-search-backward (concat "^\\(" outline-regexp "\\)")
-				    nil t)
-		;; mmc:
-		(goto-char (point-min)); (error "before first heading")
-		)
-	    (setq found (and (or invisible-ok (not (outline-invisible-p)))
-			     (point)))))
-	(goto-char found)
-	found)))
+        (save-excursion
+          (while (not found)
+            (or (re-search-backward (concat "^\\(" outline-regexp "\\)")
+                                    nil t)
+                ;; mmc:
+                (goto-char (point-min)); (error "before first heading")
+                )
+            (setq found (and (or invisible-ok (not (outline-invisible-p)))
+                             (point)))))
+        (goto-char found)
+        found)))
 
 
 '(defun show-entry ()
@@ -319,11 +319,11 @@ Show the heading too, if it is currently invisible."
   (interactive)
   (save-excursion
     (condition-case nil
-	(outline-back-to-heading t)
+        (outline-back-to-heading t)
       (error
        (beginning-of-buffer)))
     (outline-flag-region (1- (point))
-			 (progn (outline-next-preface) (point)) nil)))
+                         (progn (outline-next-preface) (point)) nil)))
 
 
 
@@ -357,12 +357,12 @@ Show the heading too, if it is currently invisible."
 (defun cheese-outline-hide (to)
   ""
   (let ((beginning (point))
-	(regexp (concat "^" (regexp-quote comment-start))))
+        (regexp (concat "^" (regexp-quote comment-start))))
     (while (re-search-forward regexp to 't)
       (goto-char (match-beginning 0))
       (if (> (- (point) beginning) 2)
-	  (outline-flag-region-make-overlay beginning
-					    (- (point) 1)))
+          (outline-flag-region-make-overlay beginning
+                                            (- (point) 1)))
                                         ;(goto-char
       (end-of-line)
       (setq beginning (point)))
@@ -383,7 +383,7 @@ If FLAG is nil then text is shown, while if FLAG is t the text is hidden."
     ;;	(outline-discard-overlays (point) to 'outline))
     (if flag
         ;; mmc: I want to leave the comments visible!
-	;; very ugly code:
+        ;; very ugly code:
         (if comment-start
             (cheese-outline-hide to)
           ;; original:
@@ -407,17 +407,17 @@ If FLAG is nil then text is shown, while if FLAG is t the text is hidden."
 ;; (setq magic-mode-alist ())
 ;; fixme: I need something to go `after' auto-mode-alist, when `text-mode' is on
 (add-to-list 'magic-fallback-mode-alist
-	     ;;magic-mode-alist
-	     '(detect-outline . outline-mode))
+             ;;magic-mode-alist
+             '(detect-outline . outline-mode))
 
 ;; magic-fallback-mode-alist
 ;; (setq magic-mode-alist ())
 (defun detect-outline ()
   (and (memq major-mode '(fundamental-mode text-mode))
        (save-excursion
-	 (goto-char (point-min))
-	 ;; (search (append "^" outline-regexp))))
-	 (search-forward-regexp "^\\*\\([^/]|*+\\)" 1000 t))))
+         (goto-char (point-min))
+         ;; (search (append "^" outline-regexp))))
+         (search-forward-regexp "^\\*\\([^/]|*+\\)" 1000 t))))
 
 
 (defun beginning-of-def-as-outline ()
@@ -429,4 +429,3 @@ If FLAG is nil then text is shown, while if FLAG is t the text is hidden."
 
 (provide 'mmc-outline)
 ;;; my-outline.el ends here
-
