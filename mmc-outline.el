@@ -13,38 +13,25 @@ See the command `outline-mode' for more information on this mode."
                               outline-mode-prefix-map))
       )))
 
-;; http://ruska.dyndns.org/comp/emacs/local/my-outline.el
 ;; allout.el
 (when nil
    (require 'allout)
    (outline-init 't)
    )
 
-
 ;; fold.el
 ;; koutl-mode
 ;; hyperbole
 
-;; Author: Michal Maruska <mmc@linux4.maruska.tin.it>
-;; Keywords: local
-
 ;;; Commentary:
-
-;; see my-perl.el
-;; grep outline-regexp
 
 ;;; Code:
 (setq outline-minor-mode-prefix "\C-c\C-d")
 
-
-;(keymapp outline-minor-mode-map)
-
-(unless
-    (lookup-key outline-minor-mode-map (kbd "\C-c\C-d"))
-  (define-key outline-minor-mode-map (kbd "\C-c\C-d")
+;; remap ?
+(unless (lookup-key outline-minor-mode-map (kbd outline-minor-mode-prefix))
+  (define-key outline-minor-mode-map (kbd outline-minor-mode-prefix)
     (lookup-key outline-minor-mode-map (kbd "\C-c@"))))
-
-;;; Regexp:
 
 
 ;; lisp:
@@ -102,8 +89,6 @@ See the command `outline-mode' for more information on this mode."
   (global-set-key [(meta ?O)] 'hide-other)
   (global-set-key [(meta ?Q)] (lambda ()
                                 (hide-sublevels 1))))
-
-
 
 ;;; my 2nd ---- inspired by infodock:
 (defun outline-level-inverse ()
