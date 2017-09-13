@@ -97,86 +97,7 @@ See the command `outline-mode' for more information on this mode."
 
 
 (define-key outline-mode-prefix-map  [return ] 'outline-commands)
-(define-key outline-mode-prefix-map  [(control ?m)] 'my-outline-mode)
 (global-set-key [(control meta ?-)] 'outline-commands)
-
-
-(defvar my-outline-keymap (make-sparse-keymap)
-  "")
-
-(easy-mmode-define-minor-mode
- my-outline-mode
- ""
- nil
- "OUT"
- my-outline-keymap
- )
-
-
-(defun define-key-even-control (map letter function)
-  "bind the letter and even C-letter"
-  (define-key map (make-vector 1 letter) function)
-  (define-key map (make-vector 1 `(control ,letter)) function))
-
-; (lookup-key my-outline-keymap [(control ?a)] 't)
-
-(let ((map my-outline-keymap)
-      )
-  ;; default
-  ;(define-key map [ t ] 'my-outline-exit)          ; i give-up
-  ; (define-key map [ t ] nil)
-  ;;
-  ;(define-key map [ (contol ?m) ] 'my-outline-exit)
-  (define-key map [ return ] 'my-outline-exit)
-  (define-key map [ (control ?m) ] 'my-outline-exit)
-  (define-key-even-control map ?f 'outline-forward-same-level)
-  (define-key-even-control map ?b 'outline-backward-same-level)
-
-  (define-key-even-control map ?p 'outline-previous-visible-heading)
-  (define-key-even-control map ?n 'outline-next-visible-heading)
-  (define-key-even-control map ?u 'outline-up-heading)
-
-  (define-key-even-control map ?i 'show-children)
-  (define-key-even-control map ?k 'show-branches)
-
-  (define-key-even-control map ?a 'show-all)
-  (define-key-even-control map ?t 'hide-body)
-  (define-key-even-control map ?l 'hide-leaves)
-
-  (define-key-even-control map ?c 'hide-entry)
-  (define-key-even-control map ?e 'show-entry)
-
-  (define-key-even-control map ?d 'hide-subtree)
-  (define-key-even-control map ?s 'show-subtree)
-
-
-  (define-key-even-control map ?q 'hide-sublevels)	; 1
-  (define-key-even-control map ?o 'hide-other)
-  )
-
-
-
-(defun event-is-not-intended (event)
-  (or
-   (and (listp event)
-        (eq (car event) 'switch-frame))))
-
-
-(defun my-outline-exit ()
-  ""
-  (interactive)
-  (let ((this-event last-input-event)
-        )
-    (if (event-is-not-intended this-event)
-        (funcall (lookup-key global-map this-event))
-      (progn
-          (my-outline-mode nil)
-          (setq my-outline-mode nil)
-          (if nil
-              (setq unread-command-events
-                    (cons			;(listify-key-sequence
-                     this-event			;)
-                     unread-command-events)))))))
 
 
 (unless running-xemacs
@@ -192,11 +113,7 @@ See the command `outline-mode' for more information on this mode."
    ;[?\  46 46 46]
    ))
 
-
-
-
 ;(defadvice outline-back-to-heading &optional invisible no-error)
-
 
 '(defun show-entry ()
   "Show the body directly following this heading.
