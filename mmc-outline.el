@@ -194,57 +194,6 @@ See the command `outline-mode' for more information on this mode."
                      unread-command-events)))))))
 
 
-
-(defun outline-commands (&optional arg)
-  "Resize window interactively."
-
-  (interactive "p")
-  (or arg (setq arg 1))
-  (let (c)
-    (catch 'done
-      (while t
-        (message
-         ;; arg
-         "n,p,f,b,u   aLL, /t body, s/d subtree, /q sublevels, /oTHER, /lEAVES, k/ branches, i/ chIldren, e/c NTRY")
-        (setq c (read-char))
-        (condition-case ()
-            (cond
-             ((eq c ?\^G) (throw 'done t)) ; (keyboard-quit)
-             ((eq c ?\^m) (throw 'done t))
-
-             ((eq c ?f) (outline-forward-same-level arg))
-             ((eq c ?b) (outline-backward-same-level arg))
-
-             ((eq c ?p) (outline-previous-visible-heading arg))
-             ((eq c ?n) (outline-next-visible-heading arg))
-             ((eq c ?u) (outline-up-heading arg))
-
-
-             ((eq c ?i) (show-children))
-             ((eq c ?k) (show-branches))
-
-             ((eq c ?a) (show-all))
-             ((eq c ?t) (hide-body))
-             ((eq c ?l) (hide-leaves))
-
-             ((eq c ?c) (hide-entry))
-             ((eq c ?e) (show-entry))
-
-             ((eq c ?d) (hide-subtree))
-             ((eq c ?s) (show-subtree))
-
-
-             ((eq c ?q) (hide-sublevels 1))
-             ((eq c ?o) (hide-other))
-
-             ((eq c ? ) (throw 'done t))
-
-             ((and (> c ?0) (<= c ?9)) (setq arg (- c ?0)))
-             (t (beep)))
-          (error (beep)))))
-    (message "Finished outline commands")) )
-
-
 (unless running-xemacs
   (set-default 'selective-display t)
 
