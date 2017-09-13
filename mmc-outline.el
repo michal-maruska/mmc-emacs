@@ -34,24 +34,8 @@ See the command `outline-mode' for more information on this mode."
 ;; grep outline-regexp
 
 ;;; Code:
-
-;(defalias define-minor-mode
 (setq outline-minor-mode-prefix "\C-c\C-d")
 
-;;(defadvice find-file
-; (define-minor-mode MODE DOC &optional INIT-VALUE LIGHTER KEYMAP)
-
-
-;;(defmacro emacs-define-minor-mode (mode doc &optional init-value lighter
-;;                                            keymap &rest body)
-;;  (list 'define-minor-mode mode doc init-value lighter keymap))
-
-(require 'advice)
-'(defadvice define-minor-mode
-   (before emacs-compatible
-           (MODE DOC &optional INIT-VALUE LIGHTER KEYMAP &rest body)
-           activate)
-   ad-do-it)
 
 ;(keymapp outline-minor-mode-map)
 
