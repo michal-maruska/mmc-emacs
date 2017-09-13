@@ -1103,6 +1103,11 @@ If the current buffer now contains an empty file that you just visited
   "return list of ARGS removing nils"
   (delq nil (apply 'list args)))
 
+;; append! appendq  'cl ?
+(defmacro add-to-list-rest (symbol &rest elements)
+  "append to the list-value of symbol the remaining arguments (as a list)."
+  `(set ,symbol (append (symbol-value ,symbol)
+                        (list ,@elements))))
 
 ;; '(defmacro list-non-nil (&rest args)
 ;;   "return list of ARGS removing nils"
