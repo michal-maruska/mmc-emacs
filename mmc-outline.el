@@ -113,21 +113,6 @@ See the command `outline-mode' for more information on this mode."
    ;[?\  46 46 46]
    ))
 
-;(defadvice outline-back-to-heading &optional invisible no-error)
-
-'(defun show-entry ()
-  "Show the body directly following this heading.
-Show the heading too, if it is currently invisible."
-  (interactive)
-  (save-excursion
-    (condition-case nil
-        (outline-back-to-heading t)
-      (error
-       (beginning-of-buffer)))
-    (outline-flag-region (1- (point))
-                         (progn (outline-next-preface) (point)) nil)))
-
-
 
 (defun outline-back-to-heading (&optional invisible-ok)
   "Move to previous heading line, or beg of this line if it's a heading.
@@ -146,35 +131,6 @@ Only visible heading lines are considered, unless INVISIBLE-OK is non-nil."
                              (point)))))
         (goto-char found)
         found)))
-
-
-'(defun show-entry ()
-  "Show the body directly following this heading.
-Show the heading too, if it is currently invisible."
-  (interactive)
-  (save-excursion
-    (condition-case nil
-        (outline-back-to-heading t)
-      (error
-       (beginning-of-buffer)))
-    (outline-flag-region (1- (point))
-                         (progn (outline-next-preface) (point)) nil)))
-
-
-
-
-
-'(ad-disable-advice 'show-entry 'around 'before-heading)
-'(defadvice show-entry (around before-heading activate)
-  "capture the condition-case: before first heading"
-  ;; (catch
-  (condition-case nil
-      ad-do-it
-    (error
-     (progn
-       (message "error: show-entry failed")))))
-
-
 
 ;;; comments
 ;; For _years_ i wanted to modify outline-minor-mode, so that comments starting at
