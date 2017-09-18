@@ -1,106 +1,53 @@
 ;; isearch.el
-;; (load "isearch")
 
 ;(setq-default case-fold-search 't)
-
 
 ;; todo:
 ;  C-M-p/n  to browse the buffer-local history !!
 
-
-(defun my-isearch (point)
-  "search from bob"
-  (interactive "d")
-  (push-mark point)
-  (goto-char (point-min))
-  (unwind-protect
-      (isearch-forward)			;call-interactively
-                                        ; we should remove a mark !!!
-    (pop-mark)
-    (pop-mark)
-    (print mark-ring)))
-
-; (kbd "C-S")  (kbd "C-s")
 (global-set-key
-                                        ;not in Xemacs: (kbd "C-S-s")
-    [(control ?S)]
+ ;;not in Xemacs: (kbd "C-S-s")
+ [(control ?S)]
                                         ;(kbd "C-Sh-s")
                                         ;[(control ?S)]
-  'isearch-outline)
+ 'isearch-outline)
 
 (global-set-key [(meta ?R)] 'isearch-outline-backward)
 
-;(global-set-key 'isearch-forward)
-
-;; Why not just use LET ?
-(defmacro with-variable-overloaded (variable value &rest body)
-  "set VARIABLE to VALUE and eval BODY. After that (even on local exit), restore the original value."
-  (let ((original-value (make-symbol "original-value")))
-    `(let ((,original-value ,variable))
-       (unwind-protect
-           (progn
-             (setq ,variable ,value)
-             ,@body)
-         (setq ,variable ,original-value)))))
-
-(put 'with-variable-overloaded 'lisp-indent-function 2)
 
 (defun isearch-outline ()
   "i.e. don't open overlays....?"
   (interactive)
-  (let ((search-invisible nil)) ; `with-variable-overloaded'
+  (let ((search-invisible nil))
     (isearch-forward)
     (message "returning search-invisible")))
 
 
-(global-set-key "\C-z" 'isearch-current-word)
-; isearch-current-word
 (global-set-key [(meta ?y)] 'yank-pop)
 ;(not no-recursive-edit)
 
 (defun isearch-current-word ()
-  ""
+  "Immediately start `isearch' on the current word"
   (interactive)
   (isearch-mode t nil nil nil)
   (isearch-yank-sexp))
 
-
-'(defun isearch-outline ()
-  ""
-  (interactive)
-  (let ((original-search-invisible search-invisible))
-    (unwind-protect
-        (progn
-          (setq search-invisible nil)
-          (isearch-forward))
-      (message "returning search-invisible")
-      (setq search-invisible original-search-invisible))))
-
+(global-set-key "\C-z" 'isearch-current-word)
 
 
 (defun isearch-outline-backward ()
   ""
   (interactive)
-  (let ((search-invisible nil))         ; with-variable-overloaded
+  (let ((search-invisible nil))
     (isearch-backward)
     (message "returning search-invisible")))
-
-
-'(let ((original-search-invisible search-invisible))
-    (unwind-protect
-        (progn
-          (setq search-invisible nil)
-          (isearch-backward))
-      (setq search-invisible original-search-invisible)))
-
 
 ;  (setq search-invisible 'open)
 ;;; isearch
 ;; see  my-std.el
 
-;;fixme:  (unless running-xemacs
 (defun isearch-yank-sexp ()
-  "Pull next word from buffer into search string."
+  "Pull next sexp from buffer into search string."
   (interactive)
   ;;fixme:
   (message "byte-compile-protection: isearch-yank-sexp")
@@ -117,7 +64,7 @@
                   (point)
                   (progn (forward-sexp 1)
                          (point)))))
-                                        ;(message "yanking %s" text)
+       ;;(message "yanking %s" text)
        text))))
 
                                         ;(lookup-key isearch-mode-map (kbd "\C-s"))
@@ -126,11 +73,6 @@
 
 (define-key isearch-mode-map [(control ?i)] 'isearch-complete)
 (define-key isearch-mode-map [(control ?-)] 'isearch-delete-char)
-
-  ;;(define-key isearch-mode-map [(control ?-)] 'isearch-ring-retreat)
-  ;; isearch-ring-retreat
-;;  )
-
 
 (add-hook 'text-mode-hook
           (lambda ()
@@ -203,8 +145,6 @@
                              isearch-mode-hook-cursor-background)
       (message "set-face-background not a function!"))))
 
-
-
 ;;; I often search for a string which I want to grab and paste elsewhere:
 ;; So I want to find it, mark it, and kill it.
 ;; I can use C-w to extend the search string, and then I just want to grab is somehow:
@@ -218,22 +158,6 @@
   (kill-new isearch-string))
 
 (define-key isearch-mode-map    "\M-w" 'isearch-save-and-exit)
-
-
-
-
-
-
-;; grossjohann
-;; (defun isearch-occur ()
-;;   "Run `occur' with current isearch string."
-;;   (interactive)
-;;   (let ((case-fold-search isearch-case-fold-search)
-;;         (search-string (if isearch-regexp
-;;                            isearch-string
-;;                          (regexp-quote isearch-string))))
-;;     (occur search-string)))
-
 
 (define-key isearch-mode-map [(control o)] 'isearch-occur)
 (provide 'mmc-isearch)
