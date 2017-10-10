@@ -113,9 +113,29 @@
   '(load "mmc-ibuffer"))
 (global-set-key (kbd "C-x C-b") 'ibuffer)
 
-(iswitchb-mode 1)
 
 (require 'mmc-session)
 
 (autoload 'crontab-mode "crontab-mode" "" 't)
 (require 'mmc-quail)
+
+
+; (iswitchb-mode 1)
+; (iswitchb-mode 1)
+(ido-mode)
+;; ido-minibuffer-setup-hook
+
+;; ~/repo/emacs/mmc-emacs/mmc-minibuffer.el
+(defun ido-my-keys ()
+  "Add my keybindings for ido."
+  (define-key ido-completion-map [(meta ?m)]
+    'ido-other-window))
+
+(add-hook 'ido-setup-hook 'ido-my-keys)
+
+(defun ido-other-window ()
+  "visit the candidate buffer in the other window."
+  (interactive)
+  (setq method 'other-window)
+  (ido-exit-minibuffer))
+
