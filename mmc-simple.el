@@ -1336,6 +1336,11 @@ Then call @body or @else based on @condition, and make @var available to them."
           (erase-text-properties (line-string))
         nil))))
 
+;; from devel/c-style
+(defmacro add-list-to-list-symbol (symbol &rest elements)
+  "add-to-list with a list of new elements."
+  `(set ,symbol (append (symbol-value ,symbol)
+                        (list ,@elements))))
 
 ;;; end
 (provide 'mmc-simple)
