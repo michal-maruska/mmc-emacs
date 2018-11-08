@@ -31,23 +31,23 @@
 (eval-after-load "ffap"
   '(progn
      ;; (message "overriding ffap's C-x C-r binding")
-     (ffap-bindings)				; do default key bindings
+     (ffap-bindings)                            ; do default key bindings
      (global-set-key "\C-x\C-r" 'revert-buffer)))
 
 (global-set-key [(control ?-)] 'undo)
 
 (global-set-key [menu] 'hippie-expand)
-					;(global-set-key "\a-k" 'hippie-expand)
+                                        ;(global-set-key "\a-k" 'hippie-expand)
 (global-set-key "\C-xH-k" 'hippie-expand)
 
 
 (global-set-key [(control ?x) kp-0] 'delete-window)
 (global-set-key [(control ?x) kp-1] 'delete-other-windows)
-					;(global-set-key [kp-0] (lambda () (interactive) (insert ?0)))
-					;(global-set-key [kp-1] (lambda () (interactive) (insert ?1)))
-					;(global-set-key [kp-2] (lambda () (interactive) (insert ?2)))
-					; (global-set-key [(hyper m)] 'insert-date)
-					;(global-set-key [(mod2 m)] 'insert-date)
+                                        ;(global-set-key [kp-0] (lambda () (interactive) (insert ?0)))
+                                        ;(global-set-key [kp-1] (lambda () (interactive) (insert ?1)))
+                                        ;(global-set-key [kp-2] (lambda () (interactive) (insert ?2)))
+                                        ; (global-set-key [(hyper m)] 'insert-date)
+                                        ;(global-set-key [(mod2 m)] 'insert-date)
 (global-set-key [(meta shift delete)] 'kill-line-save)
 (global-set-key [(meta  ?K)] 'kill-line-save)
 (global-set-key [(meta shift backspace)] 'kill-backward-line-save)
@@ -80,14 +80,14 @@
 
 (when (under-x)
   (keyboard-translate ?\C-h 'backspace)
-)			;only this combination !!!
+)               	;only this combination !!!
 
 (when nil
   (keyboard-translate ?\C-,  ?*))
-					; ?\H-SPC  ?*
-					; '(hyper ? ) ?*			;only this combination !!!
+                                        ; ?\H-SPC  ?*
+                                        ; '(hyper ? ) ?*			;only this combination !!!
 
-					; (global-unset-key [(alt ? )] 'complete)
+                                        ; (global-unset-key [(alt ? )] 'complete)
 
 (global-set-key [(meta ?h)] 'backward-kill-word)
 (global-set-key [(control meta ?h)] 'backward-kill-sexp)
@@ -113,7 +113,7 @@
   (global-set-key "\M-[94~" 'kill-line)
   (global-set-key "\M-[93~" 'backward-kill-sentence)
   (global-set-key "\M-[93~" 'backward-kill-line)
-					;(global-set-key "\M-[90~" 'scroll-one-up)
+                                        ;(global-set-key "\M-[90~" 'scroll-one-up)
   (global-set-key "\M-[89~" 'indent-region)
   (global-set-key "\M-[88~" 'beginning-of-buffer)
   (global-set-key "\M-[87~" 'end-of-buffer)
@@ -130,36 +130,36 @@
 
 ;; For X-Windows:
 (when (under-x)
-					;(global-set-key "\c-?" 'delete-char)
-					;(global-set-key "\C--" 'undo)
-					;(global-set-key "\c-$" 'undo)
-					;(keyboard-translate ?\C-h ?\C-?)
-					;(keyboard-translate ?\C-? ?\C-h)
+                                        ;(global-set-key "\c-?" 'delete-char)
+                                        ;(global-set-key "\C--" 'undo)
+                                        ;(global-set-key "\c-$" 'undo)
+                                        ;(keyboard-translate ?\C-h ?\C-?)
+                                        ;(keyboard-translate ?\C-? ?\C-h)
 
-					;(global-unset-key "\C-h")
-					;(global-unset-key [backspace] )
+                                        ;(global-unset-key "\C-h")
+                                        ;(global-unset-key [backspace] )
   (global-set-key [(meta ??)] 'backward-kill-word)
   (global-set-key [(meta control ??)] 'backward-kill-sexp)
   (global-set-key [backspace]   'delete-backward-char)
   (global-set-key [(control backspace)] 'backward-kill-word)
   (global-set-key [(meta backspace)] 'backward-kill-line)
-					;(global-unset-key [delete] )
+                                        ;(global-unset-key [delete] )
   (global-set-key [delete]   'delete-char)
   (global-set-key [(control delete)] 'kill-word)
   (global-set-key [(meta delete)] 'kill-line)
   (global-set-key [(control tab)]    'indent-region)
-					;(global-unset-key [home] )
+                                        ;(global-unset-key [home] )
 
   (global-set-key [home]    'beginning-of-line)
   (global-set-key [(control home)]  'beginning-of-buffer)
-					;(global-unset-key [end] )
+                                        ;(global-unset-key [end] )
   (global-set-key [(meta control home)]  (lambda () (interactive)
-					   (recenter 1 )))
+                                           (recenter 1 )))
 
   (global-set-key [(meta left)] 'backward-sexp)
   (global-set-key [(meta right)] 'forward-sexp)
-					;    (global-set-key [C-M-left] 'backward-sexp)
-					;    (global-set-key [C-M-right] 'forward-sexp)
+                                        ;    (global-set-key [C-M-left] 'backward-sexp)
+                                        ;    (global-set-key [C-M-right] 'forward-sexp)
   (global-set-key [(meta s)] 'mark-sexp)
 
 
@@ -195,7 +195,7 @@
   )
 
 
-					; (global-set-key [(control ?,)] 'delete-backward-char)
+                                        ; (global-set-key [(control ?,)] 'delete-backward-char)
 ;;; Function Keys:
 (unless (under-x)
   ;; terminal
@@ -360,7 +360,7 @@
     (read-char "char:(c  czech    j/r  jcuken   i) ")))
   (let* ((method (aget my-distinct-input-methods-alist key)))
     (if method
-	(set-input-method method))))
+        (set-input-method method))))
 
 (global-set-key [(control meta ?1)] (lambda () (interactive) (set-my-distinct-input-methods-map ?r)))
 (global-set-key [(control meta ?2)] (lambda () (interactive) (set-my-distinct-input-methods-map ?c)))
@@ -382,9 +382,9 @@
 (global-set-key [(alt control ?m)] 'compile)
 ;(global-set-key [(control ?x) ?r (control ? )] 'register-to-point)
 (global-set-key [(alt ?1)]
-		(lambda ()
-		  (interactive  )
-		  (select-palette 5)))
+                (lambda ()
+                  (interactive  )
+                  (select-palette 5)))
 
 
 ;; (global-unset-key [(control ?1)]) 'select-palette)
@@ -402,10 +402,10 @@ Leave one space or none, according to the context."
   (save-excursion
     (delete-horizontal-space)
     (if (or (looking-at "^\\|\\s)")
-	    (looking-at "\n")	    ;; mmc: ADDING this:
-	    (save-excursion (forward-char -1)
-			    (looking-at "$\\|\\s(\\|\\s'")))
-	nil
+            (looking-at "\n")	    ;; mmc: ADDING this:
+            (save-excursion (forward-char -1)
+                            (looking-at "$\\|\\s(\\|\\s'")))
+        nil
       (insert ?\s))))
 
 (global-set-key [(control ?>)] 'fixup-whitespace)
@@ -424,7 +424,7 @@ Leave one space or none, according to the context."
  (lambda (map)
    (define-key map [(shift space)]
      (if running-xemacs
-	 'minibuffer-accept-default
+         'minibuffer-accept-default
        'minibuffer-accept-default-value)))
  (list minibuffer-local-completion-map minibuffer-local-must-match-map))
 
@@ -521,8 +521,8 @@ Leave one space or none, according to the context."
   (let ((map my-global-keymap))
     (define-key map "p"
       (lambda ()
-	(interactive)
-	(switch-to-buffer-other-window "*psql*"))))
+        (interactive)
+        (switch-to-buffer-other-window "*psql*"))))
   )
 
 ;; fixme:
@@ -583,7 +583,7 @@ Leave one space or none, according to the context."
   (push-mark (point))
   (if arg
       (save-excursion
-	(mouse-yank-primary t))
+        (mouse-yank-primary t))
     (mouse-yank-primary t)))
 
 (global-set-key [(control ?c) (control ?y)] 'yank-primary)

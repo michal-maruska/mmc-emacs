@@ -1,4 +1,3 @@
-
 ;; Features:
 
 ;; - When deleting dir-names /.../.../  i want to be able to delete entire
@@ -64,13 +63,13 @@
 (defun syntax-code (char prefix)
   "report the syntax code (verbally) of the CHAR, if PREFIX ask for syntax table."
   (interactive (list (char-after)
-		     current-prefix-arg))
+                     current-prefix-arg))
   (let ((syntax-table (if prefix
-			  (symbol-value (read-syntax-table "syntax table? "))
-			(syntax-table))))
+                          (symbol-value (read-syntax-table "syntax table? "))
+                        (syntax-table))))
     (with-syntax-table syntax-table
       (let ((code (char-syntax char)))
-	(message "%c -> %s (%c)" char (aget syntax-alist code) code)))))
+        (message "%c -> %s (%c)" char (aget syntax-alist code) code)))))
 
 
 ;;(with-syntax-table message-mode-syntax-table (char-syntax ?.))
@@ -80,9 +79,9 @@
     ;; show the syntax of "."
     '(with-syntax-table message-mode-syntax-table
        (let* ((char ?.)
-	      (code (char-syntax char)))
-	 ;; (aget syntax-alist (char-syntax ?.))
-	 (message "%c -> %s (%c)" char (aget syntax-alist code) code)))))
+              (code (char-syntax char)))
+         ;; (aget syntax-alist (char-syntax ?.))
+         (message "%c -> %s (%c)" char (aget syntax-alist code) code)))))
 
 
 ;(syntax-code ?-)
@@ -92,24 +91,24 @@
 
 ;(with-syntax-table text-mode-syntax-table
 (modify-syntax-entry ?\   " " ;fundamental-mode)
-		     text-mode-syntax-table)
+                     text-mode-syntax-table)
 
 (eval-after-load "cc-mode"
   '(modify-syntax-entry ?   " " ;fundamental-mode
-			c-mode-syntax-table))
+                        c-mode-syntax-table))
 
 (eval-after-load "m4-mode"
   '(modify-syntax-entry ?   " " ;fundamental-mode
-		     m4-mode-syntax-table))
+                     m4-mode-syntax-table))
 
 (eval-after-load "autoconf-mode"
   '(modify-syntax-entry ?   " "
-		     autoconf-mode-syntax-table))
+                     autoconf-mode-syntax-table))
 
 (eval-after-load "make-mode"
   '(progn
     (modify-syntax-entry ?   " "
-			makefile-mode-syntax-table)
+                        makefile-mode-syntax-table)
    (modify-syntax-entry ?.   "_"
                        makefile-mode-syntax-table)))
 
@@ -127,11 +126,11 @@
 
 '(eval-after-load "css-mode"
   '(modify-syntax-entry ?   " " ;fundamental-mode
-		     css-mode))
+                     css-mode))
 
 '(eval-after-load "compile"
   '(modify-syntax-entry ?   " " ;fundamental-mode
-		     compilation-mode))
+                     compilation-mode))
 
 
 ;; unused
@@ -150,7 +149,7 @@
 
 (eval-after-load "cperl-mode"
   '(modify-syntax-entry ?   " " ;fundamental-mode
-		     cperl-mode-syntax-table))
+                     cperl-mode-syntax-table))
 
 
 (defun make-space-space (&optional table)
@@ -161,7 +160,7 @@
 
 (eval-after-load "cperl"
   '(modify-syntax-entry ?   " "
-		     cperl-mode-syntax-table))
+                     cperl-mode-syntax-table))
 
 
 
@@ -192,14 +191,14 @@
       ;; this is suspect:
       (minibuffer-preferred-syntax-table
        (setq minibuffer-preferred-syntax-table
-	     (if (functionp 'make-syntax-table)
+             (if (functionp 'make-syntax-table)
                  (make-syntax-table)))
        minibuffer-preferred-syntax-table)
 
       ((eq minibuffer-history-variable 'grep-history)
        (require 'sh-script)
        (if (and (boundp 'sh-mode-default-syntax-table)
-		sh-mode-default-syntax-table)
+                sh-mode-default-syntax-table)
            sh-mode-default-syntax-table
          sh-mode-syntax-table))
 

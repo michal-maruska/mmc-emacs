@@ -787,20 +787,6 @@ dots(...) get processed:
    (list (read-display "new frame on: "))))
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 (defun indent-defun ()
   ""
   (interactive)
@@ -1336,9 +1322,7 @@ Then call @body or @else based on @condition, and make @var available to them."
 (when nil
   (aif a (cdr '(a . b))
        (cons a nil)
-       1
-       )
-  )
+       1))
 
 
 (defun find-line-by-string (string filename)
