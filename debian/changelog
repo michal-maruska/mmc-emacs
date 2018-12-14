@@ -1,3 +1,29 @@
+mmc-emacs (2.4) release; urgency=medium
+
+  * Change the priority, to be after debian.
+  * so, have to override!?
+  * tab cleanup
+  * Add crontab-mode
+  * disable the isearch c-m-y
+  * whitespace in isearch.
+  * untabify
+  * crontab-mode: Rewrite use of obsolete things.
+  * whitespace
+  * outline: drop some "advice"s
+  * outline: drop outline-commands -- transient
+  * outline: drop comments. +
+  * outline: drop my-outline-mode
+  * outline: drop advice & other unused code
+  * add-to-list-rest  (moved from mmc-c-mode)
+  * isearch: drop unused code & clean up.
+  * whitespace
+  * migrate: iswitchb-mode -> ido-mode
+  * Activate the ido mode reliably
+  * spaces
+  * add-list-to-list-symbol: move from devel to mmc-simple
+
+ -- Michal Maruska <michal@ubuntu>  Fri, 14 Dec 2018 09:03:30 +0100
+
 mmc-emacs (2.3) release; urgency=medium
 
   * find-line-by-string: from mmc-cscope.
