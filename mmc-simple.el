@@ -440,7 +440,7 @@ move to with the same argument."
   (intern (completing-read "hook: " (alist-from-list (hook-symbols)))))
 
 
-;; Stealt from  macro.el !
+;; Stolen from  macro.el !
 
 (defun map-lines (start end function)
   "for every line in the region START - END call the FUNCTION with
