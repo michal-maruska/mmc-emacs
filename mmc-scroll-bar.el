@@ -25,7 +25,8 @@
 ;; the bar ~~ portion   uses _only_ background.  the stuff around is always grey?
 
 ;; This is ok for Xlib !
-(set-face-background 'scroll-bar "red")
+;; unused 2013
+(set-face-background 'scroll-bar "black")
 ;;(set-face-background 'scroll-bar "white")
 ;;
 (set-face-foreground 'scroll-bar
@@ -43,11 +44,13 @@
 
 ;(scroll-bar-foreground "red")
 
+;; useless for scrollbar:
 (unless running-xemacs
-  (set-face-background 'tool-bar "pink")
-  (set-face-background 'border "pink"))
+  (set-face-background 'tool-bar "black")
+  (set-face-background 'border "green"))
 
 
+;; 2013: ok:
 (setq scroll-bar-width 10)
 ;; scroll-bar
 
