@@ -15,10 +15,10 @@
 ;; when i change this ^^, i have to toggle on/off !!!
 
 (unless (or running-xemacs
-	    (not (under-x)))
+            (not (under-x)))
   (scroll-bar-mode 1)
-					;(scroll-bar-mode 1)
-					; (setq scrollbars-visible-p 't)
+                                        ;(scroll-bar-mode 1)
+                                        ; (setq scrollbars-visible-p 't)
   )
 
 
@@ -27,16 +27,14 @@
 ;; This is ok for Xlib !
 (set-face-background 'scroll-bar "red")
 ;;(set-face-background 'scroll-bar "white")
-
-
-
+;;
 (set-face-foreground 'scroll-bar
                      ;"blue1"
                      "dark blue"
                                         ;"olive drab"
                      ;"green1"
                      ;"white"
-		     )
+                     )
 
 ;(set-face-background 'scroll-bar "white")
 ;(set-face-inverse-video-p 'scroll-bar 't)
@@ -54,7 +52,6 @@
 ;; scroll-bar
 
 ;; fixme: I should add to
-
 (overwrite-alist 'default-frame-alist
   '((scroll-bar-background . "black")
    ;;"blue"

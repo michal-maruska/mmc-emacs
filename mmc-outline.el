@@ -99,7 +99,6 @@ See the command `outline-mode' for more information on this mode."
 (define-key outline-mode-prefix-map  [return ] 'outline-commands)
 (global-set-key [(control meta ?-)] 'outline-commands)
 
-
 (unless running-xemacs
   (set-default 'selective-display t)
 
@@ -184,16 +183,11 @@ If FLAG is nil then text is shown, while if FLAG is t the text is hidden."
                          'outline-isearch-open-invisible))))
     (run-hooks 'outline-view-change-hook)))
 
-
-
-
 ;; stop
 (if running-xemacs
     nil ;; (global-set-key [(meta shift ? )] 'outline-commands)
   (global-set-key [(meta shift ? )] 'outline-commands)
   )
-
-
 
 ;; (setq magic-mode-alist ())
 ;; fixme: I need something to go `after' auto-mode-alist, when `text-mode' is on

@@ -87,8 +87,6 @@ seems to be a frequent operation"
 (defalias 'sbke 'save-buffers-kill-emacs)
 
 
-
-
 ;; I was quite surprised, that this kind of command was missing:  I bind it to \M-BS
 (defun backward-kill-line (point)
   "kill the current line from cursos to the beginning"
@@ -286,18 +284,12 @@ move to with the same argument."
     (symbol-value alist-symbol)))
 
 (put 'overwrite-alist 'lisp-indent-hook 1)
-
-
-
 ;;; just handy functions
 
 ;; mixing numbers w/ strings
 (defun add-to-string (string number)
   "treat the STRING as number, add the NUMBER, and return result as string"
   (number-to-string (+ (string-to-number string) number)))
-
-
-
 
 (defun alist-from-list (list)
   "Make an alist (from a list) just by consing the elements with themselves"
@@ -456,8 +448,6 @@ move to with the same argument."
      obarray)
     symbol-list))
 
-
-
 ;; (defun read-face-name ()
 ;;   ""
 ;;   )
@@ -467,10 +457,6 @@ move to with the same argument."
 (defun mode-symbols ()
   ""
   (symbols-matching-re "^\\(.*\\)-mode$"))
-
-
-
-
 
 (defun hook-symbols ()
   ""
@@ -537,9 +523,6 @@ dots(...) get processed:
     (reverse collected-lines)))
 
 ; (lines->list (point-min) (point-max))
-
-
-
 
 ;; Xemacs has intervals .....
 (defun find-largest-less (number list)
@@ -620,7 +603,6 @@ dots(...) get processed:
 
 ;; fixme
 ;; (setq font-lock-keywords (cons 't (nthcdr 2 font-lock-keywords)))
-
 
 ;(add-to-list
 ; 'font-lock-keywords
@@ -737,23 +719,12 @@ dots(...) get processed:
 
 (define-key my-global-keymap "x" 'setx-interactively)
 
-
-
-
-
-
-
-
-
-
 ;; unused:
 (defun read-hostname ()
   "Read a hostname"
   (my-completing-read "hostname: "
                       hostname-list nil nil ""
                       hostname-history nil nil hostname-ring))
-
-
 
 (defvar display-history (make-symbol "display-history") "") ;;
 (set display-history ())
@@ -863,8 +834,6 @@ dots(...) get processed:
     ;;(not (string= current-buffer (buffer-name buffer)))); ???
     (mapcar 'kill-buffer  killed-buffers)))
 
-
-
 (require 'ffap)
 
 ;;; [07 Oct 01]
@@ -940,8 +909,6 @@ Goes backward if ARG is negative; error if CHAR not found."
   (with-current-buffer buffer
     (buffer-string)))
 
-
-
 (defun delete-substring (string substring)
   "Get the STRING with 1st occurence of SUBSTRING removed"
   (if (string-match (regexp-quote substring) string)
@@ -1015,8 +982,6 @@ Goes backward if ARG is negative; error if CHAR not found."
     (reverse unique)))
 
 
-
-
 (defun switch-to-alternate-buffer (buffer)
   "Find file FILENAME, select its buffer, kill previous buffer.
 If the current buffer now contains an empty file that you just visited
@@ -1041,9 +1006,6 @@ If the current buffer now contains an empty file that you just visited
   ""
   (aref (this-command-keys-vector)
         (1- (length (this-command-keys-vector)))))
-
-
-
 
 ;;; discussion on irc resolve
 (defun run-on-current-word(prefix function &rest args)
@@ -1073,7 +1035,6 @@ If the current buffer now contains an empty file that you just visited
   ""
   (mapcar 'princ
           args))
-
 
 
 (defun append-buffer-to-file (file)
@@ -1141,8 +1102,6 @@ If the current buffer now contains an empty file that you just visited
     i))
 
 
-
-
 (defun my-kill-line-old (arg)
   "Move to beginning of the line, and then kill the whole line"
   (interactive "p")
@@ -1167,8 +1126,6 @@ If the current buffer now contains an empty file that you just visited
   (interactive "p")
   (beginning-of-line nil)
   (kill-line arg))
-
-
 
 (defun window-half-height ()
   (max 1 (/ (1- (window-height (selected-window))) 2)))
@@ -1308,8 +1265,6 @@ The search is done in the source for library LIBRARY."
   "return nil otherwise"
   (string-match (concat "^" (regexp-quote (expand-file-name root)))
                 (expand-file-name path)))
-
-
 
 (defmacro aif (var condition body &rest else)
   "evaluate @condition, assign the result to @var.

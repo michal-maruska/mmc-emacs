@@ -44,7 +44,7 @@ To disable the limit, call this function again."
       (define-key map "\t" 'iswitchb-complete)
 
       (define-key map "\C-j" 'iswitchb-select-buffer-text)
-      (define-key map "\M-m" 'iswitchb-select-buffer-other-window)
+     (define-key map "\M-m" 'iswitchb-select-buffer-other-window)
       (define-key map "\C-t" 'iswitchb-toggle-regexp)
       (define-key map "\C-x\C-f" 'iswitchb-find-file)
       ;;(define-key map "\C-a" 'iswitchb-toggle-ignore)

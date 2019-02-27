@@ -45,11 +45,8 @@ named on this line."
             (list "\\.doc$" "OOo" )
             (list "\\.xls$" "OOo")))
 
-
 (unless running-xemacs
   (require 'dired-x))
-
-
 
 ;;; Browsing between:
 (defun dired-substitute ()

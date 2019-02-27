@@ -36,17 +36,17 @@
    (with-keymaps-switched 'minibuffer-local-completion-map rename-buffer-keymap
      (lambda ()
        (let ((default (if (string-lessp "19" emacs-version)
-			  (cons (buffer-name) 0)
-			(buffer-name))))
-	 (if (eq major-mode 'info-mode)
-	     (setq default Info-current-subfile))
-	 (list (completing-read "Rename current buffer to: "
-				(mapcar
-				 (lambda (buffer)
-				   (list (buffer-name buffer)))
-				 (buffer-list))
-				nil nil default)
-	       current-prefix-arg))))))
+                          (cons (buffer-name) 0)
+                        (buffer-name))))
+         (if (eq major-mode 'info-mode)
+             (setq default Info-current-subfile))
+         (list (completing-read "Rename current buffer to: "
+                                (mapcar
+                                 (lambda (buffer)
+                                   (list (buffer-name buffer)))
+                                 (buffer-list))
+                                nil nil default)
+               current-prefix-arg))))))
 
 
 
@@ -61,25 +61,25 @@
 (defmacro with-buffer-renamed (buffer new-name &rest body)
   "run BODY w/ BUFFER temporarily renamed to NEW-NAME"
   (let ((old-buffer (make-symbol "old-buffer"))
-	(old-name (make-symbol "old-name"))
-	(temp-buffer-name (make-symbol "temp-buffer-name")))
+        (old-name (make-symbol "old-name"))
+        (temp-buffer-name (make-symbol "temp-buffer-name")))
     `(let* ((,old-buffer (get-buffer ,new-name))
-	    (,old-name (buffer-name ,buffer))
-	    (,temp-buffer-name (if ,old-buffer
-				   (generate-new-buffer-name "with-buffer-renamed")
-				 nil)))
+            (,old-name (buffer-name ,buffer))
+            (,temp-buffer-name (if ,old-buffer
+                                   (generate-new-buffer-name "with-buffer-renamed")
+                                 nil)))
        ;; this complicates a bit:
        (if (eq ,old-buffer ,buffer)
-	   (setq ,old-buffer nil))
+           (setq ,old-buffer nil))
        (unwind-protect
-	   (progn
-	     (if ,old-buffer
-		 (buffer-rename ,old-buffer ,temp-buffer-name))
-	     (buffer-rename ,buffer ,new-name)
-	     ,@body)
-	 ;; restore:
-	 (buffer-rename ,buffer ,old-name)
-	 (if ,old-buffer (buffer-rename ,old-buffer ,new-name))))))
+           (progn
+             (if ,old-buffer
+                 (buffer-rename ,old-buffer ,temp-buffer-name))
+             (buffer-rename ,buffer ,new-name)
+             ,@body)
+         ;; restore:
+         (buffer-rename ,buffer ,old-name)
+         (if ,old-buffer (buffer-rename ,old-buffer ,new-name))))))
 
 ;;; 2 demos:
 
@@ -91,7 +91,5 @@
   (let ((ahoj (get-buffer-create "ahoj")))
     (with-buffer-renamed (current-buffer) "ahoj"
                          (buffer-name ahoj))))
-
-
 
 (provide 'rename-buffer)

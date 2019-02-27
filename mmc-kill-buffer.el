@@ -1,5 +1,3 @@
-
-
 ;;; http://www.emacswiki.org/cgi-bin/wiki.pl?KillKey
 ;;; IRC -> wiki
 (defun context-kill (arg)
@@ -65,8 +63,8 @@
 ;; tidy up diffs when closing the file
 (defun kill-associated-diff-buf ()
   (let ((buf (get-buffer (concat "*Assoc file diff: "
-				 (buffer-name)
-				 "*"))))
+                                 (buffer-name)
+                                 "*"))))
     (when (bufferp buf)
       (kill-buffer buf))))
 
@@ -115,4 +113,3 @@
 
 
 (provide 'mmc-kill-buffer)
-
