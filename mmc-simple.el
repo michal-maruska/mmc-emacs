@@ -228,17 +228,6 @@ move to with the same argument."
   ;; (if prefix (kill-buffer
   (kill-buffer-and-window))
 
-
-;; (require 'assoc)
-;; bad !!
-'(defun overwrite-alist (from to)
-  "overwrite alist TO with the contents of alist FROM, return the modified TO"
-  (mapcar
-   (lambda (item)
-     (aput 'to (car item) (cdr item)))
-   from)
-  to)
-
 (defun overwrite-alist (alist-symbol new-values)
   "NEW-VALUES is an alist.  "
   (let ((pair '()))
