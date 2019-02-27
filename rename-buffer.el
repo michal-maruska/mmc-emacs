@@ -30,11 +30,15 @@
   (define-key map " " 'self-insert-command))
 
 
+(eval-when-compile
+  (require 'info))
+
 (defadvice rename-buffer (before interactive-edit-buffer-name activate)
   "Prompt for buffer name supplying CURRENT buffer name for editing."
   (interactive
    (with-keymaps-switched 'minibuffer-local-completion-map rename-buffer-keymap
      (lambda ()
+       (require 'info)
        (let ((default (if (string-lessp "19" emacs-version)
                           (cons (buffer-name) 0)
                         (buffer-name))))
