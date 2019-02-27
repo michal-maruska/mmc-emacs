@@ -638,26 +638,6 @@ dots(...) get processed:
 
 
 
-;; useless ?
-(defun where-is-cursor ()
-  ""
-  (interactive)
-  (let ((original-color
-         (frame-parameter (selected-frame) 'cursor-color))
-        (u-sec 50))
-  (set-cursor-color "Magenta") (sleep-for 0 u-sec)
-  (set-cursor-color "Firebrick")(sleep-for 0 u-sec)
-  (set-cursor-color "Blue")(sleep-for 0 u-sec)
-  (set-cursor-color "MediumSpringGreen")(sleep-for 0 u-sec)
-  (set-cursor-color "Cyan")(sleep-for 0 u-sec)
-  (set-cursor-color "Coral")(sleep-for 0 u-sec)
-  (set-cursor-color original-color)))
-
-(global-set-key [(control ?x) ?W] 'where-is-cursor)
-
-
-
-
 (defun my-kill-region (prefix)
   ""
   (interactive "p")
