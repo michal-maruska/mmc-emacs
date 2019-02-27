@@ -132,14 +132,6 @@ seems to be a frequent operation"
   (save-excursion
     (buffer-substring (point-bol) (point-eol))))
 
-(defun line-string-at-marker (marker)
-  "Get the `line-string' from the marker"
-  (with-current-buffer (marker-buffer marker)
-    ;(save-excursion
-    ;(set-buffer )
-    (goto-char marker)
-    (line-string)))
-
 ;; Capitalize ???
 
 ;; (lookup-key minibuffer-local-completion-map " ")
@@ -587,38 +579,6 @@ dots(...) get processed:
 
 ;; font-lock-warning-face
 ;; (setq hbut-flash 'hbut-flash)
-
-
-
-(defun my-kill-region (prefix)
-  ""
-  (interactive "p")
-  (cond ((= prefix 0)
-         (kill-region (point) (mark)))
-  ((= prefix 1)
-   ;; word
-   (kill-region (point) (mark)))
-  ;; C-u:
-  ((= prefix 4)
-   ;; word
-   (kill-region (point) (mark)))
-  ))
-
-
-
-;; Fixme
-(defvar zombie-buffers ()
-  "")
-
-(defun kill-buffer-dont-ask ()		; just the (curret-bu
-  "if not modified,"
-  (interactive)
-  (let* ((buffer (current-buffer))
-         (name (buffer-name buffer)))
-  (rename-buffer (concat " " name))	; buffer
-  (bury-buffer)
-  (setq zombie-buffers (cons buffer zombie-buffers))))
-
 
 
 ;;; Read hostname:
