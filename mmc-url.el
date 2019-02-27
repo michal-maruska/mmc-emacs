@@ -95,7 +95,6 @@
 
 (defun insert-the-http-download (marker &rest args)
   "callback for URL to insert the downloade text at the MARKER."
-  (message "ok")
   (search-forward-regexp "^$")
 
   (let ((http-buffer (current-buffer))

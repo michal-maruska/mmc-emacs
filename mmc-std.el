@@ -20,8 +20,7 @@
     "isearch"
   '(progn
      ;; THIS IS ALREADY IN ... so it does not get called !!
-     (require 'mmc-isearch)
-     (message "ok")))
+     (require 'mmc-isearch)))
 
 
 (eval-after-load 
