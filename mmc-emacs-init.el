@@ -94,7 +94,7 @@
 (setq uniquify-buffer-name-style 'forward)
 
 (if (condition-case nil
-	(find-library "gnuserv")
+        (find-library "gnuserv")
       (error nil))
 
     (require 'mmc-gnuserv)
@@ -131,11 +131,11 @@
   (define-key ido-completion-map [(meta ?m)]
     'ido-other-window))
 
-(add-hook 'ido-setup-hook 'ido-my-keys)
-
 (defun ido-other-window ()
   "visit the candidate buffer in the other window."
   (interactive)
   (setq method 'other-window)
   (ido-exit-minibuffer))
 
+;;ido-setup-hook
+(add-hook 'ido-setup-hook 'ido-my-keys)

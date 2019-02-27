@@ -42,7 +42,7 @@
 ;;; Emacs-Lisp mode
 
 (define-key emacs-lisp-mode-map " " 'tempo-space)
-					;(elisp-tempo)
+;(elisp-tempo)
 
 ;(load "~/tempo/elisp.el" 't)
 ;; (load "~/emacs/tempo/elisp.el" 't)

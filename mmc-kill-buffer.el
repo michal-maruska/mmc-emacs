@@ -5,7 +5,7 @@
    (interactive "p")
    (when (and (buffer-modified-p)
               (not (string-match "\\*.*\\*" (buffer-name)))
-	      (not (eq major-mode 'dired-mode))
+              (not (eq major-mode 'dired-mode))
               (= 1 arg))
      (if (y-or-n-p (format "<%s> is modified, save " (buffer-name)))
          (save-buffer)))

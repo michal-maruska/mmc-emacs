@@ -410,7 +410,7 @@ Leave one space or none, according to the context."
 
 (global-set-key [(control ?>)] 'fixup-whitespace)
 
-;; (lookup-key global-map [f1] )
+;; (lookup-key global-map [f1])
 
 
 

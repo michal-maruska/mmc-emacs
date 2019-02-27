@@ -84,7 +84,7 @@
       ;isearch-toggle-case-fold
       ; toggle-case-fold-search  in the keymap ??
       ;dabbrev-case-fold-search
-      );
+      )
 
 ;; hm, so the correct way to remove binding from isearch-mode-map is
 (if (boundp 'isearch-other-control-char)
