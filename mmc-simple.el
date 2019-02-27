@@ -102,9 +102,6 @@ seems to be a frequent operation"
   (interactive)
   (kill-region (point-at-bol) (point)))
 
-(global-set-key [(meta ?H)] 'fc-kill-to-beginning-of-line)
-
-
 (defun kill-line-save (point)
   "kill line without killing, just push into the kill-ring."
   (interactive "d")
@@ -163,8 +160,6 @@ seems to be a frequent operation"
 ;;; keymaps
 (require 'mmc-keys)
 
-(define-key my-global-keymap "t" 'transpose-windows)
-
 (defun substitute-key (key new-key map)
   ""
   (let ((function-or-keymap (lookup-key map key)))
@@ -185,10 +180,6 @@ move to with the same argument."
     (setq end (point))
     (backward-sexp arg)
     (kill-ring-save (point) end))))
-
-(global-set-key [(control shift delete)] 'kill-sexp-save)
-;;(global-set-key [(control shift ?o)] 'other-window)
-(global-set-key [(control ?O)] 'other-window)
 
 
 ;; todo: C-u prefix -> whole buffer
@@ -214,8 +205,6 @@ move to with the same argument."
 ;      (replace-match to-string nil nil)) )))
 
 
-(define-key my-global-keymap "$" 'delete-tail-from-region)
-
 (defun drop-line (arg)
   "delete the ARG lines, and remain at the same column"
   (interactive "p")
@@ -233,23 +222,11 @@ move to with the same argument."
     (while (re-search-forward regexp end t)
       (replace-match to-string nil nil)) )))
 
-(define-key my-global-keymap "^" 'delete-head-from-region)
-
-
-
-
-
-
 (defun kill-other-buffer-and-window (prefix)
   (interactive  "p")
   (other-window 1)
   ;; (if prefix (kill-buffer
   (kill-buffer-and-window))
-
-
-(global-set-key [(control ?x) ?4 ?k] 'kill-other-buffer-and-window)
-;; (global-set-key [(control ?x) ?4 ?k] 'kill-other-buffer-and-window)
-(global-set-key [(control meta ?0)] 'delete-window)
 
 
 ;; (require 'assoc)
@@ -429,10 +406,6 @@ move to with the same argument."
       (forward-sexp 1)
       (quote-region start (point) ?\`))))
 
-
-(global-set-key [(alt ?h)] 'highlight-keyword)
-
-
 (defun symbols-matching-re (re &optional dont-split)
   "Get a list of all symbols whose name matches RE, moreover, only the matched part (group 1)"
   (let (name
@@ -465,14 +438,6 @@ move to with the same argument."
 (defun read-hook ()
   ""
   (intern (completing-read "hook: " (alist-from-list (hook-symbols)))))
-
-
-(define-key my-global-keymap "'" 'quote-region)
-(define-key my-global-keymap "`" 'quote-region)
-(define-key my-global-keymap "(" 'quote-region)
-(define-key my-global-keymap "\"" 'quote-region)
-
-
 
 
 ;; Stealt from  macro.el !
@@ -545,8 +510,6 @@ dots(...) get processed:
           (or arg
               (not truncate-lines))))
   (defalias 'hscroll-mode 'toggle-truncate-lines))
-
-(global-set-key [(control ?x) ?x ?|] 'hscroll-mode)
 
 
 (defun major-mode-of (buffer)
@@ -653,12 +616,6 @@ dots(...) get processed:
   ))
 
 
-
-(define-key  my-global-keymap ">"
-  (lambda ()
-    "erase the tail of buffer"
-    (interactive)
-    (kill-region (point) (point-max))))
 
 ;; Fixme
 (defvar zombie-buffers ()
@@ -849,25 +806,11 @@ dots(...) get processed:
   (ffap-prompter)
   (progn (ffap-guesser)(ffap-highlight)))
 
-(define-key insert-keymap "f" 'insert-filename)
-(define-key my-global-keymap [(control ?f)] 'insert-filename)
-
-
-
-
 (defun next-word (arg)
   ""
   (interactive "p")
   (forward-word arg)
   (skip-chars-forward " "))
-
-
-
-(if running-xemacs
-    (global-set-key [(control meta ?F)]   'next-word)
-  (global-set-key [(control meta shift ?f)]   'next-word))
-
-
 
 (defun zap-upto-char (arg char)
   "Kill up to and including ARG'th occurrence of CHAR.
@@ -878,11 +821,6 @@ Goes backward if ARG is negative; error if CHAR not found."
                          (search-forward (char-to-string char) nil nil arg)
 ;			 (goto-char (if (> arg 0) (1- (point)) (1+ (point))))
                          (1- (point)))))
-
-(global-set-key [(control meta ?z)]   'zap-upto-char)
-
-
-
 
 (defun buffer-string-of (buffer)
   ""
@@ -908,11 +846,6 @@ Goes backward if ARG is negative; error if CHAR not found."
   ""
   (interactive)
   (message (current-time-string)))
-
-(global-set-key [(alt ?d)]  'message-date)
-
-
-
 
 ;;; DISPLAY
 
@@ -1006,11 +939,6 @@ If the current buffer now contains an empty file that you just visited
   (run-on-current-word prefix 'upcase-word prefix))
 
 
-(global-set-key   [(control ?C)] 'capitalize-current-word)
-(global-set-key   [(control ?U)] 'upcase-current-word)
-
-
-
 (defun multi-princ (&rest args)
   ""
   (mapcar 'princ
@@ -1020,11 +948,6 @@ If the current buffer now contains an empty file that you just visited
 (defun append-buffer-to-file (file)
   (interactive "F")
   (append-to-file (point-min) (point-max) file))
-
-(global-set-key "\C-x\M-w" 'append-buffer-to-file)
-
-
-
 
 (defun list-non-nil (&rest args)
   "return list of ARGS removing nils"
@@ -1099,8 +1022,6 @@ If the current buffer now contains an empty file that you just visited
                  (point)))
   (undo-boundary))
 
-(global-set-key [(control ?K)] 'my-kill-line)
-
 (defun my-kill-line (arg)
   "Move to beginning of the line, and then kill the whole line"
   (interactive "p")
@@ -1117,12 +1038,6 @@ If the current buffer now contains an empty file that you just visited
 (defun scroll-down-half ()
   (interactive)
   (scroll-down (window-half-height)))
-
-(global-set-key (kbd "A-i") 'scroll-down-half)
-(global-set-key (kbd "A-k") 'scroll-up-half)
-
-
-
 
 (defun emacs-message-buffer-name ()
   (if running-xemacs " *Message-Log*" "*Messages*"))

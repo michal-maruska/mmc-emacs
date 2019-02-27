@@ -588,6 +588,59 @@ Leave one space or none, according to the context."
 
 (global-set-key [(control ?c) (control ?y)] 'yank-primary)
 
+;;; from mmc-simple
+(require 'mmc-simple)
+(global-set-key (kbd "A-i") 'scroll-down-half)
+(global-set-key (kbd "A-k") 'scroll-up-half)
+
+(global-set-key [(meta ?H)] 'fc-kill-to-beginning-of-line)
+
+(if running-xemacs
+    (global-set-key [(control meta ?F)]   'next-word)
+  (global-set-key [(control meta shift ?f)]   'next-word))
+
+(global-set-key [(alt ?d)]  'message-date)
+
+(define-key insert-keymap "f" 'insert-filename)
+
+(global-set-key [(control shift delete)] 'kill-sexp-save)
+;;(global-set-key [(control shift ?o)] 'other-window)
+(global-set-key [(control ?O)] 'other-window)
+
+
+(define-key my-global-keymap [(control ?f)] 'insert-filename)
+(define-key my-global-keymap "t" 'transpose-windows)
+(define-key my-global-keymap "$" 'delete-tail-from-region)
+(define-key my-global-keymap "^" 'delete-head-from-region)
+
+(global-set-key [(control ?x) ?4 ?k] 'kill-other-buffer-and-window)
+;; (global-set-key [(control ?x) ?4 ?k] 'kill-other-buffer-and-window)
+(global-set-key [(control meta ?0)] 'delete-window)
+
+(global-set-key [(alt ?h)] 'highlight-keyword)
+
+(global-set-key [(control meta ?z)]   'zap-upto-char)
+
+(global-set-key [(control ?K)] 'my-kill-line)
+(global-set-key (kbd "\C-x\M-w") 'append-buffer-to-file)
+
+(global-set-key   [(control ?C)] 'capitalize-current-word)
+(global-set-key   [(control ?U)] 'upcase-current-word)
+
+(define-key my-global-keymap "'" 'quote-region)
+(define-key my-global-keymap "`" 'quote-region)
+(define-key my-global-keymap "(" 'quote-region)
+(define-key my-global-keymap "\"" 'quote-region)
+
+(define-key my-global-keymap "|" 'hscroll-mode)
+
+(define-key my-global-keymap ">"
+  (lambda ()
+    "erase the tail of buffer"
+    (interactive)
+    (kill-region (point) (point-max))))
+
+
 ;; useless ?
 (defun where-is-cursor ()
   ""
