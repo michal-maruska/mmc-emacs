@@ -48,15 +48,8 @@ See the command `outline-mode' for more information on this mode."
   (set-default 'outline-regexp "\\*+")
 )
 
-;;; still regexp
-(defun my-outline ()
-  ""
-  (interactive)
-  (setq outline-regexp "\*"))
-
 ;;; keymaps
 
-;; winhist-forward  m-F
 (when 't
   (global-set-key [(meta ?P)] 'outline-previous-visible-heading)
   (global-set-key [(meta ?N)] 'outline-next-visible-heading)
@@ -89,11 +82,6 @@ See the command `outline-mode' for more information on this mode."
   (global-set-key [(meta ?O)] 'hide-other)
   (global-set-key [(meta ?Q)] (lambda ()
                                 (hide-sublevels 1))))
-
-;;; my 2nd ---- inspired by infodock:
-(defun outline-level-inverse ()
-  ""
-  (- 4 (outline-level)))
 
 
 (define-key outline-mode-prefix-map  [return ] 'outline-commands)
