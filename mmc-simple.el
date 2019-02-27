@@ -1137,7 +1137,7 @@ If the current buffer now contains an empty file that you just visited
 
 
 (defun shell-command-to-string-no-nl (command)
-  ""
+  "invoke the @command, and return its output, with last char trimmed (newline most likely)."
   (let ((string (shell-command-to-string command)))
     (substring string 0 (1- (length string)))))
 
