@@ -133,17 +133,15 @@ Only visible heading lines are considered, unless INVISIBLE-OK is non-nil."
 
 ;;; comments
 ;; For _years_ i wanted to modify outline-minor-mode, so that comments starting at
-;; the beginnin of line were left visible.  Now i add the codition that they don't
+;; the beginnin of line were left visible.  Now I add the codition that they don't
 ;; get marked as headers. Here's the code:
-(defun outline-flag-region-make-overlay (from to) ;mmc
+(defun outline-flag-region-make-overlay (from to)
   (let ((o (make-overlay from to)))
     (overlay-put o 'invisible 'outline)
     (overlay-put o 'isearch-open-invisible
                  'outline-isearch-open-invisible)
     o))
-;; ab
 
-;;
 (defun cheese-outline-hide (to)
   ""
   (let ((beginning (point))
@@ -160,7 +158,7 @@ Only visible heading lines are considered, unless INVISIBLE-OK is non-nil."
     (outline-flag-region-make-overlay beginning to)))
 
 
-(defun outline-flag-region (from to flag) ;mmc
+(defun outline-flag-region (from to flag)
   "Hides or shows lines from FROM to TO, according to FLAG.
 If FLAG is nil then text is shown, while if FLAG is t the text is hidden."
   ;; mmc:
@@ -170,7 +168,7 @@ If FLAG is nil then text is shown, while if FLAG is t the text is hidden."
     (goto-char from)
     (end-of-line)
     ;;(if (functionp 'outline-discard-overlays)
-    ;;	(outline-discard-overlays (point) to 'outline))
+    ;;  (outline-discard-overlays (point) to 'outline))
     (if flag
         ;; mmc: I want to leave the comments visible!
         ;; very ugly code:
@@ -205,6 +203,7 @@ If FLAG is nil then text is shown, while if FLAG is t the text is hidden."
          (search-forward-regexp "^\\*\\([^/]|*+\\)" 1000 t))))
 
 
+;; used?
 (defun beginning-of-def-as-outline ()
   "Easy way to make `beginning-of-defun' work in modes with outline support"
   (interactive)
