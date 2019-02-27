@@ -1,3 +1,22 @@
+mmc-emacs (2.5) release; urgency=medium
+
+  * drop mmc-email.el
+  * spaces
+  * rename-buffer: require info to compile
+  * drop useless verbosity
+  * reformatting
+  * clean up
+  * outline: drop outline-level-inverse & my-outline as useless
+  * move  where-is-cursor command C-x W
+  * document shell-command-to-string-no-nl
+  * move key-binding from simple to keys
+  * fix comment
+  * drop broken version of overwrite-alist
+  * drop: my-kill-region, zombie-buffers, kill-buffer-dont-ask, line-string-at-marker ?
+  * update colors of scroll-bar?
+
+ -- Michal Maruska <mmaruska@gmail.com>  Wed, 27 Feb 2019 21:58:20 +0100
+
 mmc-emacs (2.4) release; urgency=medium
 
   * Change the priority, to be after debian.
