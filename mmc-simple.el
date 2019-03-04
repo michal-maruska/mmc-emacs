@@ -603,8 +603,6 @@ dots(...) get processed:
   (setx display)
   (message "DISPLAY=%s" display)))
 
-(define-key my-global-keymap "x" 'setx-interactively)
-
 ;; unused:
 (defun read-hostname ()
   "Read a hostname"

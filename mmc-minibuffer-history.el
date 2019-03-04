@@ -176,11 +176,6 @@ I got tired of having the shared ring. FIXME: history ??"
     (ring-remq ring (or buffer (buffer-name)))
     (bury-buffer buffer)))
 
-
-(define-key my-global-keymap [?u] 'my-bury-buffer)
-;(when nil (global-set-key [ (control ?x ) ?b] 'my-switch-buffer))
-
-
 (defadvice switch-to-buffer (after push-to-ring nil activate)
   "notify the change to my memory/ring, we keep the LRU thing"
   ;; Now insert the ....

@@ -627,6 +627,9 @@ Leave one space or none, according to the context."
 (global-set-key   [(control ?C)] 'capitalize-current-word)
 (global-set-key   [(control ?U)] 'upcase-current-word)
 
+(define-key my-global-keymap "x" 'setx-interactively)
+(define-key my-global-keymap "f" 'find-file-dired)
+
 (define-key my-global-keymap "'" 'quote-region)
 (define-key my-global-keymap "`" 'quote-region)
 (define-key my-global-keymap "(" 'quote-region)
@@ -640,6 +643,9 @@ Leave one space or none, according to the context."
     (interactive)
     (kill-region (point) (point-max))))
 
+(require 'mmc-minibuffer-history)
+(define-key my-global-keymap [?u] 'my-bury-buffer)
+;(when nil (global-set-key [ (control ?x ) ?b] 'my-switch-buffer))
 
 ;; useless ?
 (defun where-is-cursor ()

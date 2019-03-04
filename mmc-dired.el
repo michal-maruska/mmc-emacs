@@ -491,10 +491,6 @@ which contain the NAME (as shell pattern)."
                 (read-string "filename: " "" find-file-dired-history)))
   (find-dired directory (format "-name  '*%s*'" name)))
 
-(define-key my-global-keymap "f" 'find-file-dired)
-
-
-
 (defun dired-directory-of (buffer)
   "return the directory, that we dir-edit in BUFFER?"
   (with-current-buffer buffer
