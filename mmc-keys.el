@@ -1,10 +1,6 @@
 ;;;  KEY-BINDINGs:
 
 ;; Base:
-(defun under-x ()
-  (or (eq window-system 'x)
-      (eq window-system 'gtk)))
-
 
 ;; todo:
 ; M-?  ..

@@ -29,6 +29,9 @@
       )))
   )
 
+(defun under-x ()
+  (or (eq window-system 'x)
+      (eq window-system 'gtk)))
 
 (defun relax (&rest rest)
   "do nothing")
