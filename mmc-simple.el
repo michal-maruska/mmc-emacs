@@ -150,7 +150,7 @@ seems to be a frequent operation"
 
 
 ;;; keymaps
-(require 'mmc-keys)
+;; (require 'mmc-keys)
 
 (defun substitute-key (key new-key map)
   ""
