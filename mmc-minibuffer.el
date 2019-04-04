@@ -29,9 +29,9 @@
   "call FUNC, while switching the values of the KEYMAP-SYMBOLS to VALUE."
   (let ((original-map (symbol-value keymap-symbol)))
     (unwind-protect
-	(progn
-	  (set keymap-symbol keymap-value)
-	  (apply func ()))
+        (progn
+          (set keymap-symbol keymap-value)
+          (apply func ()))
       ;; And guarantee, that things get back again.
       (set keymap-symbol original-map))))
 
@@ -51,7 +51,7 @@
 ;; Inherit & set 1 binding:
 (let ((map mmc-minibuffer-local-filename-map))
   (set-keymap-parent map
-		     minibuffer-local-completion-map)
+                     minibuffer-local-completion-map)
   (define-key map [(meta ?m)] 'minibuffer-reset))
 
 ;;; functions which get called from inside the minibuffer, while reading filename:
@@ -69,7 +69,7 @@
   "This should return a/the file/dir associated with the BUFFER."
   (with-current-buffer buffer ;;save-excursion
     (if (eq major-mode 'dired-mode)
-	dired-directory
+        dired-directory
       buffer-file-name)))
 
 
@@ -86,7 +86,7 @@
 We read a `buffer-name' and substitute in minibuffer its filename.
 I would need  these `fluid' variables: `guess' `dir' `initial'   see: `' "
   (let* ((buffer (funcall read-buffer-function "filename of the Buffer: "))
-	 (path (my-buffer-file-name (get-buffer buffer))))
+         (path (my-buffer-file-name (get-buffer buffer))))
     (setq
      guess path				;ffap
      dir (file-name-directory path)	;standard
@@ -120,12 +120,12 @@ I would need  these `fluid' variables: `guess' `dir' `initial'   see: `' "
        mmc-minibuffer-local-filename-map
 
        (setq filename (progn
-			;;prompt dir default-filename mustmatch initial))
-			ad-do-it)))
+                        ;;prompt dir default-filename mustmatch initial))
+                        ad-do-it)))
       ;; upon exit we can have some requested command to run:
       (setq continue-command t)
       '(if post-command
-	   (eval-command-or-form post-command)))
+           (eval-command-or-form post-command)))
     filename))
 
 
@@ -137,54 +137,54 @@ I would need  these `fluid' variables: `guess' `dir' `initial'   see: `' "
       "Read file or url from minibuffer, with PROMPT and initial GUESS."
       (or guess (setq guess default-directory))
       (let (dir)
-	;; Tricky: guess may have or be a local directory, like "w3/w3.elc"
-	;; or "w3/" or "../el/ffap.el" or "../../../"
-	;; ------------
-	(let ((minibuffer-completing-file-name t))
-	  (let (continue-command
-		post-command)
-	    (while (null continue-command)
-	      (setq continue-command t)
-	      (or (ffap-url-p guess)
-		  (progn
-		    (or (ffap-file-remote-p guess)
-			(setq guess
-			      (abbreviate-file-name (expand-file-name guess))
-			      ))
-		    (setq dir (file-name-directory guess))))
-	      ;; (setq default (my-resolve-default table)
-	      ;; my-buffer-alist (buffer-name-list))
-	      (with-keymaps-switched* 'minibuffer-local-completion-map
-		mmc-minibuffer-local-filename-map
-		;;minibuffer-local-completion-map
-		  ;;(read-file-name prompt dir default-filename mustmatch initial))
-		(setq guess
-		      (completing-read
-		       prompt
-		       ;; collection
-		       'ffap-read-file-or-url-internal
-		       ;; predicate
-		       nil
-		       ;; require-match
-		       nil
-		       ;; initial input:
-		       (if dir
-			   (cons guess (length dir))
-			 guess)
-		       ;; hist
-		       (list 'file-name-history)
-		       ;; default
-		       )))
-	      ;; upon exit we can have some requested command to run:
-	      (if post-command
-		  (eval-command-or-form post-command)) ; (eval (bury-buffer))
-	      )))
-	;; ------------
-	;; Do file substitution like (interactive "F"), suggested by MCOOK.
-	(or (ffap-url-p guess) (setq guess (substitute-in-file-name guess)))
-	;; Should not do it on url's, where $ is a common (VMS?) character.
-	;; Note: upcoming url.el package ought to handle this automatically.
-	guess))))
+        ;; Tricky: guess may have or be a local directory, like "w3/w3.elc"
+        ;; or "w3/" or "../el/ffap.el" or "../../../"
+        ;; ------------
+        (let ((minibuffer-completing-file-name t))
+          (let (continue-command
+                post-command)
+            (while (null continue-command)
+              (setq continue-command t)
+              (or (ffap-url-p guess)
+                  (progn
+                    (or (ffap-file-remote-p guess)
+                        (setq guess
+                              (abbreviate-file-name (expand-file-name guess))
+                              ))
+                    (setq dir (file-name-directory guess))))
+              ;; (setq default (my-resolve-default table)
+              ;; my-buffer-alist (buffer-name-list))
+              (with-keymaps-switched* 'minibuffer-local-completion-map
+                mmc-minibuffer-local-filename-map
+                ;;minibuffer-local-completion-map
+                  ;;(read-file-name prompt dir default-filename mustmatch initial))
+                (setq guess
+                      (completing-read
+                       prompt
+                       ;; collection
+                       'ffap-read-file-or-url-internal
+                       ;; predicate
+                       nil
+                       ;; require-match
+                       nil
+                       ;; initial input:
+                       (if dir
+                           (cons guess (length dir))
+                         guess)
+                       ;; hist
+                       (list 'file-name-history)
+                       ;; default
+                       )))
+              ;; upon exit we can have some requested command to run:
+              (if post-command
+                  (eval-command-or-form post-command)) ; (eval (bury-buffer))
+              )))
+        ;; ------------
+        ;; Do file substitution like (interactive "F"), suggested by MCOOK.
+        (or (ffap-url-p guess) (setq guess (substitute-in-file-name guess)))
+        ;; Should not do it on url's, where $ is a common (VMS?) character.
+        ;; Note: upcoming url.el package ought to handle this automatically.
+        guess))))
 
 
 
@@ -233,9 +233,6 @@ I would need  these `fluid' variables: `guess' `dir' `initial'   see: `' "
     (delete-minibuffer-contents))
   (insert "~/"))
 
-
-
-
 ;;; some keys to the mb keymaps
 (mapc
  ;; I want to register in various keymaps,
@@ -258,7 +255,6 @@ I would need  these `fluid' variables: `guess' `dir' `initial'   see: `' "
   minibuffer-local-completion-map
   ))
 
-
 ;; <SPC> is really an important key:
 ;; fixme: (unless (string-equal user-login-name "beta")
 ;; but beta does not like it (she prefers `insert-backslash')
@@ -272,9 +268,6 @@ I would need  these `fluid' variables: `guess' `dir' `initial'   see: `' "
   ;; 2010-05-15
   minibuffer-local-filename-completion-map
   ))
-
-
-
 
 ;;; read numbers:
 ;; todo: match-string .. replace-match ..
@@ -309,16 +302,16 @@ I would need  these `fluid' variables: `guess' `dir' `initial'   see: `' "
 (defun read-number (prompt &optional init-state def history)
   ""
   (with-keymaps-switched* 'minibuffer-local-map read-number-map
-					;(lambda ()
+                                        ;(lambda ()
       (let ((init
-	     (if (consp init-state)
-		 (cadr init-state)
-	       init-state)))
-	(string-to-number
-	 (read-string (format "%s (%s) " prompt def)
-		      ;; initial?
-		      "" ;(if (numberp init) (int-to-string init) init)
-		      history def)))))
+             (if (consp init-state)
+                 (cadr init-state)
+               init-state)))
+        (string-to-number
+         (read-string (format "%s (%s) " prompt def)
+                      ;; initial?
+                      "" ;(if (numberp init) (int-to-string init) init)
+                      history def)))))
 
 
 ;(current-local-map)
@@ -344,7 +337,7 @@ I would need  these `fluid' variables: `guess' `dir' `initial'   see: `' "
    debug-on-error-outside-minibuffer debug-on-error)
   (setq debug-on-error t)
   (setq global-mode-string
-	(cons "|" global-mode-string)))
+        (cons "|" global-mode-string)))
 
 (add-hook 'minibuffer-setup-hook 'add-minibuffer-sign)
 
@@ -361,9 +354,7 @@ I would need  these `fluid' variables: `guess' `dir' `initial'   see: `' "
   ;;(setq minibuffer-setup-hook (cdr minibuffer-setup-hook))
   ;; minibuffer-exit-hook
   (setq global-mode-string
-	(cons "|" global-mode-string))
+        (cons "|" global-mode-string))
   (setq global-mode-string (cdr global-mode-string))
   )
-
-
 (provide 'mmc-minibuffer)
