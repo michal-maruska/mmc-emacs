@@ -78,7 +78,7 @@
 (defvar path)
 (defvar dir)
 (defvar initial)
-(defvar post-command)
+(defvar post-command nil "command to execute when leaving minibuffer?")
 (defvar def)
 
 (defun get-filename-of-buffer ()
@@ -122,8 +122,9 @@ I would need  these `fluid' variables: `guess' `dir' `initial'   see: `' "
 			;;prompt dir default-filename mustmatch initial))
 			ad-do-it)))
       ;; upon exit we can have some requested command to run:
-      (if post-command
-	  (eval-command-or-form post-command)))
+      (setq continue-command t)
+      '(if post-command
+	   (eval-command-or-form post-command)))
     filename))
 
 
