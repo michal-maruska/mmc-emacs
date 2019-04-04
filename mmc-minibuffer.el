@@ -6,17 +6,12 @@
 ;; space complete (not word)
 
 
-;; http://ruska.dyndns.org/comp/emacs/local/my-minibuffer.el
+;; http://ruska.dyndns.org/comp/emacs/local/mdb
 
-;;; emacs 21 introduced new behaviour in minibuffer:
-
+;; So I can C-x o
 (setq enable-recursive-minibuffers 't)
 
-; http://ruska.dyndns.org/comp/emacs/local/mdb
-
-
-
-;;; i want to `work' inside minibuffer.
+;;; I want to `work' inside minibuffer.
 ;;  i.e.  invoke another minibuffer action (recurse)
 
 
@@ -50,18 +45,14 @@
 ;;;   reading `filenames'
 ;; keymaps, which are used instead of the origianl ones:
 (defconst mmc-minibuffer-local-filename-map (make-sparse-keymap)
-  "my keymap used for reading filenames: we inherit from")
+  "my keymap used for reading `filenames'. Other keymaps inherit from it")
 
 
-;;;
+;; Inherit & set 1 binding:
 (let ((map mmc-minibuffer-local-filename-map))
   (set-keymap-parent map
 		     minibuffer-local-completion-map)
-  (define-key map [(meta ?m)]
-    'minibuffer-reset
-    ;'exit-and-get-filename-of-buffer
-    )
-  )
+  (define-key map [(meta ?m)] 'minibuffer-reset))
 
 ;;; functions which get called from inside the minibuffer, while reading filename:
 (when nil
@@ -245,14 +236,15 @@ I would need  these `fluid' variables: `guess' `dir' `initial'   see: `' "
 
 ;;; some keys to the mb keymaps
 (mapc
- ;; i want to register in various keymaps, do they have a CommonGreatestDenomitor (ascendent)?
+ ;; I want to register in various keymaps,
+ ;;  do they have a CommonGreatestDenomitor (ascendent)?
  (lambda (item)
    ;; (define-key item "\C-M-h" 'mb-backward-kill-sexp)
    (define-key item [(control meta ?h)] 'mb-backward-kill-sexp)
    (unless running-xemacs
      ;;(define-key item [(shift ? )] 'minibuffer-accept-default))
      (define-key item [(shift space)] 'minibuffer-accept-default)
-     (define-key item [?,] 'self-insert-command) ; minibuffer-insert-default
+     (define-key item [?,] 'self-insert-command)     ; minibuffer-insert-default
      (define-key item [(meta ?m)] 'minibuffer-reset) ;control
      ))
  (list-non-nil
