@@ -82,12 +82,13 @@
 (defvar def)
 
 (defun get-filename-of-buffer ()
-  "Called form mb, while reading filename.  We read a _buffer-name_ and substitute in minibuffer its filename
+  "Called, when the current buffer is minibuffer, and while reading a filename.
+We read a `buffer-name' and substitute in minibuffer its filename.
 I would need  these `fluid' variables: `guess' `dir' `initial'   see: `' "
   (let* ((buffer (funcall read-buffer-function "filename of the Buffer: "))
 	 (path (my-buffer-file-name (get-buffer buffer))))
     (setq
-     guess path				;ffap 
+     guess path				;ffap
      dir (file-name-directory path)	;standard
      initial (file-name-nondirectory path))))
 
