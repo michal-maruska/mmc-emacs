@@ -1,3 +1,16 @@
+mmc-emacs (2.6) release; urgency=medium
+
+  * break the circular dependency: mmc-keys is above mmc-simple.
+  * Move more bindings into mmc-keys
+  * under-x  mmc-keys -> mmc-simple
+  * clean up comments
+  * fix the iswitchb-mode-map binding
+  * post/continue -command
+  * comments
+  * spaces
+
+ -- Michal Maruska <mmaruska@gmail.com>  Tue, 06 Aug 2019 13:34:00 +0200
+
 mmc-emacs (2.5) release; urgency=medium
 
   * drop mmc-email.el
