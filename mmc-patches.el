@@ -319,4 +319,95 @@ LIBRARY should be a string (the name of the library)."
        )
       (and (ffap-url-p name) name)
       ))))
+
+(defun ido-buffer-internal (method &optional fallback prompt default initial switch-cmd)
+  ;; Internal function for ido-switch-buffer and friends
+  (if (not ido-mode)
+      (progn
+        (run-hook-with-args 'ido-before-fallback-functions
+                            (or fallback 'switch-to-buffer))
+        (call-interactively (or fallback 'switch-to-buffer)))
+    (setq ido-fallback nil)
+    (let* ((ido-context-switch-command switch-cmd)
+           (ido-current-directory nil)
+           (ido-directory-nonreadable nil)
+           (ido-directory-too-big nil)
+           (ido-enable-virtual-buffers (and ido-use-virtual-buffers
+                                            (not (eq ido-use-virtual-buffers 'auto))))
+           (require-match (confirm-nonexistent-file-or-buffer))
+           (buf (ido-read-internal 'buffer (or prompt "Buffer: ") 'ido-buffer-history default
+                                   require-match initial))
+           filename)
+
+      ;; Choose the buffer name: either the text typed in, or the head
+      ;; of the list of matches
+
+      (cond
+       ((eq ido-exit 'find-file)
+        (ido-file-internal
+         (if (memq method '(other-window other-frame)) method ido-default-file-method)
+         nil nil nil nil ido-text))
+
+       ((eq ido-exit 'insert-file)
+        (ido-file-internal 'insert 'insert-file nil "Insert file: " nil ido-text 'ido-enter-insert-buffer))
+
+       ((eq ido-exit 'fallback)
+        (let ((read-buffer-function nil))
+          (setq this-command (or ido-fallback fallback 'switch-to-buffer))
+          (run-hook-with-args 'ido-before-fallback-functions this-command)
+          (call-interactively this-command)))
+
+       ;; Check buf is non-nil.
+       ((not buf) nil)
+       ((= (length buf) 0) nil)
+
+       ;; View buffer if it exists
+       ((get-buffer buf)
+        (add-to-history 'buffer-name-history buf)
+        (if (eq method 'insert)
+            (progn
+              (ido-record-command 'insert-buffer buf)
+              (push-mark
+               (save-excursion
+                 (insert-buffer-substring (get-buffer buf))
+                 (point))))
+          (ido-visit-buffer buf
+                            ;; mmc:
+                            (if (eq ido-exit 'other-window)
+                                'other-window
+                              method)
+                             t)))
+
+       ;; check for a virtual buffer reference
+       ((and ido-enable-virtual-buffers
+             ido-virtual-buffers
+             (setq filename (assoc buf ido-virtual-buffers)))
+        (ido-visit-buffer (find-file-noselect (cdr filename)) method t))
+
+       ((and (eq ido-create-new-buffer 'prompt)
+             (null require-match)
+             (not (y-or-n-p (format-message
+                             "No buffer matching `%s', create one? " buf))))
+        nil)
+
+       ;; buffer doesn't exist
+       ((and (eq ido-create-new-buffer 'never)
+             (null require-match))
+        (message "No buffer matching `%s'" buf))
+
+       ((and (eq ido-create-new-buffer 'prompt)
+             (null require-match)
+             (not (y-or-n-p (format-message
+                             "No buffer matching `%s', create one? " buf))))
+        nil)
+
+       ;; create a new buffer
+       (t
+        (add-to-history 'buffer-name-history buf)
+        (setq buf (get-buffer-create buf))
+
+        (if (fboundp 'set-buffer-major-mode)
+            (set-buffer-major-mode buf))
+        (ido-visit-buffer buf method t))))))
+
 (provide 'mmc-patches)
