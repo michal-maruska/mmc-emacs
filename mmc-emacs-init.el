@@ -122,7 +122,7 @@
 
 ; (iswitchb-mode 1)
 ; (iswitchb-mode 1)
-(ido-mode 1)
+(ido-mode 'buffers)
 ;; ido-minibuffer-setup-hook
 
 ;; ~/repo/emacs/mmc-emacs/mmc-minibuffer.el
