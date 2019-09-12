@@ -25,6 +25,7 @@ To disable the limit, call this function again."
 (defun iswitchb-post-command ()
   "Run after command in `iswitchb-buffer'. mmc version"
   (iswitchb-exhibit)
+  ;; mmc: when the results is now 1, preview it immediately.
   (if (= (length iswitchb-matches) 1)
       (display-buffer (car iswitchb-matches))))
 

@@ -23,7 +23,9 @@ If optional argument SINGLE is non-nil, then also ensure there is only"
 
 
 (autoload 'dircolors "dircolors")
-(add-hook 'ibuffer-mode-hooks   'dircolors)
+
+;; previously 'ibuffer-mode-hooks
+(add-hook 'ibuffer-mode-hook 'dircolors)
 ;;(remove-hook 'ibuffer-mode-hooks   'dircolors)
 
 (global-set-key (kbd "C-x C-b") 'ibuffer)

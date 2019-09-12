@@ -1,4 +1,4 @@
-;;; (c) M. Maruska
+;;; (c) M. Maruska 1996-2017
 ;;; Simple functions, of general interest
 
 (eval-and-compile
@@ -45,13 +45,10 @@
         'progn
         body)
     (error
-     ;;"Font `-*-lucidatypewriter-medium-r-normal-*-20-*-*-*-*-*-fontset-1'
-     ;; is not defined"
      (message "error occured while loading %s, avoiding FAIL! %s"
               ,load-file-name
               ,error-var) 't))))
 
-;;
 ;;
 (defun mapcar-nonil (function list)
   "Get the list of non-nil results of `mapcar',
@@ -71,7 +68,6 @@ seems to be a frequent operation"
     (while (and (not found)
                 (consp list))
       (setq found (funcall function (car list))
-            ;; serial?
             list (cdr list)))
     found))
 
@@ -92,7 +88,7 @@ seems to be a frequent operation"
 
 ;; I was quite surprised, that this kind of command was missing:  I bind it to \M-BS
 (defun backward-kill-line (point)
-  "kill the current line from cursos to the beginning"
+  "kill the current line from cursor to the beginning-of-line"
   ;; "(why isn't this a standard function ?)"
   (interactive "d")
   (beginning-of-line)
@@ -127,6 +123,7 @@ seems to be a frequent operation"
      (W2 (other-window 1))
      (B1 (window-buffer  W1))
      (B2 (window-buffer  W2)))
+    ;; not really perfect. If the same buffer, the cursor is ..
     (set-window-buffer W1 B2)
     (set-window-buffer W2 B1)))
 
@@ -156,7 +153,8 @@ seems to be a frequent operation"
 ;; (require 'mmc-keys)
 
 (defun substitute-key (key new-key map)
-  ""
+  "Invoke the action of `key' under another `new-key', inside map.
+Does nothing if already bound."
   (let ((function-or-keymap (lookup-key map key)))
     (if (and function-or-keymap
              (not (lookup-key map new-key)))
@@ -266,7 +264,6 @@ move to with the same argument."
 (defalias 'alist 'list)
 
 
-;; (require 'mmc-ring)
 (require 'mmc-minibuffer-history)
 
 ;; fixme: ring !!!
@@ -559,8 +556,8 @@ dots(...) get processed:
   ;; (add-hook 'emacs-lisp-mode-hook 'turn-on-font-lock)
   (font-lock-add-keywords
    'emacs-lisp-mode
-   '(("\\(FIXME\\)" 1 font-lock-th-face 't 't)))
-  )
+   '(("\\(FIXME\\)" 1 font-lock-th-face 't 't))))
+
 ;; font-lock-keywords-alist
 
 ;; FIXME
@@ -578,11 +575,6 @@ dots(...) get processed:
 ;             ;; (list "michal")
 
 ;             )))
-
-
-;; font-lock-warning-face
-;; (setq hbut-flash 'hbut-flash)
-
 
 ;;; Read hostname:
 (defvar hostname-history (make-symbol "hostname-history") "")
@@ -640,10 +632,9 @@ dots(...) get processed:
 
 
 (require 'advice)
-(defadvice make-frame-on-display (before read-the-display activate);; first
+(defadvice make-frame-on-display (before read-the-display activate)
   (interactive
    (list (read-display "new frame on: "))))
-
 
 (defun indent-defun ()
   ""
@@ -678,8 +669,6 @@ dots(...) get processed:
     (symbol-value variable)))
 ;; (variable-in-buffer (current-buffer) 'major-mode)
 
-
-;(major-mode-of "*grep*")
 
 ;; fixme: i need a (read-minor-mode)
 (defun buffers-with-minor-mode (mode)
@@ -769,7 +758,7 @@ Goes backward if ARG is negative; error if CHAR not found."
   (interactive "p\ncZap to char: ")
   (kill-region (point) (progn
                          (search-forward (char-to-string char) nil nil arg)
-;			 (goto-char (if (> arg 0) (1- (point)) (1+ (point))))
+                         ;; (goto-char (if (> arg 0) (1- (point)) (1+ (point))))
                          (1- (point)))))
 
 (defun buffer-string-of (buffer)
@@ -1018,6 +1007,8 @@ If the current buffer now contains an empty file that you just visited
 ;; dividing into 2 functions byte-compilation is no more buggy.
 ;; -- no! it still cannot find the symbol.
 
+;; 2015-01-11 so the original has only `find-function-search-for-symbol'
+;; emacs-lisp/find-func.el.gz
 (eval-and-compile
   ;; mmc: necessary to redefine!
   (defun find-function-search-for-symbol-1 (symbol type library)
@@ -1058,11 +1049,12 @@ If the current buffer now contains an empty file that you just visited
                 (progn
                   (beginning-of-line)
                   (cons (current-buffer) (point)))
-              (cons (current-buffer) nil)))))))
-  )
+              (cons (current-buffer) nil))))))))
 
 ;;; find-in  debian
 (defvar debian-emacs-flavor)
+
+;;is this patched?
 (defun find-function-search-for-symbol (symbol type library)
   "Search for SYMBOL's definition of type TYPE in LIBRARY.
 Visit the library in a buffer, and return a cons cell (BUFFER . POSITION),
@@ -1123,7 +1115,6 @@ Then call @body or @else based on @condition, and make @var available to them."
   (aif a (cdr '(a . b))
        (cons a nil)
        1))
-
 
 (defun find-line-by-string (string filename)
   "return a line from FILENAME, which first contains the STRING"

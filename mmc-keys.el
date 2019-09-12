@@ -527,9 +527,8 @@ Leave one space or none, according to the context."
 ;;; fighting bad keyboards:
 (global-set-key [(control meta ?y)] 'beginning-of-defun)
 
+;; I don't use it:
 (global-set-key [(control ?x) (meta ?b)] 'switch-to-buffer-other-window)
-
-
 
 ;;; Got from IRC
 (defun run-command-other-frame (command)
@@ -632,7 +631,6 @@ Leave one space or none, according to the context."
 (define-key my-global-keymap "\"" 'quote-region)
 
 (define-key my-global-keymap "|" 'hscroll-mode)
-
 (define-key my-global-keymap ">"
   (lambda ()
     "erase the tail of buffer"
