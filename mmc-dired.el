@@ -208,6 +208,7 @@ named on this line."
          (not dired-autoview-mode))))
 
 (define-key dired-mode-map [(control ?c) (control ?a)] 'dired-autoview-mode)
+(define-key dired-mode-map [(control ?x) (control ?f)] 'find-file)
 ;;(remove-hook 'post-command-hook hook-function 't)
 
 
