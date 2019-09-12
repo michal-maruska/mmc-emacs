@@ -28,6 +28,7 @@
 ;(set-face-foreground 'diff-file-header-face "yellow")
 
 
+;(defvar fast-diff-mode nil "Is the major mode ")
 
 (defun fast-diff-mode ()
   ""
@@ -54,23 +55,21 @@
 
 (defvar fast-diff-highlight-overlay nil)
 (defun fast-diff-mode-highlight ()
-  ""
+  "hightlight the current diff hunk."
   (interactive)
-  (save-excursion
-    (let* ((start (progn (diff-beginning-of-hunk 'try-harder) (point)))
-	   (end (progn (diff-end-of-hunk) (point))))
-      (if (and start end)
-	  (if fast-diff-highlight-overlay
-	      (move-overlay fast-diff-highlight-overlay
-			    start end)
-	    (setq fast-diff-highlight-overlay
-		  (make-overlay start end)
-		  ;;(current-buffer)
-		  )
-	    (overlay-put fast-diff-highlight-overlay 'face 'diff-overlay-face)))
-      ;;priority'
-					;(overlay-put overlay 'backtround "dim gray")
-      )))
+  (when (equal major-mode 'diff-mode)
+    (save-excursion
+      (let* ((start (progn (diff-beginning-of-hunk 'try-harder) (point)))
+             (end (progn (diff-end-of-hunk) (point))))
+        (if (and start end)
+            (if fast-diff-highlight-overlay
+                (move-overlay fast-diff-highlight-overlay
+                              start end)
+              (setq fast-diff-highlight-overlay (make-overlay start end))
+              (overlay-put fast-diff-highlight-overlay 'face 'diff-overlay-face)))
+        ;;priority'
+        ;;(overlay-put overlay 'backtround "dim gray")
+        ))))
 
 
 (provide 'mmc-diff)
