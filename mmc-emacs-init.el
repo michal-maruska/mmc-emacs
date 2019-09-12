@@ -131,11 +131,20 @@
   (define-key ido-completion-map [(meta ?m)]
     'ido-other-window))
 
+(define-key ido-completion-map [(meta ?m)] 'ido-other-window)
+
 (defun ido-other-window ()
   "visit the candidate buffer in the other window."
   (interactive)
-  (setq method 'other-window)
-  (ido-exit-minibuffer))
+  ;; method
+  ;(setq ido-default-buffer-method 'other-window)
+  (setq ido-exit 'other-window)
+  (ido-exit-minibuffer)
+  )
 
-;;ido-setup-hook
+
+;; maybe ido-exit ... but have to patch the ido!
+;; (setq ido-setup-hook nil)
+
+;; still indispensable:
 (add-hook 'ido-setup-hook 'ido-my-keys)

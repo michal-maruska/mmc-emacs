@@ -35,7 +35,7 @@ To disable the limit, call this function again."
   (setq iswitchb-method 'otherwindow)
   (exit-minibuffer))
 
-;;
+;; (setq iswitchb-define-mode-map-hook nil)
 (add-hook 'iswitchb-define-mode-map-hook
   (lambda ()
     (let ((map iswitchb-mode-map))
