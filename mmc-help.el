@@ -10,8 +10,6 @@
 (define-key help-map "o" 'top-level)
 ;find-function-by-key
 
-(global-set-key [(control return)] 'dabbrev-expand)
-
 (defun my-explain-keys ()
   "Read key-sequences and describe their binding. The problem is to stay in the buffer (modes...) and swith to.."
   ;; TODO: i could stop after reading (C-g)
@@ -65,6 +63,6 @@
 (setq apropos-do-all 't)
 
 
-
+(global-set-key [(alt ?m )] 'dabbrev-expand)
 
 (provide 'mmc-help)
