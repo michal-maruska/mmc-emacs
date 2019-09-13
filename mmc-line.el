@@ -36,12 +36,12 @@
 
 ;; todo: make it work even when the point is NOT over the filename.
 ;; ie. after the dot: ffff:.XX
-(defun find-file-at-point-with-line (&optional filename)
+(defun find-file-at-point-with-line (prefix)
   "Opens file at point and moves point to line specified next to file name."
-  (interactive)
-  (let* ((filename (or filename
-		       (if current-prefix-arg (ffap-prompter)
-			 (or (ffap-guesser) (ffap-prompter)))))
+  (interactive "P")
+  (let* ((filename ;(or filename
+          (if current-prefix-arg (ffap-prompter)
+            (or (ffap-guesser) (ffap-prompter)))); )
          (line-number
           (and (or (looking-at ".* line \\(\[0-9\]+\\)")
                    (looking-at "[^:]*:\\(\[0-9\]+\\)"))
