@@ -279,6 +279,27 @@
 
 ; (keep-frame-widths)
 
+(defun prepare-remote-frame (frame)
+  ""
+  (message "changing the C-h handling on frame %s %s" (selected-frame) frame)
+  (select-frame frame)
+  (keyboard-translate ?\C-h 'backspace))
+
+(add-hook 'after-make-frame-functions 'prepare-remote-frame)
+
+(defun keyboard-translate (from to)
+  "Translate character FROM to TO on the current terminal.
+This function creates a `keyboard-translate-table' if necessary
+and then modifies one entry in it."
+  (if (char-table-p keyboard-translate-table)
+      (message "it exists")
+    (progn
+      (message "making a new one")
+      (setq keyboard-translate-table
+           (make-char-table 'keyboard-translate-table nil))))
+  (aset keyboard-translate-table from to))
+
+
 (provide 'mmc-frame)
 
 
