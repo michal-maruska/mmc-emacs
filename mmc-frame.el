@@ -44,7 +44,7 @@
                                         ;(scroll-bar-foreground . "red")
     (scroll-bar-background . "red")
                                         ;(scroll-bar-foreground . "green")
-      
+
     (left . 80)
     (foreground-color . "Pink")		;Red
     (background-color . "Black")	;   `'gray3
@@ -53,7 +53,7 @@
     (scroll-bar-background . "red")
     ;;"blue"
     (scroll-bar-foreground . "white")
-      
+
     (color-mode . "dark")))
 
 (defun recalc-default-frame-alist ()
@@ -127,21 +127,21 @@
   ""
   (interactive
    (let ((displays (unique
-		    (sort (mapcar
-			   (lambda (item)
-			     (frame-parameter item 'display))
-			   (frame-list)) 'string<)))
-	 def (prompt "kill frames on: "))
+                    (sort (mapcar
+                           (lambda (item)
+                             (frame-parameter item 'display))
+                           (frame-list)) 'string<)))
+         def (prompt "kill frames on: "))
      (list (read-display prompt def displays))))
   (let* ((regexp (regexp-quote display))
-	 (frames
-	  ;; frames on the DISPLAY:
-	  (mapcar-nonil
-	   (lambda (item)
-	     (let ((display (frame-parameter item 'display)))
-	       (if (string-match regexp display)
-		   item nil)))
-	   (frame-list))))
+         (frames
+          ;; frames on the DISPLAY:
+          (mapcar-nonil
+           (lambda (item)
+             (let ((display (frame-parameter item 'display)))
+               (if (string-match regexp display)
+                   item nil)))
+           (frame-list))))
     (mapcar
      (lambda (item)
        (delete-frame item))
@@ -212,11 +212,11 @@
   (interactive)
   (let ((max-width 10))			; this is the minimum, we don't try less
     (map-lines (point-min)
-	       (point-max)
-	       (lambda (end-line)
-		 (let ((l (- end-line (point))))
-		   (if (> l max-width)
-		       (setq max-width l)))))
+               (point-max)
+               (lambda (end-line)
+                 (let ((l (- end-line (point))))
+                   (if (> l max-width)
+                       (setq max-width l)))))
     (set-frame-width (selected-frame) (1+ max-width))))
 
 
@@ -242,9 +242,9 @@
 (setq frame-width-alist
       (mapcar
        (lambda (frame)
-	 (cons
-	  frame ;(assoc frame frame-width-alist)
-	  (frame-width frame)))
+         (cons
+          frame ;(assoc frame frame-width-alist)
+          (frame-width frame)))
        (frames-on-display-list)
        ))
 
@@ -262,9 +262,9 @@
 (defun keep-frame-widths ()
   ""
   (let* ((frame (selected-frame))
-	 (info (assoc frame frame-width-alist))
-	 ;; previous-width  (cdr ))
-	 )
+         (info (assoc frame frame-width-alist))
+         ;; previous-width  (cdr ))
+         )
     (cond
      ((null info)
       (push (cons frame (frame-width frame)) frame-width-alist))
@@ -301,5 +301,3 @@ and then modifies one entry in it."
 
 
 (provide 'mmc-frame)
-
-
