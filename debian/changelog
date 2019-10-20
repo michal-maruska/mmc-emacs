@@ -1,3 +1,25 @@
+mmc-emacs (2.7) release; urgency=medium
+
+  * restrict ido to buffer ops
+  * ido-buffer-internal: implement the exit to open-in-other-window .. my M-m key
+  * ido-visit-buffer: once more look at ido-exit.... I already do it in previous patch!
+  * patch cmake-indent to indent the closing ) on a new-line _back_.
+  * cosmetics in mmc-simple +
+  * A-m for other-window in ... ido
+  * C-x C-f too aggresive: in dired try... (fixme!)
+  * cosmetics
+  * dabbrev-expand now on A-m
+  * highlight the current diff chunk.
+  * spaces
+  * find-file-at-point-with-line: give chance to edit the filename w/ prefix
+  * failed attempt to setup new remote frames
+  * spaces
+  * fix possible nil in grep-...
+  * Drop out from isearch when I do C-M-y function-beginning
+  * patch dired: don't fail on non-existant symlink/file
+
+ -- Michal Maruska <mmaruska@gmail.com>  Sun, 20 Oct 2019 21:29:30 +0200
+
 mmc-emacs (2.6) release; urgency=medium
 
   * break the circular dependency: mmc-keys is above mmc-simple.
