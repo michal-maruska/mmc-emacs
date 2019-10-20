@@ -159,5 +159,9 @@
 
 (define-key isearch-mode-map    "\M-w" 'isearch-save-and-exit)
 
+;; remove 'isearch-yank-char? why? ah, b/c
+;; I want to go to the function-beginning (&exit isearch).
+(define-key isearch-mode-map (kbd "C-M-y") nil)
+
 (define-key isearch-mode-map [(control o)] 'isearch-occur)
 (provide 'mmc-isearch)
