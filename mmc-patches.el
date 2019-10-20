@@ -320,6 +320,52 @@ LIBRARY should be a string (the name of the library)."
       (and (ffap-url-p name) name)
       ))))
 
+(defun ido-visit-buffer (buffer method &optional record)
+  "Switch to BUFFER according to METHOD.
+Record command in `command-history' if optional RECORD is non-nil."
+  (if (bufferp buffer)
+      (setq buffer (buffer-name buffer)))
+  (let (win newframe)
+    (cond
+     ((eq method 'kill)
+      (if record
+          (ido-record-command 'kill-buffer buffer))
+      (kill-buffer buffer))
+
+     ;; mmc:
+     ((or (eq ido-exit 'other-window)
+          (eq method 'other-window))
+      (if record
+          (ido-record-command 'switch-to-buffer buffer))
+      (switch-to-buffer-other-window buffer))
+
+     ((eq method 'display)
+      (display-buffer buffer))
+
+     ((eq method 'other-frame)
+      (switch-to-buffer-other-frame buffer)
+      (select-frame-set-input-focus (selected-frame)))
+
+     ((eq method 'display-other-frame)
+      (display-buffer-other-frame buffer))
+
+     ((and (memq method '(raise-frame maybe-frame))
+           window-system
+           (setq win (ido-buffer-window-other-frame buffer))
+           (or (eq method 'raise-frame)
+               (y-or-n-p "Jump to frame? ")))
+      (setq newframe (window-frame win))
+      (select-frame-set-input-focus newframe)
+      (select-window win))
+
+     ;; (eq method 'selected-window)
+     (t
+      ;;  No buffer in other frames...
+      (if record
+          (ido-record-command 'switch-to-buffer buffer))
+      (switch-to-buffer buffer)
+      ))))
+
 (defun ido-buffer-internal (method &optional fallback prompt default initial switch-cmd)
   ;; Internal function for ido-switch-buffer and friends
   (if (not ido-mode)
