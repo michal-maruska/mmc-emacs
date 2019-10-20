@@ -542,4 +542,22 @@ Record command in `command-history' if optional RECORD is non-nil."
       ;; Now replace the pattern with the default tag.
       (replace-match tag-default t t grep-default 1))))
 
+;; Trying to avoid debug-on-error:
+(defun dired-get-file-for-visit ()
+  "Get the current line's file name, with an error if file does not exist."
+  (interactive)
+  ;; We pass t for second arg so that we don't get error for `.' and `..'.
+  (let ((raw (dired-get-filename nil t))
+        file-name)
+    (if (null raw)
+        ;; mmc: don't error here.
+        (message "No file on this line"))
+    (setq file-name (file-name-sans-versions raw t))
+    (if (file-exists-p file-name)
+        file-name
+      (if (file-symlink-p file-name)
+          ;; mmc: neither here:
+          (message "File is a symlink to a nonexistent target")
+        (message "File no longer exists; type `g' to update Dired buffer")))))
+
 (provide 'mmc-patches)
