@@ -131,5 +131,41 @@
 ;; (modify-syntax-entry ?. "\w" makefile-mode-syntax-table)
 
 
-(provide 'mmc-modes)
+(add-to-list 'auto-mode-alist '("\\.adb$" . sh-mode))
+(add-to-list 'auto-mode-alist '("\\.qml$" . java-mode))
+(add-to-list 'auto-mode-alist '("\\.pro$" . makefile-mode))
+(add-to-list 'auto-mode-alist
+             `(,(expand-file-name "~/tests/bash/")
+               . sh-mode))
+;;
+(add-to-list 'auto-mode-alist '("\\.sls$" . scheme-mode))
 
+(add-to-list 'auto-mode-alist '("\\.expect$" . tcl-mode))
+
+;; Android
+;; auto-mode-alist
+(add-to-list 'auto-mode-alist
+             '("buildspec\\.mk\\.default" . makefile-gmake-mode))
+(add-to-list 'auto-mode-alist
+             '("AndroidManifest\\.xml" . nxml-mode))
+
+(add-to-list 'auto-mode-alist '("\\.xml$" . nxml-mode))
+
+(add-to-list 'auto-mode-alist '("\\.xsd$" . nxml-mode))
+
+
+;;  tomtom:
+(add-to-list 'auto-mode-alist '("\\.ttbld$" . sh-mode))
+(add-to-list 'auto-mode-alist '("\\.cmpnt$" . sh-mode))
+(add-to-list 'auto-mode-alist '("build.inc" . sh-mode))
+(add-to-list 'auto-mode-alist '("zsh/" . sh-mode))
+(add-to-list 'auto-mode-alist '("bin/" . sh-mode))
+(add-to-list 'auto-mode-alist '(".*\\.env" . sh-mode))
+;; Google build systems:
+(add-to-list 'auto-mode-alist '(".*\\.gn" . sh-mode))
+(add-to-list 'auto-mode-alist '(".*\\.ninja" . ninja-mode))
+(add-to-list 'auto-mode-alist '(".*\\.service" . sh-mode))
+(add-to-list 'auto-mode-alist '(".*\\.rid" . c++-mode))
+
+
+(provide 'mmc-modes)
