@@ -167,5 +167,9 @@
 (add-to-list 'auto-mode-alist '(".*\\.service" . sh-mode))
 (add-to-list 'auto-mode-alist '(".*\\.rid" . c++-mode))
 
+(add-to-list 'auto-mode-alist '("\\.yml$" . yaml-mode))
+(add-to-list 'auto-mode-alist '("\\.jam$" . c++-mode))
+(add-to-list 'auto-mode-alist '(".*\\.gradle" . groovy-mode))
+
 
 (provide 'mmc-modes)
