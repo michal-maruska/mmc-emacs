@@ -1,5 +1,11 @@
 ;;;  KEY-BINDINGs:
 
+(defun replace-key-in-keymap (keymap new-key original-key)
+  "Move the function of `original-key' to be accessible under `new-key'.
+ Both are expanded via kbd"
+  (define-key keymap (kbd new-key)
+    (lookup-key keymap (kbd original-key))))
+
 ;; Base:
 
 ;; todo:
