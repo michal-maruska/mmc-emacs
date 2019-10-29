@@ -171,5 +171,6 @@ a list of diretories ... see `ediff-x-roots'."
       (set-frame-group-leader ctl-frame base-frame-id))
   ))
 
+(set-default 'ediff-ignore-similar-regions t)
 
 (provide 'mmc-ediff)
