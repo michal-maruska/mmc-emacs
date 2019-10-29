@@ -1,4 +1,3 @@
-
 ;; http://www.emacswiki.org/cgi-bin/wiki/EdiffMode
 
 (require 'ediff)
@@ -22,7 +21,7 @@
 
      (setf
       (cdr (assoc 'auto-raise
-		  ediff-control-frame-parameters))
+                  ediff-control-frame-parameters))
       nil)))
 
 
@@ -44,14 +43,14 @@
   (interactive "bEdiff buffer with its file: \np")
   (condition-case nil
       (with-current-buffer buffer
-	(make-directory my-ediff-dir 't)
-	(let ((file (buffer-file-name (get-buffer-create buffer)))
-	      (temp-file (make-temp-name (concat my-ediff-dir "/"))))
-	  (if (not prefix)
-	      (write-file temp-file)
-	    (shell-command (format "mv %s %s" file temp-file))
-	    (write-file file))
-	  (ediff temp-file file)))
+        (make-directory my-ediff-dir 't)
+        (let ((file (buffer-file-name (get-buffer-create buffer)))
+              (temp-file (make-temp-name (concat my-ediff-dir "/"))))
+          (if (not prefix)
+              (write-file temp-file)
+            (shell-command (format "mv %s %s" file temp-file))
+            (write-file file))
+          (ediff temp-file file)))
     (error . nil)))
 
 
@@ -94,27 +93,27 @@ the same name in both.  The third argument, REGEXP, is a regular expression
 that can be used to filter out certain file names."
   (interactive
    (let ((dir-A
-	  default-directory
+          default-directory
                                         ;(ediff-get-default-directory-name)
-	  )
-	 (dir-B
-	  ;; realign buffers so that two visible bufs will be
-	  ;; at the top
-	  (save-window-excursion
-	    (other-window 1)
-	    default-directory		;(ediff-get-default-directory-name)
-	    ))
-	 f)
+          )
+         (dir-B
+          ;; realign buffers so that two visible bufs will be
+          ;; at the top
+          (save-window-excursion
+            (other-window 1)
+            default-directory		;(ediff-get-default-directory-name)
+            ))
+         f)
      (list (setq f (ediff-read-file-name "Directory A to compare:" dir-A nil))
-	   (ediff-read-file-name "Directory B to compare:"
-				 ;; '(if ediff-use-last-dir
-				 ;; 				     ediff-last-dir-B
-				 ;;                                     (ediff-strip-last-dir f))
-				 dir-B
-				 nil)
-	   (read-string "Filter through regular expression: "
-			nil 'ediff-filtering-regexp-history)
-	   )))
+           (ediff-read-file-name "Directory B to compare:"
+                                 ;; '(if ediff-use-last-dir
+                                 ;;                                  ediff-last-dir-B
+                                 ;;                                     (ediff-strip-last-dir f))
+                                 dir-B
+                                 nil)
+           (read-string "Filter through regular expression: "
+                        nil 'ediff-filtering-regexp-history)
+           )))
   (ediff-directories-internal
    dir1 dir2 nil regexp 'ediff-files 'ediff-directories))
 
