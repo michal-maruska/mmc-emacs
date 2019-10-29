@@ -2,12 +2,12 @@
 ;;; Mainly keymap changes.
 
 
-(eval-after-load 
+(eval-after-load
     "rmailsum"
   '(progn
      (define-key rmail-summary-mode-map [backspace]   'rmail-summary-scroll-msg-down)
      (define-key rmail-summary-mode-map [delete] 'rmail-summary-scroll-msg-down) ) )
-(eval-after-load 
+(eval-after-load
     "rmail"
   '(progn
      (define-key rmail-mode-map [ delete ]   'scroll-down)
@@ -16,22 +16,22 @@
 (eval-after-load "cus-edit"             ;custom
   '(define-key custom-mode-map [(control ?x) (control ?s)] 'Custom-save))
 
-(eval-after-load 
+(eval-after-load
     "isearch"
   '(progn
      ;; THIS IS ALREADY IN ... so it does not get called !!
      (require 'mmc-isearch)))
 
 
-(eval-after-load 
+(eval-after-load
     "font-lock"
   '(progn
      (if running-xemacs
-	 (set-face-foreground 'font-lock-comment-face "red3"))))
-(eval-after-load 
+         (set-face-foreground 'font-lock-comment-face "red3"))))
+(eval-after-load
     "w3"
   '(progn
-					; (define-key w3-mode-map [?q] nil)
+                                        ; (define-key w3-mode-map [?q] nil)
      (define-key w3-mode-map [(meta delete)] 'w3-prev-document)
      (define-key w3-mode-map [(meta backspace)] 'w3-prev-document)))
 
@@ -56,31 +56,31 @@
 (eval-after-load
     "perl-mode"
   '(progn
-     (add-hook 'perl-mode-hook 
-	       (lambda ()
-		 (make-local-variable 'outline-regexp)
-		 (setq outline-regexp "\\(sub\\|package\\|##+\\) ")
-		 (font-lock-mode)))))
+     (add-hook 'perl-mode-hook
+               (lambda ()
+                 (make-local-variable 'outline-regexp)
+                 (setq outline-regexp "\\(sub\\|package\\|##+\\) ")
+                 (font-lock-mode)))))
 
 (eval-after-load
     "cperl-mode"
   '(progn
      (define-key cperl-mode-map [(control c) ?:] 'sh-set-shell)
      (add-hook 'cperl-mode-hook ;; cperl-mode-hook
-	       (lambda ()
-		 (set (make-local-variable 'outline-regexp)
-		      "\\(sub\\|package\\|##+\\|\\[\\$ sub\\) ")
-		 (font-lock-mode)))
+               (lambda ()
+                 (set (make-local-variable 'outline-regexp)
+                      "\\(sub\\|package\\|##+\\|\\[\\$ sub\\) ")
+                 (font-lock-mode)))
      (define-skeleton perl-interpreter-header
        "Skeleton to insert the perl signature"
        nil
        "#! /usr/bin/perl")
-     (define-key cperl-mode-map [(control ?c) ?:] 
+     (define-key cperl-mode-map [(control ?c) ?:]
        (lambda ()
-	 (interactive)
-	 (save-excursion
-	   (goto-char (point-min))
-	   (perl-interpreter-header))))
+         (interactive)
+         (save-excursion
+           (goto-char (point-min))
+           (perl-interpreter-header))))
      (switch-keys cperl-mode-map "
 " [(control ?j)])))
 
@@ -91,17 +91,17 @@
      (require 'mmc-sawfish)
      (define-key sawfish-mode-map [(control x) (meta e)]             #'sawfish-eval-buffer)))
 
-(eval-after-load 
+(eval-after-load
     "eldoc"
   '(progn
      (setq eldoc-idle-delay 0.50)))
 
-;; (eval-after-load 
+;; (eval-after-load
 ;;     "vm"
 ;;   '(progn
 ;;      (load "my-vm")))
 
-(eval-after-load 
+(eval-after-load
     "psgml-html"
   '(progn
      (define-key  html-mode-map [(control ?z) (control ?z)] nil)))
@@ -119,18 +119,18 @@
   '(progn
      (define-key cvs-mode-map "U" 'cvs-mode-unmark-all-files)))
 
-(eval-after-load 
+(eval-after-load
     "psgml-html"
   '(progn
      (define-key  html-mode-map [(control ?z) (control ?z)] nil)))
 
-(eval-after-load 
+(eval-after-load
     "python"
   '(progn
      (load "mmc-python")))
 
 
-;; (eval-after-load 
+;; (eval-after-load
 ;;     "dabbrev"
 ;;   '(progn
 ;;      (load "mmc-dabbrev")))
@@ -138,7 +138,7 @@
 
 
 ;;
-(eval-after-load 
+(eval-after-load
     "dframe"
   '(progn
      (defun dframe-handle-make-frame-visible (e)
@@ -149,8 +149,8 @@ Argument E is the event making the frame visible."
   ;(message "%S" e)
   (let ((f last-event-frame))
     (if (and (dframe-attached-frame f)
-	     dframe-make-frame-visible-function)
-	(funcall dframe-make-frame-visible-function e)
+             dframe-make-frame-visible-function)
+        (funcall dframe-make-frame-visible-function e)
       )))
 
      (defun dframe-handle-iconify-frame (e)
@@ -161,8 +161,8 @@ Argument E is the event iconifying the frame."
   ;(message "%S" e)
   (let ((f last-event-frame))
     (if (and (dframe-attached-frame f)
-	     dframe-iconify-frame-function e)
-	(funcall dframe-iconify-frame-function)
+             dframe-iconify-frame-function e)
+        (funcall dframe-iconify-frame-function)
       )))
 
 (defun dframe-handle-delete-frame (e)
@@ -171,16 +171,16 @@ Argument E is the event deleting the frame."
   (interactive "e")
   ;(message "%S" e)
   (let ((fl (frame-list))
-	(sf (selected-frame)))
+        (sf (selected-frame)))
     ;; Loop over all frames.  If dframe-delete-frame-function is
     ;; non-nil, call it.
     (while fl
       (select-frame (car fl))
       (if dframe-delete-frame-function
-	  (funcall dframe-delete-frame-function e))
+          (funcall dframe-delete-frame-function e))
       (setq fl (cdr fl)))
     (if (frame-live-p sf)
-	(select-frame sf))
+        (select-frame sf))
     (handle-delete-frame e)))
 ))
 
@@ -201,7 +201,7 @@ Argument E is the event deleting the frame."
      (delete-region
       ;; Can't use kill-region as it sets this-command
       (or  (marker-position comint-accum-marker)
-	   (process-mark (get-buffer-process (current-buffer))))
+           (process-mark (get-buffer-process (current-buffer))))
       ;; -max
       (point))))
 
