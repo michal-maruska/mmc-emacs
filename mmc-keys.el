@@ -82,7 +82,7 @@
 
 (when (under-x)
   (keyboard-translate ?\C-h 'backspace)
-)               	;only this combination !!!
+)                       ;only this combination !!!
 
 (when nil
   (keyboard-translate ?\C-,  ?*))
