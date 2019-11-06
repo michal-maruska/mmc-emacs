@@ -124,6 +124,21 @@
 (ido-mode 'buffers)
 ;; ido-minibuffer-setup-hook
 
+;; ~/repo/emacs/mmc-emacs/mmc-minibuffer.el
+(defun ido-my-keys ()
+  "Add my keybindings for ido."
+  (define-key ido-completion-map [(meta ?m)] 'ido-other-window))
+
+;; ~/repo/emacs/mmc-emacs/mmc-minibuffer.el
+
+(eval-after-load
+    "ido"
+  '(progn
+     ;; must load, not require!
+     (load "mmc-patches")
+     (add-hook 'ido-setup-hook 'ido-my-keys)
+     ))
+
 (defun ido-other-window ()
   "visit the candidate buffer in the other window."
   (interactive)
@@ -132,19 +147,9 @@
   (setq ido-exit 'other-window)
   (ido-exit-minibuffer))
 
-;; ~/repo/emacs/mmc-emacs/mmc-minibuffer.el
-(defun ido-my-keys ()
-  "Add my keybindings for ido."
-  (define-key ido-completion-map [(meta ?m)] 'ido-other-window))
-
 
 ;; not all ido variables are initialized at load time. keymaps for example:
-(add-hook 'ido-setup-hook 'ido-my-keys)
 
-(eval-after-load
-    "ido"
-  ;; must load, not require!
-  '(load "mmc-patches"))
 
 ;; maybe ido-exit ... but have to patch the ido!
 
