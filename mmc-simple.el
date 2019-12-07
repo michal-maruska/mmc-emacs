@@ -178,11 +178,11 @@ move to with the same argument."
 ;; todo: C-u prefix -> whole buffer
 (defun delete-tail-from-region (start end)
   (interactive ;;"r"
-   (if (equal current-prefix-arg '(4))
+   (if (or (equal current-prefix-arg '(4))
+           (not (region-active-p)))
        (list (point-min)
              (point-max))
-     (if (region-active-p)
-         (list (region-beginning) (region-end)))))
+     (list (region-beginning) (region-end))))
   ;; (unless transpose)
   (save-excursion
     (let ((regexp "[    ]+$")
