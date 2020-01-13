@@ -37,7 +37,7 @@
 (require 'mmc-keys)
 (require 'mmc-skeleton)
 (require 'mmc-help)
-(require 'mmc-shell)
+(require 'mmc-sh)
 
 
 ;; fixme:  why not in 22 ?

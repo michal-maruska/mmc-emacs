@@ -1,3 +1,4 @@
+;; bug:I also have ../devel/mmc-shell.el
 
 (require 'eshell)
 (require 'sh-script)
@@ -17,7 +18,7 @@
   (interactive "P")
   (let ((module ""))
     (if arg
-	(setq module (file-name-nondirectory (buffer-file-name))))
+        (setq module (file-name-nondirectory (buffer-file-name))))
     (shell-command
      ;;(format "export PATH=$PATH:/usr/local/sbin && publish %s &" module)
      (format "publish.scm %s &"   (if arg "" (read-string "host: "))))))
@@ -47,8 +48,8 @@
   ""
   (interactive)
   (let* ((name "*Async Shell Command*")
-	(buffer (get-buffer name))
-	(new-name (generate-new-buffer-name name)))
+        (buffer (get-buffer name))
+        (new-name (generate-new-buffer-name name)))
     (with-current-buffer buffer
       (rename-buffer new-name))))
 
@@ -63,13 +64,13 @@
   (set (make-local-variable 'outline-regexp)
    ;;"\\(#*\\)"
    ;; "##+"
-   ;; "[^ 	]+\\(\\) ?{"
+   ;; "[^       ]+\\(\\) ?{"
    ;; "\\(\\(function +\\)?[a-z_-]+ *\\(()\\)? *{?$\\)"
    (rx
     (or
      (sequence "function"
-	       (1+ space)
-	       (1+ (or (syntax symbol) word)))
+               (1+ space)
+               (1+ (or (syntax symbol) word)))
      (sequence
       (1+ (or (syntax symbol) word))
       (0+ space)
@@ -109,4 +110,4 @@
 ;(setq explicit-shell-file-name "su")
 ;(setq explicit-su-args (list "-l"))
 
-(provide 'mmc-shell)
+(provide 'mmc-sh)
