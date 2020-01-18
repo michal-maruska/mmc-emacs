@@ -1,3 +1,22 @@
+mmc-emacs (2.8) release; urgency=medium
+
+  * mmc-url new search-selection-or-symbol (duckduckgo)
+  * correctly override ido key & other-window method
+  * Get the auto-modes form my work
+  * spaces
+  * spaces
+  * replace-key-in-keymap: new
+  * spaces
+  * better ediff default
+  * more auto modes
+  * load mmc-patches after ido.el
+  * deb: compat 9
+  * invertu & thus simplify condition for Interactive form: C-u -> ignore region.
+  * Rename mmc-shell so it does not provide what we update in mmc-devel.
+  * put directory matching to the end of auto-mode-alist
+
+ -- Michal Maruska <mmaruska@gmail.com>  Sat, 18 Jan 2020 20:14:58 +0100
+
 mmc-emacs (2.7) release; urgency=medium
 
   * restrict ido to buffer ops
