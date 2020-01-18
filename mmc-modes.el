@@ -158,8 +158,11 @@
 (add-to-list 'auto-mode-alist '("\\.ttbld$" . sh-mode))
 (add-to-list 'auto-mode-alist '("\\.cmpnt$" . sh-mode))
 (add-to-list 'auto-mode-alist '("build.inc" . sh-mode))
-(add-to-list 'auto-mode-alist '("zsh/" . sh-mode))
-(add-to-list 'auto-mode-alist '("bin/" . sh-mode))
+
+;; directories must take less precendence:
+(add-to-list 'auto-mode-alist '("zsh/" . sh-mode) 'append)
+(add-to-list 'auto-mode-alist '("bin/" . sh-mode) 'append)
+
 (add-to-list 'auto-mode-alist '(".*\\.env" . sh-mode))
 ;; Google build systems:
 (add-to-list 'auto-mode-alist '(".*\\.gn" . sh-mode))
