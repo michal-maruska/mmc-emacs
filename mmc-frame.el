@@ -39,15 +39,15 @@
 (overwrite-alist 'default-frame-alist
   '((top . 25)
     ;;
-    (scroll-bar-width . 22)		;12
+    (scroll-bar-width . 22)             ;12
                                         ;(scroll-bar-background . "blue")
                                         ;(scroll-bar-foreground . "red")
     (scroll-bar-background . "red")
                                         ;(scroll-bar-foreground . "green")
 
     (left . 80)
-    (foreground-color . "Pink")		;Red
-    (background-color . "Black")	;   `'gray3
+    (foreground-color . "Pink")         ;Red
+    (background-color . "Black")        ;   `'gray3
 
     ;;
     (scroll-bar-background . "red")
@@ -210,7 +210,7 @@
 (defun reduce-frame-to-max-text-width ()
   "reduce the current frame to the width of longest line of the current buffer"
   (interactive)
-  (let ((max-width 10))			; this is the minimum, we don't try less
+  (let ((max-width 10))                 ; this is the minimum, we don't try less
     (map-lines (point-min)
                (point-max)
                (lambda (end-line)
