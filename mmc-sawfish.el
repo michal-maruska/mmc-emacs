@@ -16,8 +16,8 @@
   "Just a stupid hack, i should go to define-structure and descend (forward-list) ?"
   (interactive "p")
   ;; the problem is, that we want to skip away from the current line.
-  (and (re-search-backward "^[ 	]*(def\\(var\\|un\\|ine\\)"
-			   nil 'move (or arg 1))
+  (and (re-search-backward "^[  ]*(def\\(var\\|un\\|ine\\)"
+                           nil 'move (or arg 1))
        (progn (goto-char (1- (match-end 0))))
        (back-to-indentation)
        ;; i wanted to return nil because see: the source of beginning-of-defun
@@ -37,13 +37,13 @@
    open-paren-in-column-0-is-defun-start nil
    (set (make-variable-buffer-local 'open-paren-in-column-0-is-defun-start) nil)
    (set (make-variable-buffer-local 'defun-prompt-regexp "(define")
-	)))
+        )))
 
 
 (when nil
   (setq beginning-of-defun-function nil)
   (set (make-variable-buffer-local 'beginning-of-defun-function)
-       (function sawfish-beginning-of-defun))  
+       (function sawfish-beginning-of-defun))
   )
 
 
@@ -79,17 +79,17 @@
   "Given string/name of sawfish/rep module: XXX.YYY.ZZZ.module,
 find and return its path in the filesystem"
   (let ((relative (add-suffix-optionally
-		   (translate-module-to-filename name "\\.") ".jl"))
+                   (translate-module-to-filename name "\\.") ".jl"))
         path found)
     ;; take the first...
     (setq found
-	  (or
-	   ;; (let ((filename (compose-path (expand-file-name "~/sf/before/lisp") relative)))
-	   ;;   (if (file-exists-p filename)
-	   ;; 				;filename
-	   ;; 	 nil))
-	   (sawfish-eval-read
-	    (format "(locate-file \"%s\" load-path)" relative))))
+          (or
+           ;; (let ((filename (compose-path (expand-file-name "~/sf/before/lisp") relative)))
+           ;;   (if (file-exists-p filename)
+           ;;                           ;filename
+           ;;    nil))
+           (sawfish-eval-read
+            (format "(locate-file \"%s\" load-path)" relative))))
     (unless found
       ;; try the C  sources
       (let* ((last-word
@@ -98,7 +98,7 @@ find and return its path in the filesystem"
                 (match-string 1 name)))
              (basename (concat last-word ".c")))
         (setq found
-	      (find-subpath-in-paths basename sawfish-src-path))))
+              (find-subpath-in-paths basename sawfish-src-path))))
     found))
 
 ;; fixme:   (eval-after-load "ffap" '(....)) !!
@@ -116,9 +116,9 @@ find and return its path in the filesystem"
       )
   ;;
   (push (cons 'sawfish-mode 'ffap-sawfish-mode)
-	ffap-alist)
+        ffap-alist)
   (push (cons 'inferior-lisp-mode 'ffap-sawfish-mode)
-	ffap-alist)
+        ffap-alist)
   )
 
 ;ffap-alist
@@ -127,22 +127,22 @@ find and return its path in the filesystem"
 (defun my-redefine-key (map key command)
   "should record somewhere the original binding, so that it is accessible")
 
-(eval-after-load 
+(eval-after-load
     "sawfish"
   '(let ((map sawfish-mode-map)
-	 ;;(swe-map (make-sparse-keymap))	; sawfish-emacs   --- bad it could be the emacs-lisp-mode-map !
-	 )
-     ;; 
-					; (define-key map [(control c)]          emacs-lisp-mode-map)	;swe-map
+         ;;(swe-map (make-sparse-keymap))	; sawfish-emacs   --- bad it could be the emacs-lisp-mode-map !
+         )
+     ;;
+                                        ; (define-key map [(control c)]          emacs-lisp-mode-map)	;swe-map
      (define-key map [(control x) (control e)]             #'sawfish-eval-last-sexp)
      (define-key map [(meta control x)]                    #'sawfish-eval-defun)
      (define-key map [(meta :)]                            #'sawfish-eval-expression)
 
      (define-key map [(control h) ?a]          #'sawfish-apropos)
-					;(define-key swe-map [(control h) ?a] 'apropos)
-    
+                                        ;(define-key swe-map [(control h) ?a] 'apropos)
+
      (define-key map [(control h) ?f]          #'sawfish-describe-function)
-					;(define-key swe-map [(control h) ?f]          #'describe-function)
+                                        ;(define-key swe-map [(control h) ?f]          #'describe-function)
 
      ;(define-key sawfish-mode-map [(control ?.)]          #'sf-find-function-module) ;?w
 
@@ -151,10 +151,10 @@ find and return its path in the filesystem"
 
 
      (define-key map [(control c) (control c)] #'my-sawfish-console)
-    
+
      (define-key map [(control h) (control f)] #'sawfish-info-function)
      ;;(define-key swe-map [(control h) (control f)] #'info-function)
-    
+
      (define-key map [(control h) ?v]          #'sawfish-describe-variable)
      ;;(define-key swe-map [ (control h) ?v]          #'describe-variable)
 
@@ -169,7 +169,7 @@ find and return its path in the filesystem"
 
 ;;; my hook ... the mode:
 
-					;(define-derived-mode sawfish-mode scheme-mode
+                                        ;(define-derived-mode sawfish-mode scheme-mode
 
 ;; inferior-lisp-mode
 (defun my-sawfish-mode-init ()
@@ -181,10 +181,10 @@ find and return its path in the filesystem"
   (set (make-local-variable 'outline-regexp)
        ";;;;* \\| *(def\\| +;; ")	; show comments too
 
-					;(inferior-lisp-minor-mode)
+                                        ;(inferior-lisp-minor-mode)
   (set (make-local-variable 'inferior-lisp-program) "sawfish-client")
-  
-					; (setq pop-up-windows
+
+                                        ; (setq pop-up-windows
   (set (make-local-variable 'lisp-function-doc-command)
        ",describe %s\n")
   (set (make-local-variable 'lisp-var-doc-command)
@@ -198,7 +198,7 @@ find and return its path in the filesystem"
 
 
 ;;; symbols
-					;(sawfish-eval ",locate  window-really-wants-input-p")
+                                        ;(sawfish-eval ",locate  window-really-wants-input-p")
 '(call-process sawfish-client nil "ahoj" 't sawfish-exec-parameter ",locate  window-really-wants-input-p")
 
 
@@ -208,14 +208,14 @@ find and return its path in the filesystem"
   (interactive)
   (if inferior-lisp-buffer
       (progn
-	(switch-to-buffer-other-window inferior-lisp-buffer)
-	;; insert: ,in module-name 
-	)
+        (switch-to-buffer-other-window inferior-lisp-buffer)
+        ;; insert: ,in module-name
+        )
     (sawfish-console)))
 
 ;; use run-list instead !
 (defvar sawfish-buffer nil "")
-					; (make-variable-buffer-local 'sawfish-buffer)
+                                        ; (make-variable-buffer-local 'sawfish-buffer)
 
 (defun sawfish-console (&optional arg)
   "Run the sawfish client as an inferior lisp."
@@ -229,9 +229,9 @@ find and return its path in the filesystem"
     ))
 
 
-					;(setq sawfish-comint-prompt "^[[:word:]]*>")
+                                        ;(setq sawfish-comint-prompt "^[[:word:]]*>")
 (setq lisp-describe-sym-command ",describe %s\n")
-(when nil 
+(when nil
   special-display-buffer-names
   same-window-regexps
   (delete "*inferior-lisp*" same-window-buffer-names) ;;  why was it there ?
@@ -245,12 +245,12 @@ find and return its path in the filesystem"
   ""
   (interactive
    (let* ((buffer-file (buffer-file-name))
-	  (dir (file-name-directory buffer-file))
-	  (basename (file-name-nondirectory buffer-file)))
+          (dir (file-name-directory buffer-file))
+          (basename (file-name-nondirectory buffer-file)))
      (list (expand-file-name
-	    (my-read-file-name
-	     "byte-compile file: "
-	     dir basename 't)))))
+            (my-read-file-name
+             "byte-compile file: "
+             dir basename 't)))))
   (let ((output-buffer (get-buffer-create "*sawfish-byte-compile*")))
     (sawfish-eval
      (format "(require 'rep.vm.compiler)(compile-file \"%s\")" filename)
@@ -288,7 +288,7 @@ find and return its path in the filesystem"
   (interactive)
   (shell-command
    (concat "~/activity/shell/sawfish_rotate_log "
-	   (int-to-string (setq sawfish-rotate-log-counter (1+ sawfish-rotate-log-counter))))))
+           (int-to-string (setq sawfish-rotate-log-counter (1+ sawfish-rotate-log-counter))))))
 
 (global-set-key [(alt ?l)] 'sawfish-rotate-log)
 
@@ -296,21 +296,21 @@ find and return its path in the filesystem"
 
 
 
-					;(define-key inferior-lisp-minor-mode-map "C" nil)
-					;  (lookup-key inferior-lisp-minor-mode-map
-					;inferior-lisp-mode-map
-					;	      "C")
+                                        ;(define-key inferior-lisp-minor-mode-map "C" nil)
+                                        ;  (lookup-key inferior-lisp-minor-mode-map
+                                        ;inferior-lisp-mode-map
+                                        ;	      "C")
 
 
 (defvar sawfish-common-keymap (make-sparse-keymap) "")
 
-;(set-keymap-parent sawfish-common-keymap 
+;(set-keymap-parent sawfish-common-keymap
 
-;(use-local-map 
+;(use-local-map
 (define-key sawfish-common-keymap [(control ?i)]  #'sawfish-complete-symbol)
-;(define-key sawfish-common-keymap 
+;(define-key sawfish-common-keymap
 
-  
+
 ;; sawfish-warning-keyword-list
 ;;; customization
 (run-wo-fail
@@ -325,11 +325,11 @@ find and return its path in the filesystem"
     ))
 
  ; define-command
- 
+
  (custom-set-variables
   '(sawfish-warning-keyword-list
     (list "fixme" "fixme:" "FIXME" "Fixme" "fix me" "Fix me" "!!!" "Grrr" "Bummer" "BUG" "???" "todo" "new")))
-					; (sawfish-compute-keywords)(sawfish-font-lock-compute-keywords)
+                                        ; (sawfish-compute-keywords)(sawfish-font-lock-compute-keywords)
  )
 
 
@@ -366,7 +366,7 @@ find and return its path in the filesystem"
 
 (run-wo-fail
  (setq sawfish-helper-process
-					;(get-process "sawfish-helper")
+                                        ;(get-process "sawfish-helper")
        (start-process "sawfish-helper" " sawfish-helper "  sawfish-client))
  )
 
@@ -388,17 +388,17 @@ find and return its path in the filesystem"
 (defun sf-find-function-module (function-name arg)
   "return a list of (librep) modules, where the "
   (interactive (list (find-tag-default)
-		     current-prefix-arg))
+                     current-prefix-arg))
   (set-mark (point))
   (let ((sf-last-position (marker-position (process-mark sawfish-helper-process)))
-	output)
+        output)
     (process-send-string sawfish-helper-process
-			 (concat ",whereis " function-name "\n"))
+                         (concat ",whereis " function-name "\n"))
     (accept-process-output sawfish-helper-process)
     (with-current-buffer (process-buffer sawfish-helper-process)
       (setq output
-	    (buffer-substring-no-properties
-	     sf-last-position  (process-mark sawfish-helper-process))))
+            (buffer-substring-no-properties
+             sf-last-position  (process-mark sawfish-helper-process))))
 
     (string-match ".* is exported by: \\(.*\\)\\.\n" output)
     (let ((modules (match-string 1 output)))
@@ -408,10 +408,10 @@ find and return its path in the filesystem"
       (setq modules (delete "sawfish.wm" modules))
 
       (if modules
-	  (let ((file (ffap-sawfish-mode (car modules))))
-	    (find-file file)
-	    (sf-find-function-in-buffer function-name arg))
-	(message "%s is NOT exported" function-name)))))
+          (let ((file (ffap-sawfish-mode (car modules))))
+            (find-file file)
+            (sf-find-function-in-buffer function-name arg))
+        (message "%s is NOT exported" function-name)))))
 
 
 

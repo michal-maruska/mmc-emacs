@@ -12,12 +12,12 @@
 
 (setq grep-program  (if emacs-22
                         "grep"
-		      "grep --directories=recurse --exclude='*~' --exclude=semantic.cache -i "))
+                      "grep --directories=recurse --exclude='*~' --exclude=semantic.cache -i "))
 
 (require 'mmc-simple)
 (setenv "GREP_OPTIONS"
-	(delete-substring (or (getenv "GREP_OPTIONS") "")
-			  "--color"))
+        (delete-substring (or (getenv "GREP_OPTIONS") "")
+                          "--color"))
 
 (defvar ask-for-directory)
 ;;; M-m to signal that we want to specify some directory.
@@ -41,11 +41,11 @@ either local exit from BODY, or the successful termination."
   (let ((old-directory (make-symbol "old-directory")))
     `(let ((,old-directory default-directory))
        (unwind-protect
-	   (progn
-	     (set-default-directory ,directory)
-	     ,@body)
-	 ;; And guarantee, that things get back again.
-	 (set-default-directory ,old-directory)))))
+           (progn
+             (set-default-directory ,directory)
+             ,@body)
+         ;; And guarantee, that things get back again.
+         (set-default-directory ,old-directory)))))
 
 
 (defun my-grep (command-args directory)
@@ -55,7 +55,7 @@ When editing the Grep command line, \M-m invokes selection of directory where to
    (let ((ask-for-directory nil))
 
      (let (grep-default
-	   (arg current-prefix-arg))
+           (arg current-prefix-arg))
        (unless grep-command
          (grep-compute-defaults))
        (when arg
@@ -72,7 +72,7 @@ When editing the Grep command line, \M-m invokes selection of directory where to
            (setq grep-default (or (car grep-history) grep-command))
            ;; Replace the thing matching for with that around cursor
            (when (string-match "[^ ]+\\s +\\(-[^ ]+\\s +\\)*\\(\"[^\"]+\"\\|[^ ]+\\)\\(\\s-+\\S-+\\)?"
-			       grep-default)
+                               grep-default)
              (unless (or (match-beginning 3) (not (stringp buffer-file-name)))
                (setq grep-default (concat grep-default "*."
                                           (file-name-extension buffer-file-name))))
@@ -80,10 +80,10 @@ When editing the Grep command line, \M-m invokes selection of directory where to
                                                t t grep-default 2)))))
        (list
         (with-keymaps-switched 'minibuffer-local-map my-minibuffer-ask-for-directory
-	  (lambda ()
-	    (read-from-minibuffer "Run grep (like this): "
-				  (or grep-default grep-command)
-				  nil nil 'grep-history)))
+          (lambda ()
+            (read-from-minibuffer "Run grep (like this): "
+                                  (or grep-default grep-command)
+                                  nil nil 'grep-history)))
         (if ask-for-directory
             (read-file-name "directory")
           default-directory)))))
@@ -138,8 +138,8 @@ to a function that generates a unique name."
    (list
     (let ((command (eval compile-command)))
       (if (or compilation-read-command current-prefix-arg)
-	  (compilation-read-command command)
-	command))
+          (compilation-read-command command)
+        command))
     (consp current-prefix-arg)))
   (unless (equal command (eval compile-command))
     (setq compile-command command))
