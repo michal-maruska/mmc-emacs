@@ -462,13 +462,18 @@ Record command in `command-history' if optional RECORD is non-nil."
 (defconst cmake-regex-close-paren
   (rx-to-string `(and bol (* space) ,cmake-regex-paren-right)))
 
+(defconst cmake-keyword
+  (rx-to-string `(and symbol-start (or ,@(append '("PRIVATE")
+                                        (mapcar 'downcase '("PRIVATE")))) symbol-end)))
+
 (defun cmake-indent ()
   "Indent current line as CMake code."
   (interactive)
   (unless (cmake-line-starts-inside-string)
     (if (bobp)
         (cmake-indent-line-to 0)
-      (let (cur-indent)
+      (let (cur-indent
+            (sub-indent 0))
         (save-excursion
           (beginning-of-line)
           (let ((point-start (point))
@@ -476,28 +481,41 @@ Record command in `command-history' if optional RECORD is non-nil."
                 token)
             ; Search back for the last indented line.
             (cmake-find-last-indented-line)
+            ;; look if we are inside a parameter list, with an offset.
+
             ; Start with the indentation on this line.
             (setq cur-indent (current-indentation))
             ; Search forward counting tokens that adjust indentation.
+
             (while (re-search-forward cmake-regex-token point-start t)
+              ;;
               (setq token (match-string 0))
+
               (when (or (string-match (concat "^" cmake-regex-paren-left "$") token)
                         (and (string-match cmake-regex-block-open token)
+                             ;; IF ec.
                              (looking-at (concat "[ \t]*" cmake-regex-paren-left))))
                 (setq cur-indent (+ cur-indent cmake-tab-width)))
+              (if (string-match cmake-keyword token)
+                  ;; mmc: broken: This then does not depend on the previous line only!
+                  ;; we would have to rememver that that line has
+                  (setq sub-indent 2))
+
               (when (string-match (concat "^" cmake-regex-paren-right "$") token)
                 (setq cur-indent (- cur-indent cmake-tab-width)))
               )
+
             (goto-char point-start)
             ;; If next token closes the block, decrease indentation
             (when (or (looking-at cmake-regex-close)
                       ;; mmc: add another case:
                       (looking-at cmake-regex-close-paren))
+              (setq sub-indent 0)
               (setq cur-indent (- cur-indent cmake-tab-width)))
             )
           )
         ; Indent this line by the amount selected.
-        (cmake-indent-line-to (max cur-indent 0))
+        (cmake-indent-line-to (max (+ cur-indent sub-indent) 0))
         )
       )
     )
