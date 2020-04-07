@@ -139,6 +139,7 @@
                . sh-mode))
 ;;
 (add-to-list 'auto-mode-alist '("\\.sls$" . scheme-mode))
+(add-to-list 'auto-mode-alist '("\\.scm$" . scheme-mode))
 
 (add-to-list 'auto-mode-alist '("\\.expect$" . tcl-mode))
 
@@ -159,9 +160,6 @@
 (add-to-list 'auto-mode-alist '("\\.cmpnt$" . sh-mode))
 (add-to-list 'auto-mode-alist '("build.inc" . sh-mode))
 
-;; directories must take less precendence:
-(add-to-list 'auto-mode-alist '("zsh/" . sh-mode) 'append)
-(add-to-list 'auto-mode-alist '("bin/" . sh-mode) 'append)
 
 (add-to-list 'auto-mode-alist '(".*\\.env" . sh-mode))
 ;; Google build systems:
@@ -173,6 +171,10 @@
 (add-to-list 'auto-mode-alist '("\\.yml$" . yaml-mode))
 (add-to-list 'auto-mode-alist '("\\.jam$" . c++-mode))
 (add-to-list 'auto-mode-alist '(".*\\.gradle" . groovy-mode))
+
+;; directories must take less precendence:
+(add-to-list 'auto-mode-alist '("zsh/" . sh-mode) 'append)
+(add-to-list 'auto-mode-alist '("/bin/" . sh-mode) 'append)
 
 
 (provide 'mmc-modes)
