@@ -1,3 +1,15 @@
+mmc-emacs (2.9) release; urgency=medium
+
+  * untabify
+  * tabs
+  * Avoid using ffap-read-file-or-url-internal in Emacs 28+
+  * space
+  * auto-mode-alist: directories later, scm
+  * Indent CMake differently -- by 2 in  ???
+  * cmake-find-last-indented-line ??
+
+ -- Michal Maruska <mmaruska@gmail.com>  Tue, 07 Apr 2020 03:32:51 +0200
+
 mmc-emacs (2.8) release; urgency=medium
 
   * mmc-url new search-selection-or-symbol (duckduckgo)
