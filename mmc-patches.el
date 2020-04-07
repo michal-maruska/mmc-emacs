@@ -462,6 +462,31 @@ Record command in `command-history' if optional RECORD is non-nil."
 (defconst cmake-regex-close-paren
   (rx-to-string `(and bol (* space) ,cmake-regex-paren-right)))
 
+;; just for the comment:
+(defun cmake-find-last-indented-line ()
+  "Move to the beginning of the last line that has meaningful indentation.
+
+target-set(aaaa kkkk
+           end
+           )
+"
+  (let ((point-start (point))
+        region)
+    (forward-line -1)
+    (setq region (buffer-substring-no-properties (point) point-start))
+
+    ;; mmc: Grow the region upwards, until BOB, or a non-balanced line:
+    ;; comments at end -> balanced
+    (while (and (not (bobp))
+                (or (looking-at cmake-regex-blank)
+                    (cmake-line-starts-inside-string)
+                    (not (and (string-match cmake-regex-indented region)
+                              (= (length region) (match-end 0))))))
+      (forward-line -1)
+      (setq region (buffer-substring-no-properties (point) point-start))
+      )
+    )
+  )
 (defconst cmake-keyword
   (rx-to-string `(and symbol-start (or ,@(append '("PRIVATE")
                                         (mapcar 'downcase '("PRIVATE")))) symbol-end)))
