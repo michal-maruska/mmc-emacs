@@ -57,6 +57,11 @@
              '("\\.sls$" . scheme-mode))
 
 
+(add-to-list 'auto-mode-alist '("\\.gn$" . sh-mode))
+(add-to-list 'auto-mode-alist '("\\.dtsi?$" . c++-mode))
+(add-to-list 'auto-mode-alist '("\\.xml$" . nxml-mode))
+(add-to-list 'auto-mode-alist '("\\(conanbuildinfo\\|conaninfo\\|conanfile\\).txt$" .  conf-unix-mode))
+
 ;;;  Global MODE-HOOKS
 (setq c-tab-always-indent nil)
 (unless (string-match "XEmacs" emacs-version)
