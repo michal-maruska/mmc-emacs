@@ -4,9 +4,9 @@
 ;;; Detecting major mode
 ;; see mmc-outline.el
 (add-to-list 'magic-fallback-mode-alist
-	     ;;magic-mode-alist
-	     '(detect-makefile . makefile-mode)
-	     '(detect-makefile . makefile-mode))
+             ;;magic-mode-alist
+             '(detect-makefile . makefile-mode)
+             '(detect-makefile . makefile-mode))
 
 (defun detect-makefile ()
   (or
@@ -46,15 +46,15 @@
 (autoload 'perl-mode "perl-mode")
 
 (add-to-list 'auto-mode-alist
-	     '("\\.qml$" . java-mode))
+             '("\\.qml$" . java-mode))
 
 (add-to-list 'auto-mode-alist
-	     '("\\.pro$" . makefile-mode))
+             '("\\.pro$" . makefile-mode))
 ; auto-mode-alist
 (add-to-list 'auto-mode-alist
-	     '("\\.adb$" . sh-mode))
+             '("\\.adb$" . sh-mode))
 (add-to-list 'auto-mode-alist
-	     '("\\.sls$" . scheme-mode))
+             '("\\.sls$" . scheme-mode))
 
 
 ;;;  Global MODE-HOOKS
