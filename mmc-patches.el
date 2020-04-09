@@ -321,6 +321,34 @@ LIBRARY should be a string (the name of the library)."
       (and (ffap-url-p name) name)
       ))))
 
+;; starting with GNU Emacs 28.0.50 (build 2, x86_64-pc-linux-gnu, cairo version 1.16.0) of 2020-03-28, modified by Debian
+;; I could not C-u C-x C-v and edit the basename.
+;; so here's the patch:
+;; mmc: patch it to use the buffer filename, rather than just default-direcotry
+(defun ffap-prompter (&optional guess suffix)
+  ;; Does guess and prompt step for find-file-at-point.
+  ;; Extra complication for the temporary highlighting.
+  (unwind-protect
+      ;; This catch will let ffap-alist entries do their own prompting
+      ;; and then maybe skip over this prompt (ff-paths, for example).
+      (catch 'ffap-prompter
+        (ffap-read-file-or-url
+         (if ffap-url-regexp
+             (format "Find file or URL%s: " (or suffix ""))
+           (format "Find file%s: " (or suffix "")))
+         (or (prog1
+                 (let ((mark-active nil))
+                   ;; Don't use the region here, since it can be something
+                   ;; completely unwieldy.  If the user wants that, she could
+                   ;; use M-w before and then C-y.  --Stef
+                   (setq guess (or guess (ffap-guesser)))) ; using ffap-alist here
+               (and guess (ffap-highlight)))
+             ;; mmc:  the outer `or' as well!
+             (if current-prefix-arg
+                 (buffer-file-name))
+             )))
+    (ffap-highlight t)))
+
 (defun ido-visit-buffer (buffer method &optional record)
   "Switch to BUFFER according to METHOD.
 Record command in `command-history' if optional RECORD is non-nil."
