@@ -28,9 +28,9 @@
         "+ls"
         "-j"
         ;; "-ls"
-        "-fn"
         ;; fixme: duplicated from ~/.Xdefaults
-        "-*-lucidatypewriter-medium-r-normal-*-18-*-*-*-*-*-*"
+        ;"-fn"
+        ;"-*-lucidatypewriter-medium-r-normal-*-18-*-*-*-*-*-*"
         ;;"-title" "emacs"
         ;; Old:
                                         ;"xterm"; "/usr/local/bin/xterm" ;X11R6
