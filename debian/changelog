@@ -1,3 +1,12 @@
+mmc-emacs (2.10) release; urgency=medium
+
+  * tabs
+  * more auto-mode-alist
+  * Adapt ffap prompt for Emacs 28: -- I need the basename with prefix.
+  * xterm command: don't set font
+
+ -- Michal Maruska <mmaruska@gmail.com>  Tue, 04 Aug 2020 16:17:44 +0200
+
 mmc-emacs (2.9) release; urgency=medium
 
   * untabify
