@@ -37,7 +37,9 @@
 ;;       ))
 
 (overwrite-alist 'default-frame-alist
-  '((top . 25)
+  '((font . "fontset-2")
+    ;; what?
+    (top . 25)
     ;;
     (scroll-bar-width . 22)             ;12
                                         ;(scroll-bar-background . "blue")
