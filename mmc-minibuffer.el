@@ -131,7 +131,7 @@ I would need  these `fluid' variables: `guess' `dir' `initial'   see: `' "
 
 ;;; FIXME:   should be updated !
 ;; redefine:  why ??
-(when (version<= emacs-version "28")
+(when (version<= emacs-version "27.0")
   (eval-after-load "ffap"
     (lambda ()
       (defun ffap-read-file-or-url (prompt guess)
