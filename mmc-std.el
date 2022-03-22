@@ -50,6 +50,7 @@
   ""
   (make-local-variable 'outline-regexp)
   (setq outline-regexp "^[a-zA-Z_]*:")
+  (setq indent-tabs-mode t)
   (font-lock-mode))
 
 
