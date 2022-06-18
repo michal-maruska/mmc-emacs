@@ -35,19 +35,19 @@ function is used to access the lists in `sawfish-info-files'."
 ;(setq Info-dir-contents-directory "/usr/info")
 (setq Info-directory-list
       (mapcar-nonil (lambda (file)
-		  (if (file-exists-p file)
-		      file nil))
-		 (list
-		  "/usr/share/info/"
-		  "/usr/info/Emacs/"
-		  "/usr/info/xemacs/"
-		  "/usr/info/TeX"
-		  "/usr/info/"
-		  "/usr/info/GCC"
-					; "/usr/info/Howto"
-					;	    (concat xemacs-root "info")
-		  ;; "/internet/commercial/beopen/infodock/id-info/"
-		  )))
+                  (if (file-exists-p file)
+                      file nil))
+                 (list
+                  "/usr/share/info/"
+                  "/usr/info/Emacs/"
+                  "/usr/info/xemacs/"
+                  "/usr/info/TeX"
+                  "/usr/info/"
+                  "/usr/info/GCC"
+                                        ; "/usr/info/Howto"
+                                        ;	    (concat xemacs-root "info")
+                  ;; "/internet/commercial/beopen/infodock/id-info/"
+                  )))
 
 
 
@@ -71,7 +71,7 @@ function is used to access the lists in `sawfish-info-files'."
   "switch to one of those buffers which are in the Info mode."
   (interactive
    (let ((buffers (buffers-in-mode 'Info-mode 'names-please))
-	 info-list name); note name is declared here but used in the inner lambda-function, dynamic scope!
+         info-list name); note name is declared here but used in the inner lambda-function, dynamic scope!
      (list (my-completing-read "Info buffer: " buffers nil 't "*info"))))
   (switch-to-buffer buffer))
 
@@ -81,12 +81,12 @@ function is used to access the lists in `sawfish-info-files'."
   "find the File containing info document on BOOK"
   ;; i would love to make it in scheme: fix the path in the function!!
   (let* ((path Info-default-directory-list)
-	 (found (or (locate-file book path) ;must be a reg. file & file(1) ??
-		    (locate-file (concat book ".gz") path)
-		    (locate-file (concat book ".info") path)
-		    (locate-file (concat book ".info.gz") path)
-		    (locate-file (concat book ".info-1") path)
-		    (locate-file (concat book ".info-1.gz") path))))
+         (found (or (locate-file book path) ;must be a reg. file & file(1) ??
+                    (locate-file (concat book ".gz") path)
+                    (locate-file (concat book ".info") path)
+                    (locate-file (concat book ".info.gz") path)
+                    (locate-file (concat book ".info-1") path)
+                    (locate-file (concat book ".info-1.gz") path))))
     ;; (message "Info-locate-book in %s -> %s" path found)
     found))
 
@@ -130,12 +130,12 @@ function is used to access the lists in `sawfish-info-files'."
 
 (defun my-aget (alist key)
   (let ((result nil)
-	(a alist))
+        (a alist))
     (while (consp a)
       (if (equal key (caar a))
-	  (setq result (cdar a)
-		a ())
-	(setq a (cdr a))))
+          (setq result (cdar a)
+                a ())
+        (setq a (cdr a))))
     result))
 
 ;; (my-aget major-mode-info-mapping 'emacs-lisp-mode)
@@ -146,67 +146,67 @@ function is used to access the lists in `sawfish-info-files'."
 C-u --> standard info, C-u C-u --> select 1 of the *info buffers, otherwise mode-specific!"
   (interactive "P")
   (cond ((= (prefix-numeric-value prefix) 4)
-	 (message "prefix -> plain info")
-	 (call-interactively 'info))
-	;; fixme: 2011-05-17   where is `my-get-buffer-find-file' ?
-	;(prefix
-	; (switch-to-buffer (my-get-buffer-find-file "info buffer"  nil nil 't "*info-")))
-	(t
-	 (let ((info-book (my-aget major-mode-info-mapping major-mode)))
-	   (if (functionp info-book)
-	       ;; if function -> call it, it should return the symbol/name.
-	       (setq info-book (apply info-book ())))
-	   ;; return nil (not key)
-	   (message "%s -> %s" major-mode info-book)
-	   (if info-book
-	       (visit-info-at info-book)
-	     (info))))))
+         (message "prefix -> plain info")
+         (call-interactively 'info))
+        ;; fixme: 2011-05-17   where is `my-get-buffer-find-file' ?
+        ;(prefix
+        ; (switch-to-buffer (my-get-buffer-find-file "info buffer"  nil nil 't "*info-")))
+        (t
+         (let ((info-book (my-aget major-mode-info-mapping major-mode)))
+           (if (functionp info-book)
+               ;; if function -> call it, it should return the symbol/name.
+               (setq info-book (apply info-book ())))
+           ;; return nil (not key)
+           (message "%s -> %s" major-mode info-book)
+           (if info-book
+               (visit-info-at info-book)
+             (info))))))
 
 ;; I divided into 2 function, otherwise byte-compiling damaged the semantics..
 (defun visit-info-at (info-book)
   ""
   ;;  JUST BUGGY!
   (let ((info-file (Info-locate-book info-book))
-	;;(i2        (Info-locate-book info-book))
-	(info-buffers (buffers-in-mode 'Info-mode)))
+        ;;(i2        (Info-locate-book info-book))
+        (info-buffers (buffers-in-mode 'Info-mode)))
     (if info-file
-	(progn
-	  ;; (if (string= info-file i2)
-	  ;;     (message "ok %s = %s" info-file)
-	  ;;   (progn
-	  ;;    (message "Bug: %s != %s" info-file i2)
-	  ;;    (error "bug")))
+        (progn
+          ;; (if (string= info-file i2)
+          ;;     (message "ok %s = %s" info-file)
+          ;;   (progn
+          ;;    (message "Bug: %s != %s" info-file i2)
+          ;;    (error "bug")))
 
-	  (message "looking at %s info buffers. For %s (%s)"
-		   info-buffers		;(buffers-in-mode 'Info-mode) ;;
-		   ;; bug: why info-file does not work?
-		   info-file ;; (Info-locate-book info-book)
-		   info-book)
-					;(length info-buffers))
-	  (let (
-		;;(info-book-name (string-match "-?[0-9]*\\.info" info-book))
-		(info-buffer (list-search-positive
-			      (lambda (item)
-				(message "%s =? %s"
-					 (variable-in-buffer item 'Info-current-file)
-					 info-file)
-				(if (file=
-				     ;; fixme: ;(file-name-nondirectory
-				     (variable-in-buffer item 'Info-current-file)
-				     info-file)
-				    item))
-			      info-buffers
-					;(buffers-in-mode 'Info-mode)
-			      )))
-	    (if info-buffer
-		(switch-to-buffer info-buffer)
-	      (progn
-		(message "invoking info on %s" info-file)
-		(info info-file)))
-	    (rename-buffer (concat "*info-" info-book) 'unique)))
+          (message "looking at %s info buffers. For %s (%s)"
+                   info-buffers		;(buffers-in-mode 'Info-mode) ;;
+                   ;; bug: why info-file does not work?
+                   info-file ;; (Info-locate-book info-book)
+                   info-book)
+                                        ;(length info-buffers))
+          (let (
+                ;;(info-book-name (string-match "-?[0-9]*\\.info" info-book))
+                (info-buffer (list-search-positive
+                              (lambda (item)
+                                (message "%s =? %s"
+                                         (variable-in-buffer item 'Info-current-file)
+                                         info-file)
+                                (if (file=
+                                     ;; fixme: ;(file-name-nondirectory
+                                     (variable-in-buffer item 'Info-current-file)
+                                     info-file)
+                                    item))
+                              info-buffers
+                                        ;(buffers-in-mode 'Info-mode)
+                              )))
+            (if info-buffer
+                (switch-to-buffer info-buffer)
+              (progn
+                (message "invoking info on %s" info-file)
+                (info info-file)))
+            (rename-buffer (concat "*info-" info-book) 'unique)))
       (progn
-	(message "cannot find the File for info book %s" info-book)
-	(info)))))
+        (message "cannot find the File for info book %s" info-book)
+        (info)))))
 
 ;; keys: (overload:)
 ;; batch does not like it:
