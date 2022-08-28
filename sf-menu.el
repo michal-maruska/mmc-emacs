@@ -9,13 +9,13 @@
   (define-widget 'sf-window 'group
     "doc"
     :tag "win: "
-					;  :format "%t:[%v]"
+                                        ;  :format "%t:[%v]"
     :args
     '(
       (integer :tag "id " :size 5)
-					; (item :tag " \n ")
+                                        ; (item :tag " \n ")
       (string :tag "name " :size 25)
-					;(widget-insert "\n")
+                                        ;(widget-insert "\n")
       ))
 
 (defun sf-windows (info)
@@ -27,7 +27,7 @@
     (mapcar
      (lambda (item)
        (widget-create 'sf-window
-		      :value item)
+                      :value item)
        (widget-insert "\n"))
      info))
     (widget-setup)
@@ -40,7 +40,7 @@
   (let ((buf-name (make-symbol "buf-name")))
     `(let ((,buf-name ,buffer-name))
        (with-output-to-temp-buffer ,buf-name
-	 ,@body)
+         ,@body)
        (bury-buffer ,buf-name))))
 
 (put 'with-output-to-temp-buffer-bury 'lisp-indent-function 1)
@@ -54,16 +54,16 @@
       (setq workspace (sawfish-eval 'current-workspace)))
   ;(save-excursion
   (let ((buffer (get-buffer-create sf-windows-buffer))
-	(old-buffer (current-buffer)))
+        (old-buffer (current-buffer)))
     (with-current-buffer buffer
       (let ((inhibit-read-only t))
-	(erase-buffer)
-	(sawfish-eval `(require 'emacs.snooper))
-	(sawfish-eval `(emacs-list-windows ,workspace) buffer)
-	(sf-format-output)
-	(set-buffer buffer)
-	(sf-menu-mode)
-	(goto-char (point-min))))
+        (erase-buffer)
+        (sawfish-eval `(require 'emacs.snooper))
+        (sawfish-eval `(emacs-list-windows ,workspace) buffer)
+        (sf-format-output)
+        (set-buffer buffer)
+        (sf-menu-mode)
+        (goto-char (point-min))))
     (unless (eq old-buffer buffer)
       (switch-to-buffer-other-window buffer 't)
       (bury-buffer buffer)		;fixme
@@ -97,7 +97,7 @@
   "tell SF to display the window"
   (interactive (list (sf-window-on-the-line)))
   (sawfish-eval
-			    ; `(display-window (get-window-by-id ,id))
+                            ; `(display-window (get-window-by-id ,id))
    (format "(display-window (get-window-by-id %s))" id))) ; %d
 
 
@@ -191,15 +191,15 @@
   (interactive
    (let ((def (sf-window-on-the-line)))
      (list (if (string= (buffer-name) sf-windows-buffer)
-		def
-	     (string-to-number (read-string "window id: " def))))))
+                def
+             (string-to-number (read-string "window id: " def))))))
   ;134217742
   (let* ((buffer-name (format "*sf-%s*" id)) ;(truncate 146800642.0)
-	 (buffer (get-buffer-create buffer-name)))
+         (buffer (get-buffer-create buffer-name)))
     (with-current-buffer buffer
       (erase-buffer)
       (sawfish-eval `(emacs-describe-window ,id)
-		    buffer)
+                    buffer)
       (sf-format-output)
       (hscroll-mode)
       (cd "~/sawfish"))
@@ -246,12 +246,12 @@ The buffer is named `*Process List*'."
       ;; Record the column where process names start.
       (setq Process-menu-process-column 9)
       (let ((pl (process-list)))
-	(Process-menu-mode)
-	;; DESIRED-POINT doesn't have to be set; it is not when the
-	;; current buffer is not displayed for some reason.
-	(and desired-point
-	     (goto-char desired-point))
-	(current-buffer)))))
+        (Process-menu-mode)
+        ;; DESIRED-POINT doesn't have to be set; it is not when the
+        ;; current buffer is not displayed for some reason.
+        (and desired-point
+             (goto-char desired-point))
+        (current-buffer)))))
 
 
 
@@ -263,14 +263,14 @@ The buffer is named `*Process List*'."
     (with-output-to-temp-buffer-bury buffer-name
       (princ
        (sawfish-code
-	 (apply concat
-		(mapcar
-		 (lambda (hook)
-		   (condition-case data
-					;(unwind-protect
-		       (format nil "%s = %s\n" hook (eval hook))
-		     (error . "bad")))
-		 (apropos "-hook$"))))))
+         (apply concat
+                (mapcar
+                 (lambda (hook)
+                   (condition-case data
+                                        ;(unwind-protect
+                       (format nil "%s = %s\n" hook (eval hook))
+                     (error . "bad")))
+                 (apropos "-hook$"))))))
     (set-buffer buffer-name)
     (sf-format-output)
     (sawfish-mode)
