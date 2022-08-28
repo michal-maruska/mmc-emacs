@@ -31,7 +31,7 @@
 
 ;;  hooks
 (setq text-mode-hook
-      '(lambda () (auto-fill-mode 1) (abbrev-mode 1) (setq fill-column 130)  ))
+      #'(lambda () (auto-fill-mode 1) (abbrev-mode 1) (setq fill-column 130)  ))
 
 
 
@@ -72,7 +72,7 @@
 ;(setq-default auto-fill-mode nil)
 (setq-default outline-minor-mode t)
 
-(add-hook 'emacs-lisp-mode-hook '(lambda() (eldoc-mode 1)))
+(add-hook 'emacs-lisp-mode-hook #'(lambda() (eldoc-mode 1)))
 
 (defun list-in-lines ()
   "Format a sequence of sexps by putting each one on a separate line"

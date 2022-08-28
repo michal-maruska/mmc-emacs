@@ -31,7 +31,7 @@
 ;; fixme: we have to overwrite what ffap does!
 ; (require  'ffap)
 (eval-after-load "ffap"
-  '(progn
+  #'(progn
      ;; (message "overriding ffap's C-x C-r binding")
      (ffap-bindings)                            ; do default key bindings
      (global-set-key "\C-x\C-r" 'revert-buffer)))
@@ -171,11 +171,11 @@
 
 
   (global-set-key [(alt ?n)] (lambda () (interactive) (scroll-up 1)))
-  (global-set-key [(alt ?p)] '(lambda () (interactive) (scroll-up -1)))
+  (global-set-key [(alt ?p)] #'(lambda () (interactive) (scroll-up -1)))
 
 
-  (global-set-key [mouse-5] '(lambda () (interactive) (scroll-up 2)))
-  (global-set-key [mouse-4] '(lambda () (interactive) (scroll-up -2)))
+  (global-set-key [mouse-5] #'(lambda () (interactive) (scroll-up 2)))
+  (global-set-key [mouse-4] #'(lambda () (interactive) (scroll-up -2)))
 
 
 
@@ -185,7 +185,7 @@
   (global-set-key [(control meta ?A)]  'beginning-of-buffer)
   (when nil
     (global-set-key [(control down)] (lambda () (interactive) (scroll-up 1)))
-    (global-set-key [(control up)] '(lambda () (interactive) (scroll-up -1)))
+    (global-set-key [(control up)] #'(lambda () (interactive) (scroll-up -1)))
 
     (global-set-key [(romaji)] (lambda () (interactive) (scroll-up 1)))
     (global-set-key [(hankaku)] (lambda () (interactive) (scroll-up -1)))
