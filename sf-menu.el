@@ -158,11 +158,9 @@
   (define-key map "\C-k" 'Process-menu-delete)
   (define-key map "x" 'Process-menu-execute)
 
-  (define-key map "\C-cd" '(lambda ()
-			     (interactive)
-			     (switch-to-buffer "*inferior-lisp*")))
-
-
+  (define-key map "\C-cd" #'(lambda ()
+                             (interactive)
+                             (switch-to-buffer "*inferior-lisp*")))
 
   (define-key map "W" 'Process-menu-send-buffer)
   (define-key map "e" 'Process-menu-send-eof)
