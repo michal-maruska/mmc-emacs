@@ -373,7 +373,7 @@ find and return its path in the filesystem"
 (defun sf-find-function-in-buffer (function-name arg)
   ""
   (unless arg (goto-char (point-min)))
-  (do ((define-symbol
+  (cl-do ((define-symbol
          (search-forward-regexp
           (concat "\\(def\\(\\s_\\|\\sw\\)*\\)[^\"
 
