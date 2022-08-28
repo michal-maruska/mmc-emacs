@@ -192,7 +192,7 @@ I got tired of having the shared ring. FIXME: history ??"
   (let ((ring (recent-buffer-ring))
 	buffer )
     (with-output-to-temp-buffer "*ring*"
-	(loop for index from 0 to (1- (ring-length ring)) by 1
+	(cl-loop for index from 0 to (1- (ring-length ring)) by 1
 	      do
 	      (princ (format "%d %s\n" index
 			     (ring-ref ring index)) )))))
@@ -204,7 +204,7 @@ I got tired of having the shared ring. FIXME: history ??"
   "delete from the `recent-buffer-ring' those elements which are dead buffers"
   (let ((ring (recent-buffer-ring))
 	buffer)
-    (loop for index from 0 below (ring-length ring) by 1
+    (cl-loop for index from 0 below (ring-length ring) by 1
 	  do
 	  (setq buffer (ring-ref ring index))
 	  (unless (buffer-live-p (get-buffer buffer))

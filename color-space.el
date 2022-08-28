@@ -182,8 +182,8 @@ which is a lower approximation"
   (let ((non-nil '())
         (squeezed nil)
         i)
-    ;(loop for c from 32 to 127
-    (loop for i from 0 to (1- (length vector))
+    ;(cl-loop for c from 32 to 127
+    (cl-loop for i from 0 to (1- (length vector))
           ;for i across vector
           do (if (aref vector i)
               (push (aref vector i) non-nil)))

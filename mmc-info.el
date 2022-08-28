@@ -8,7 +8,7 @@
 
 INDEX-FUNCTION is used to decide which index name will be searched. The
 function is used to access the lists in `sawfish-info-files'."
-  (loop for info-file in info-files
+  (cl-loop for info-file in info-files
         if (sawfish-find-info-entry (car info-file) (funcall index-function info-file) symbol) return t
         finally (error "No info documentation found for %s" symbol)))
 

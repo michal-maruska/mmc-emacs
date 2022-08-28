@@ -376,7 +376,7 @@ Special commands:
   ;; (rep is a sort of elisp/scheme hybrid with some extra stuff of its own,
   ;; we inherit from emacs-lisp-mode so we need to add a sprinkle of scheme
   ;; support).
-  (loop for sym in '((define                  . 1)
+  (cl-loop for sym in '((define                  . 1)
                      (define-interface        . 1)
                      (define-record-discloser . 1)
                      (define-record-type      . 1)
@@ -576,7 +576,7 @@ set by the variable `sawfish-result-buffer'"
 	  sawfish-variable-list nil)
     (cl-flet ((sawfish-fun-p (sym) (second sym))
 	      (sawfish-var-p (sym) (third sym)))
-      (loop for sym in (sawfish-eval-read
+      (cl-loop for sym in (sawfish-eval-read
 			`(mapcar (lambda (sym)
 				   (list
 				    (symbol-name sym)
@@ -666,7 +666,7 @@ variable `sawfish-info-files'."
     (let ((plist (sawfish-eval-read `(symbol-plist (quote ,symbol)))))
       (when (and plist (listp plist))
 	(princ "\n\nProperty list for symbol:\n")
-	(loop for prop on plist by #'cddr
+	(cl-loop for prop on plist by #'cddr
 	      do (princ (format "\n%s: %S" (car prop) (cadr prop))))))))
 
 ;;;###autoload
@@ -734,7 +734,7 @@ Returns NIL if the documentation could not be found. Note that the
 			   (terpri)
 			   (with-current-buffer info-buffer
 			     (forward-line))
-			   (loop while (with-current-buffer info-buffer
+			   (cl-loop while (with-current-buffer info-buffer
 					 ;; I'm not 100% sure what to look for when trying to
 					 ;; find the end of a info entry. This seems to work.
 					 (and (not (eobp))
@@ -758,7 +758,7 @@ Returns NIL if the documentation could not be found. Note that the
 INDEX-FUNCTION is used to decide which index name will be searched. The
 function is used to access the lists in `sawfish-info-files'."
   (save-excursion
-    (loop for info-file in sawfish-info-files
+    (cl-loop for info-file in sawfish-info-files
     if (sawfish-find-info-entry (car info-file) (funcall index-function info-file) symbol)
     return (prog1 (sawfish-extract-info-entry symbol) (kill-buffer (current-buffer)))
     finally return nil)))
@@ -771,7 +771,7 @@ function is used to access the lists in `sawfish-info-files'."
   (search-info-files index-function symbol sawfish-info-files))
 
 
-;;   (loop for info-file in sawfish-info-files
+;;   (cl-loop for info-file in sawfish-info-files
 ;;         if (sawfish-find-info-entry (car info-file) (funcall index-function info-file) symbol) return t
 ;;         finally (error "No info documentation found for %s" symbol)))
 
@@ -781,7 +781,7 @@ function is used to access the lists in `sawfish-info-files'."
 
 INDEX-FUNCTION is used to decide which index name will be searched. The
 function is used to access the lists in `sawfish-info-files'."
-  (loop for info-file in info-files
+  (cl-loop for info-file in info-files
         if (sawfish-find-info-entry (car info-file) (funcall index-function info-file) symbol) return t
         finally (error "No info documentation found for %s" symbol)))
 
@@ -904,7 +904,7 @@ returned."
     (with-output-to-temp-buffer sawfish-apropos-buffer
       (with-current-buffer sawfish-apropos-buffer
 	(setf (buffer-string) "")
-	(loop for sym in hits do (sawfish-apropos-insert-link sym))))
+	(cl-loop for sym in hits do (sawfish-apropos-insert-link sym))))
     (message "No apropos matches for `%s'" regexp))))
 
 ;;; Completion:
