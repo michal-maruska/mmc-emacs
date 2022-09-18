@@ -73,13 +73,13 @@
       buffer-file-name)))
 
 
-(defvar guess)
-(defvar path)
-(defvar path)
-(defvar dir)
-(defvar initial)
+(defvar guess nil "my hack workaround")
+(defvar path nil "my hack workaround")
+(defvar path nil "my hack workaround")
+(defvar dir nil "my hack workaround")
+(defvar initial nil "my hack workaround")
 (defvar post-command nil "command to execute when leaving minibuffer?")
-(defvar def)
+(defvar def nil "my hack workaround")
 
 (defun get-filename-of-buffer ()
   "Called, when the current buffer is minibuffer, and while reading a filename.
