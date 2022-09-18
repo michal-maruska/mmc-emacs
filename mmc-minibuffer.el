@@ -1,15 +1,12 @@
 ;;; (c) 2001,2002   M. Maruska     licence:  GNU GPL v. 2
 
+
+;; 2022:
+
 (require 'mmc-simple)
-;; xemacs todo:
-;; M-m   ~/
-;; space complete (not word)
 
-
-;; http://ruska.dyndns.org/comp/emacs/local/mdb
-
-;; So I can C-x o
-(setq enable-recursive-minibuffers 't)
+;; So I can keep minibuffer active, but switch temporarily to other window.
+(setq enable-recursive-minibuffers t)
 
 ;;; I want to `work' inside minibuffer.
 ;;  i.e.  invoke another minibuffer action (recurse)
@@ -17,6 +14,7 @@
 
 ;;;  This is a hack, b/c we _cannot_ invoke completing-read w/ a custom keymap
 ;; 2003-05-24:  but, we can read-from-minibuffer !!
+;; read-file-name
 
 (defmacro with-keymaps-switched* (keymap-symbol keymap-value &rest body)
   `(with-keymaps-switched
@@ -46,7 +44,6 @@
 ;; keymaps, which are used instead of the origianl ones:
 (defconst mmc-minibuffer-local-filename-map (make-sparse-keymap)
   "my keymap used for reading `filenames'. Other keymaps inherit from it")
-
 
 ;; Inherit & set 1 binding:
 (let ((map mmc-minibuffer-local-filename-map))
@@ -185,6 +182,7 @@ I would need  these `fluid' variables: `guess' `dir' `initial'   see: `' "
      (define-key item [?,] 'self-insert-command)     ; minibuffer-insert-default
      (define-key item [(meta ?m)] 'minibuffer-reset) ;control
      ))
+ ;; mmc: why not as symbols?
  (list-non-nil
   minibuffer-local-must-match-map
   (if running-xemacs
@@ -208,59 +206,12 @@ I would need  these `fluid' variables: `guess' `dir' `initial'   see: `' "
   minibuffer-local-filename-completion-map
   ))
 
-;;; read numbers:
-;; todo: match-string .. replace-match ..
-(defun read-number-increment (&optional arg)
-  (interactive)
-  (or arg (setq arg 1))
-  (let ((string (minibuffer-contents)))
-    (delete-minibuffer-contents)
-    (insert (int-to-string (+ (string-to-number string) arg)))))
-
-(defun read-number-decrement (&optional arg)
-  (interactive)
-  (or arg (setq arg 1))
-  (read-number-increment (- arg)))
-
-
-(defconst read-number-map (make-sparse-keymap) "")
-(let ((map read-number-map))
-  (set-keymap-parent map minibuffer-local-map)
-
-  (define-key map [(control ?<)] 'read-number-decrement) ;"C-n"
-  (define-key map [(control ?>)] 'read-number-increment)
-
-  (define-key map "<" 'read-number-decrement) ;"C-n"
-  (define-key map ">" 'read-number-increment)
-  ;;(define-key map [(control ?n)] 'read-number-decrement) ;"C-n"
-  ;;(define-key map [(control ?p)] 'read-number-increment) ;"C-n"
-  ;;(define-key map "C-p" 'read-number-decrement)
-  )
-
-;;fixme: use `def-advice'!
-(defun read-number (prompt &optional init-state def history)
-  ""
-  (with-keymaps-switched* 'minibuffer-local-map read-number-map
-                                        ;(lambda ()
-      (let ((init
-             (if (consp init-state)
-                 (cadr init-state)
-               init-state)))
-        (string-to-number
-         (read-string (format "%s (%s) " prompt def)
-                      ;; initial?
-                      "" ;(if (numberp init) (int-to-string init) init)
-                      history def)))))
-
 
 ;(current-local-map)
 ; (lookup-key minibuffer-local-map "C-p")
 ;(read-string "a")
-;(read-number "group:" 1 1 nil)
 
-
-
-;;; I want to see in `modeline' when I use the minibuffer recursively
+;;; `FEATURE':  I want to see in `modeline' when I use the minibuffer recursively
 
 ;; And this turns off debug-on-error inside minibuffer:
 ;; todo: seems buggy!
@@ -290,10 +241,13 @@ I would need  these `fluid' variables: `guess' `dir' `initial'   see: `' "
 (add-hook 'minibuffer-exit-hook 'remove-minibuffer-sign)
 
 (when nil
-  ;;(setq minibuffer-setup-hook (cdr minibuffer-setup-hook))
+  ;; During development:
+
+  ;; (setq minibuffer-setup-hook (cdr minibuffer-setup-hook))
   ;; minibuffer-exit-hook
   (setq global-mode-string
         (cons "|" global-mode-string))
   (setq global-mode-string (cdr global-mode-string))
   )
+
 (provide 'mmc-minibuffer)
