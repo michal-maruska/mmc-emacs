@@ -8,10 +8,10 @@
   "invoke ediff on the context of 2 files in diff-mode"
   (interactive)
   ;; A
-  (destructuring-bind (buf-A line-offset pos old new &optional switched)
+  (cl-destructuring-bind (buf-A line-offset pos old new &optional switched)
       (diff-find-source-location 't nil)
     ;; B
-    (destructuring-bind (buf-B line-offset pos old new &optional switched)
+    (cl-destructuring-bind (buf-B line-offset pos old new &optional switched)
         (diff-find-source-location nil nil)
       (ediff-buffers buf-A buf-B))))
 
