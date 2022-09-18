@@ -143,11 +143,13 @@ I would need  these `fluid' variables: `guess' `dir' `initial'   see: `' "
   (delete-minibuffer-contents)
   (exit-minibuffer))
 
-(defun minibuffer-insert-default ()
-  "after some confused editing you decide to accept the default:"
-  (interactive)
-  (delete-minibuffer-contents)
-  (insert (prin1-to-string def))); default-value
+(when nil
+  (defun minibuffer-insert-default ()
+    "after some confused editing you decide to accept the default:"
+    (interactive)
+    (delete-minibuffer-contents)
+    (insert (prin1-to-string def)))     ; default-value
+  )
 
 (when running-xemacs
   (defalias 'delete-minibuffer-contents 'erase-buffer))
