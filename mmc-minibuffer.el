@@ -120,9 +120,8 @@ I would need  these `fluid' variables: `guess' `dir' `initial'   see: `' "
            (eval-command-or-form post-command)))
     filename))
 
-;(lookup-key my-minibuffer-local-completion-map "\M-m")
-
 ;; (read-file-name "filename: ")
+
 ;; in e 21, the minibuffer concept changed: to keep using
 (defun mb-backward-kill-sexp ()
   ""
@@ -156,7 +155,7 @@ I would need  these `fluid' variables: `guess' `dir' `initial'   see: `' "
 (defun minibuffer-reset ()
   ""
   (interactive)
-  ;; i would like to take the DEF ..
+  ;; i would like to take the default value?
   ;(backtrace)
   ;(erase-buffer)
   (if running-xemacs
@@ -174,7 +173,7 @@ I would need  these `fluid' variables: `guess' `dir' `initial'   see: `' "
    (unless running-xemacs
      ;;(define-key item [(shift ? )] 'minibuffer-accept-default))
      (define-key item [(shift space)] 'minibuffer-accept-default)
-     (define-key item [?,] 'self-insert-command)     ; minibuffer-insert-default
+     (define-key item [?,] 'self-insert-command) ; minibuffer-insert-default
      (define-key item [(meta ?m)] 'minibuffer-reset) ;control
      ))
  ;; mmc: why not as symbols?
@@ -203,8 +202,6 @@ I would need  these `fluid' variables: `guess' `dir' `initial'   see: `' "
 
 
 ;(current-local-map)
-; (lookup-key minibuffer-local-map "C-p")
-;(read-string "a")
 
 ;;; `FEATURE':  I want to see in `modeline' when I use the minibuffer recursively
 
