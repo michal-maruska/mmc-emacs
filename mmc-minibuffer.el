@@ -53,49 +53,44 @@
 
 ;;; functions which get called from inside the minibuffer, while reading filename:
 (when nil
-  (defun exit-and-get-filename-of-buffer ()
-    "Called form mb, while reading filename"
-    (interactive)
-    ;; fixme:  exit-reading-buffer is gone since 23 ?
-    (exit-reading-buffer 'get-filename-of-buffer nil))
-  )
+  (when nil
+    (defun exit-and-get-filename-of-buffer ()
+      "Called form mb, while reading filename"
+      (interactive)
+      ;; fixme:  exit-reading-buffer is gone since 23 ?
+      (exit-reading-buffer 'get-filename-of-buffer nil))
+    )
 
-;; extension to `buffer-file-name'
-;; see `directory-of-buffer'(my-dired)
-(defun my-buffer-file-name (buffer)
-  "This should return a/the file/dir associated with the BUFFER."
-  (with-current-buffer buffer ;;save-excursion
-    (if (eq major-mode 'dired-mode)
-        dired-directory
-      buffer-file-name)))
+  ;; extension to `buffer-file-name'
+  ;; see `directory-of-buffer'(my-dired)
+  (defun my-buffer-file-name (buffer)
+    "This should return a/the file/dir associated with the BUFFER."
+    (with-current-buffer buffer ;;save-excursion
+      (if (eq major-mode 'dired-mode)
+          dired-directory
+        buffer-file-name)))
 
 
-(defvar guess nil "my hack workaround")
-(defvar path nil "my hack workaround")
-(defvar path nil "my hack workaround")
-(defvar dir nil "my hack workaround")
-(defvar initial nil "my hack workaround")
-(defvar post-command nil "command to execute when leaving minibuffer?")
-(defvar def nil "my hack workaround")
 
-(defun get-filename-of-buffer ()
-  "Called, when the current buffer is minibuffer, and while reading a filename.
+  (defvar guess nil "my hack workaround")
+  (defvar path nil "my hack workaround")
+  (defvar path nil "my hack workaround")
+  (defvar dir nil "my hack workaround")
+  (defvar initial nil "my hack workaround")
+  (defvar post-command nil "command to execute when leaving minibuffer?")
+  (defvar def nil "my hack workaround")
+
+  (defun get-filename-of-buffer ()
+    "Called, when the current buffer is minibuffer, and while reading a filename.
 We read a `buffer-name' and substitute in minibuffer its filename.
 I would need  these `fluid' variables: `guess' `dir' `initial'   see: `' "
-  (let* ((buffer (funcall read-buffer-function "filename of the Buffer: "))
-         (path (my-buffer-file-name (get-buffer buffer))))
-    (setq
-     guess path				;ffap
-     dir (file-name-directory path)	;standard
-     initial (file-name-nondirectory path))))
-
-
-(when nil
-   (ad-deactivate 'scroll-up)
-   (ad-define-subr-args 'scroll-up '(&optional arg))
-   ;;(lookup-key minibuffer-local-map "\M-m")
-   )
-
+    (let* ((buffer (funcall read-buffer-function "filename of the Buffer: "))
+           (path (my-buffer-file-name (get-buffer buffer))))
+      (setq
+       guess path                       ;ffap
+       dir (file-name-directory path)	;standard
+       initial (file-name-nondirectory path))))
+  )
 
 ;;; TODO     bookmarks  syntax-table, but see `my-syntax.el'
 ;;; I want to NEST various read-*   to arrive at the filename
