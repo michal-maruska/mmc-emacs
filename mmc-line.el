@@ -83,7 +83,10 @@
                                      "no such file or directory"
                                      filename))))))
 
-(define-key global-map (kbd "C-x C-f") 'find-file-at-point-with-line)
+(when nil
+  ;; 28.2 fails!
+  (define-key global-map (kbd "C-x C-f") 'find-file-at-point-with-line)
+  )
 ;; replace in keymaps
 ;; ~/.emacs:14
 
