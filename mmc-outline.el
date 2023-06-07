@@ -201,3 +201,9 @@ If FLAG is nil then text is shown, while if FLAG is t the text is hidden."
 
 (provide 'mmc-outline)
 ;;; my-outline.el ends here
+
+(add-hook 'outline-mode-hook
+          (lambda ()
+            ;; disable, as font-lock assumes...
+            (outline-minor-mode -1)))
+; outline-mode-hook
