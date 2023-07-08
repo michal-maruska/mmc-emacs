@@ -1,3 +1,29 @@
+mmc-emacs (2.11) release; urgency=medium
+
+  [ Michal Maruska ]
+  * Use fontset-2
+  * Avoid patching ffap-read-file-or-url in emacs 27.1
+  * use tabs in makefile mode
+  * spaces
+  * use cl-loop
+  * upgrade to compat 11
+  * quote lambda with #'
+  * use cl-do
+  * lambda
+  * spaces
+  * cl-case
+  * dired: use cl- for emacs 28+
+  * mmc-minibuffer.el: extend defvar for 28+
+  * mmc-minibuffer.el:  Drop the pre 27. fix of ffap-read-file-or-url
+  * mmc-minibuffer.el: split mmc-read-number
+  * mmc-minibuffer.el: drop my-buffer-file-name which required the 'fluid' variables
+  * mmc-minibuffer.el: more cleanup
+  * mmc-minibuffer.el: drop attempt to access the 'default value' of a prompt
+  * fix: font-lock in outline-mode assumes outline-minor-mode is not used
+  * fix: ido- reintroduce by find-file-at-point-with-line & some advice
+
+ --  <mmaruska@gmail.com>  Sat, 08 Jul 2023 14:58:59 +0200
+
 mmc-emacs (2.10) release; urgency=medium
 
   * tabs
