@@ -1,4 +1,3 @@
-;; (require 'assoc)
 (require 'mmc-simple)
 ;; sawfish:
 ;; (multiple-frames "%b" ("" invocation-name "@" system-name))
@@ -79,9 +78,6 @@
       )))
 
 ; for #emacs:
-
-;(unless running-xemacs
-;  (aput 'default-frame-alist 'font "-*-lucidatypewriter-medium-r-normal-*-20-*-*-*-*-*-fontset-1"))
 
 ;(fontset-name-p "fontset-1")
 ;; ignore error:

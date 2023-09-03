@@ -56,9 +56,6 @@
 ;; (read-syntax-table "syntax table? ")
 ;; sawfish-mode-syntax-table
 
-
-(require 'assoc)
-
 ;;; Help
 (defun syntax-code (char prefix)
   "report the syntax code (verbally) of the CHAR, if PREFIX ask for syntax table."
