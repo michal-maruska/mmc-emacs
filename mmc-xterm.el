@@ -54,5 +54,6 @@
 
 ;; fixme: in mmc-keys?
 (global-set-key [(alt ?x) ]  'xterm)
+(define-key key-translation-map [(alt ?x) ] nil)
 
 (provide 'mmc-xterm)
