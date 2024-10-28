@@ -320,7 +320,8 @@
     (define-key map [?0] 'quit-window)
     (define-key map [?n] 'rename-uniquely)
     (define-key map [?#] 'comment-region)
-    (define-key map [?r] 'toggle-read-only)
+    ;; 29.+  toggle-read-only
+    (define-key map [?r] 'read-only-mode)
     ;; (define-key map [?h] 'highlight-current-line-toggle)
     (define-key map [?s] 'hscroll-mode)
     (define-key map [?S] 'screen-lines-mode)
