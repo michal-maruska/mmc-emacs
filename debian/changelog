@@ -1,3 +1,9 @@
+mmc-emacs (2.13) release; urgency=medium
+
+  * fix: handle a-x as normal key event!
+
+ -- Michal Maruska <mmaruska@gmail.com>  Mon, 28 Oct 2024 17:17:54 +0100
+
 mmc-emacs (2.12) release; urgency=medium
 
   * Stop using assoc
