@@ -1,3 +1,10 @@
+mmc-emacs (2.12) release; urgency=medium
+
+  * Stop using assoc
+  * adapt to toggle-read-only removed
+
+ -- Michal Maruska <mmaruska@gmail.com>  Mon, 28 Oct 2024 14:01:43 +0100
+
 mmc-emacs (2.11) release; urgency=medium
 
   [ Michal Maruska ]
