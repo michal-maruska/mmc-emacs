@@ -13,7 +13,11 @@
 ;; installed in a subdirectory of the respective site-lisp directory.
 ;; We have to add this to the load-path:
 (let* ((package-name "mmc-emacs")
-       (flavor-dir (concat "/usr/share/" (symbol-name flavor) "/site-lisp/" package-name))
+       (flavor-dir (concat "/usr/share/"
+                           (if (boundp 'flavor)
+                                  (symbol-name flavor)
+                                "emacs")
+                           "/site-lisp/" package-name))
        (source-dir (concat "/usr/share/emacs/site-lisp/" package-name)))
 ;; If package-dir does not exist, the mmc-emacs package must have
 ;; removed but not purged, and we should skip the setup.
