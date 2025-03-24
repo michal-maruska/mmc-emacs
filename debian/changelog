@@ -1,3 +1,10 @@
+mmc-emacs (2.14) release; urgency=medium
+
+  * recognize zsh completion scripts #compdef
+  * did emacs-common rename flavor symbol?
+
+ -- Michal Maruska <mmaruska@gmail.com>  Mon, 24 Mar 2025 10:56:15 +0100
+
 mmc-emacs (2.13) release; urgency=medium
 
   * fix: handle a-x as normal key event!
