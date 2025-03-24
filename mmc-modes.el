@@ -1,5 +1,12 @@
 ;;; mmc's customization of major modes   --- the tiny bits!
 
+;; `magic-fallback-mode-alist' .... how does it work?....
+;; Like ‘magic-mode-alist’ but has lower priority than ‘auto-mode-alist’.
+;; magic-mode-alist
+
+;; fixme: ../config/mmc-auto-mode.el
+(add-to-list 'magic-mode-alist
+             `("#compdef" . sh-mode))
 
 ;;; Detecting major mode
 ;; see mmc-outline.el
