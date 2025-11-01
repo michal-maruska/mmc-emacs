@@ -28,7 +28,8 @@
           "--config"
           "dpi=198"
           "start"
-          "--cwd" default-directory
+          ;; inside dired, it was ~/... and didn't work.
+          "--cwd" (expand-file-name default-directory)
                                         ;(concat
                                         ;(mapconcat
                                         ; 'identity
