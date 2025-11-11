@@ -1,3 +1,10 @@
+mmc-emacs (2.16) unstable; urgency=medium
+
+  * xterm: use wezterm
+  * my-xterm: expand the default-directory ... wezterm doesn't expand it
+
+ -- Michal Maruska <mmaruska@gmail.com>  Tue, 11 Nov 2025 17:21:27 +0100
+
 mmc-emacs (2.14) release; urgency=medium
 
   * recognize zsh completion scripts #compdef
