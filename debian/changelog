@@ -1,3 +1,10 @@
+mmc-emacs (2.15) unstable; urgency=medium
+
+  * xterm: use wezterm
+  * ci: github
+
+ -- Michal Maruska <mmaruska@gmail.com>  Tue, 22 Sep 2026 22:31:16 +0200
+
 mmc-emacs (2.14) release; urgency=medium
 
   * recognize zsh completion scripts #compdef
